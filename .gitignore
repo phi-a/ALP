@@ -2,11 +2,16 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .venv/
+.env
+.jupyter/
+.tmp/
 dist/
 build/
 *.egg-info/
 output/*
 !output/.gitkeep
+outputs/*
+!outputs/.gitkeep
 *.pdf
 *.png
 *.jpg
