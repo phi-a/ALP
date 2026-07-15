@@ -1,4 +1,4 @@
-from forms.bricks.models.mag import geomagnetic_field, load_igrf_model
+from forms.bricks.mag import geomagnetic_field, load_igrf_model
 
 
 class SampleIGRF13MagneticFieldRoutine:
