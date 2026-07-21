@@ -1,5 +1,4 @@
-def say_hello() -> str:
-    return "Hello, world!"
+from .say_hello import say_hello
 
 
 def main() -> None:

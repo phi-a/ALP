@@ -2,3 +2,5 @@
 git+https://github.com/phi-a/FORMS.git@main#subdirectory=python/sdk
 notebook
 ipykernel
+matplotlib
+git+https://github.com/phi-a/FORMS.git@main#subdirectory=python

@@ -23,6 +23,9 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
+This installs the local project plus notebook tooling and the `FORMS` Python
+package directly from GitHub.
+
 If PowerShell blocks activation, use:
 
 ```powershell
@@ -30,7 +33,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
 ```
 
-Run the example optimizer:
+Run the example package:
 
 ```powershell
 python -m darknessalp
@@ -44,10 +47,11 @@ python -m unittest discover -s tests
 
 ## Project layout
 
-- `src/darknessalp/models.py`: configuration and result dataclasses
-- `src/darknessalp/simulation.py`: orbit, field, and optimization logic
+- `src/darknessalp/`: package code
+- `src/darknessalp/say_hello.py`: starter function example
 - `src/darknessalp/__main__.py`: simple command-line entry point
-- `tests/test_simulation.py`: smoke coverage for the core model
+- `src/routines/`: custom FORMS-native routines used by missions and notebooks
+- `notebooks/`: all project notebooks, including the FORMS SDK mission examples
 - `docs/`: reference material and notes
 - `output/`: code-generated results and derived artifacts
 
