@@ -325,6 +325,29 @@ Earth-facing boresight is not sustainable for a useful fraction of an orbit.
 
 ---
 
+## D21 - The library is numpy/scipy/astropy by topic; the run file is a notebook
+
+**2026-09-17.** Supersedes the stdlib rule in D19. `src/darknessalp/` is
+organised as topic subpackages (`frames`, `orbit`, `dynamics`,
+`kinematics`, `pointing`, `field`, `geometry`, `background`, `sim`) of
+functions on numpy arrays. astropy owns time and frames, scipy owns
+integration and rotations. Custom code only where no package does the job.
+Run scripts live outside `src/`: `scripts/` for thin CLI tools and
+`jupyter/` notebooks that build the simulation sequence and show results.
+Still four packages; still no FORMS in the student path.
+
+**Why:** the student should not have to know how an integrator works, and
+the scripting should be as short as possible even for advanced modelling.
+Vectorising the line-of-sight integral over rays made it 60× faster and
+half the length; astropy frames removed the equinox-of-date caveat. The
+known-answer checks carried over, which is what made the rewrite safe.
+
+**Reversed if:** the notebook-as-run-file stops being reproducible, or a
+student cannot follow the array conventions — then a thin script layer
+comes back.
+
+---
+
 ## Links
 
 - part of [[ALP]]

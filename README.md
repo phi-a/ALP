@@ -3,15 +3,15 @@
 Minimal Python scaffold for orbit simulation and coarse CONOPS optimization for
 LEO dark matter searches with an ALP-magnetic-field interaction proxy.
 
-The initial model is intentionally simple:
+The model, as of 2026-09-17:
 
-- Two-body circular orbit initialization
-- Earth-centered inertial propagation with fixed-step RK4
-- Aligned dipole approximation for Earth's magnetic field
-- Exposure metric based on integrated magnetic-field strength along the orbit
-- Brute-force sweep over altitude and inclination
-
-This is a starting point, not a validated mission physics model.
+- Circular orbit with J2 secular rates, or numerical propagation (scipy)
+- Astropy time and GCRS/ITRS frames, Sun, Galactic coordinates
+- IGRF-14 geomagnetic field, vectorised, with the dipole as `lmax=1`
+- Line-of-sight transverse field integral per ray, with Earth occultation
+- Umbra, limb angle, Sun angle, magnetic latitude, Stormer cutoff rigidity
+- Analytic CXB, Galactic ridge, NXB proxy, bright-source list
+- A state table per pointing law, and the boresight view figure
 
 ## Quick start
 
@@ -33,11 +33,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
 ```
 
-Run the example package:
-
-```powershell
-python -m darknessalp
-```
+Run the simulation: open `jupyter/darkness_alp_sim.ipynb` and run all cells.
 
 Run tests:
 
@@ -48,36 +44,37 @@ python -m unittest discover -s tests
 Draw what the boresight sees:
 
 ```powershell
-python plots/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --out outputs/fov.png
+python scripts/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --out outputs/fov.png
 ```
 
 ## Project layout
 
-- `src/darknessalp/`: package code, one function per file, stdlib
-  - orbit and time: `circular_orbit` (J2 node rate), `julian_date`, `gmst`
-  - frames: `eci_to_ecef`, `ecef_to_eci`, `ecef_to_spherical`,
-    `radec_to_eci`, `galactic_to_radec`, `radec_to_galactic`
-  - field: `load_igrf` (IGRF-14), `igrf_field`, `dipole_field`,
-    `field_eci`, `schmidt_legendre`, `magnetic_latitude`, `cutoff_rigidity`
-  - geometry: `los_field_integral`, `earth_limb_angle`, `in_umbra`,
-    `sun_direction`, `fov_axes`, `project_to_fov`, `earth_limb_directions`
-  - `bright_sources`: the brightest 2-10 keV sources for FOV checks
-  - `fetch_axion_limit.py`, `list_axion_limits.py`: AxionLimits archive
-  - `bfield/`, `yamamoto/`: legacy numpy code, used as test oracles
-- `plots/`: matplotlib scripts (`fov_view.py`: the view from the boresight)
-- `src/routines/`: FORMS routines, not used by the student path
-- `jupyter/`: all notebooks (FORMS missions, Yamamoto 2020 Fig. 7, cohort)
-- `Notebook/`: project notes and decisions — the second memory (tracked)
-- `docs/`: papers, slides, drafts — references (not tracked)
-- `data/`: model coefficients and cached limit files; `data/suzaku/` not tracked
-- `freeflyer/`: FreeFlyer scripts
-- `outputs/`: code-generated results (not tracked)
+- `src/darknessalp/` — the simulation library, numpy/scipy/astropy,
+  functions on arrays, one subpackage per topic:
+  - `frames/` time and reference frames (astropy): `times`, `eci_to_ecef`,
+    `sun_vector`, `galactic_vector`, `to_galactic`
+  - `orbit/` analytic circular + J2 (`circular_orbit`), `propagate` (scipy)
+  - `dynamics/` accelerations (`two_body`, `j2_acceleration`)
+  - `kinematics/` body attitude (`look_at`, `boresight`), slews
+  - `pointing/` `target`, `feasible`, pointing laws
+  - `field/` IGRF-14 (`load_igrf`, `igrf_field`, `igrf_field_eci`), dipole,
+    `magnetic_latitude`, `cutoff_rigidity`
+  - `geometry/` `los_field_integral` (vectorised over rays), `limb_angle`,
+    `in_umbra`, FOV projection and cone quadrature
+  - `background/` CXB, GRXE, NXB proxy, bright sources
+  - `sim/` `state_table`, `to_csv`
+  - `bfield/`, `yamamoto/` legacy code kept as test oracles
+- `jupyter/darkness_alp_sim.ipynb` — **the run file**: builds one day of
+  an ISS-like orbit with a fixed target, writes the state table, plots the
+  orbit strip and the boresight view
+- `scripts/` — thin argparse tools (`fov_view.py`)
+- `tests/` — one file per topic; `python -m unittest discover -s tests`
+- `Notebook/` notes (tracked); `docs/` references (untracked); `data/`
+  inputs; `freeflyer/`; `outputs/` generated (untracked)
 
 ## Next steps
 
-Useful extensions once the scope sharpens:
-
-- Replace the dipole field with IGRF or a higher-fidelity geomagnetic model
-- Add eclipse, attitude, and duty-cycle constraints
-- Model actual ALP signal response instead of a magnetic-exposure proxy
-- Add launch/operations constraints to the optimization objective
+- Per-target correlation map of K against cutoff rigidity and limb angle
+- Pointing schedules (two fixed targets, field-tracking) in `pointing/`
+- Attitude dynamics and radiator/Sun constraints in `dynamics/`, `kinematics/`
+- CHAOS field model comparison

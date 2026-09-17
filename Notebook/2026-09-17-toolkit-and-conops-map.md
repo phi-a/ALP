@@ -16,12 +16,17 @@ What happened today and where each piece went.
   term, the pointing tiers by mission cost, Earth occultation as the free
   "off" state, plasma shown negligible.
   → [[02-mission-analysis/conops-physics-map]]
-- **Toolkit** — 27 stdlib one-function scripts in `src/darknessalp/`
-  (orbit with J2, time, frames, IGRF-14, dipole, line-of-sight integral
-  with occultation, umbra, limb, Sun, magnetic latitude, cutoff rigidity,
-  sky frames, FOV projection, bright sources); 51 tests incl. astropy and
-  legacy-IGRF oracles; `plots/fov_view.py`.
+- **Toolkit, twice.** Morning: 27 stdlib one-function scripts, 51
+  tests (D19). Afternoon: rebuilt as a numpy/scipy/astropy library in
+  topic subpackages (`frames orbit dynamics kinematics pointing field
+  geometry background sim`), 31 tests carrying the same known answers,
+  `scripts/fov_view.py`, and the run notebook
+  `jupyter/darkness_alp_sim.ipynb` (D21). The vectorised LOS integral
+  is 60× faster.
   → [[02-mission-analysis/tooling]]
+- **First full-day run** — GC fixed target, ISS-like, 2027-05-01:
+  corr($K$, $R_c$) = +0.74, corr($K$, limb) = −0.87 on 513 usable sky
+  frames. → [[02-mission-analysis/tooling]] §First run
 - **Field-integral gates pass** — closed forms, $L_{\max}$ plateau,
   reversal cancellation. → [[02-mission-analysis/geomagnetic-integral]]
 - **First sky scan** — max $K$ is limb-grazing; "along the field" is low
@@ -30,8 +35,9 @@ What happened today and where each piece went.
 - **Research pass** — no keV follow-up to Yamamoto; GECOSAX; NXB vs COR
   practice; analytic CXB/GRXE; sources added.
   → [[04-plan/literature-review]] §6
-- **Decisions** D19 (toolkit rules, IGRF-14, frames), D20 (Earth-facing
-  boresight allowed, thermal deferred). → [[decisions]]
+- **Decisions** D19 (stdlib toolkit), D20 (Earth-facing boresight
+  allowed, thermal deferred), D21 (numpy/scipy/astropy library by topic,
+  notebook run file; supersedes D19). → [[decisions]]
 - **Questions** A4 closes Q17 (plasma); Q21 frames-through-occultation;
   Q22 limb background. Q4, Q16, Q18 annotated. → [[open-questions]]
 - **Student notes** — Stage 2 uses the repo field model; Stage 3–4 checks
@@ -42,16 +48,15 @@ What happened today and where each piece went.
 
 ## Repo
 
-`CLAUDE.md` language rule updated (packages allowed, minimised);
-`README.md` layout; `data/bfield/igrf14coeffs.txt` added;
-`requirements.txt` unchanged. Uncommitted on
-`claude/darkness-alp-simulation-d0c85c`.
+`CLAUDE.md` language and layout rules rewritten for D21; `README.md`
+layout and quick start; `data/bfield/igrf14coeffs.txt` added;
+`requirements.txt` unchanged (numpy, scipy, astropy, matplotlib).
 
 ## Next
 
-Cone quadrature, background columns (CXB, GRXE, NFW column, NXB proxy),
-the state table, the per-target $\rho[K, R_c]$ sky map, and the two
-remaining figures (meridian-plane geometry; instant full-sky $K$ map).
+Pointing schedules (two targets, field-tracking), the per-target
+$\rho[K, R_c]$ sky map, radiator/Sun keep-outs with a body geometry,
+NFW column density, the meridian-plane geometry figure, CHAOS.
 
 ## Links
 

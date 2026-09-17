@@ -4,12 +4,15 @@
 Teaching codebase. The student audience is the primary constraint on every decision.
 
 ## Language
-- Python 3.10+. Standard library first for the student-path scripts in
-  `src/darknessalp/`; the trig and the integrals are the teaching content.
-- `numpy`, `scipy`, `astropy`, `matplotlib` are allowed where they
-  genuinely simplify (analysis layer, plots, test oracles). Keep the
-  package count low; anything new goes into `requirements.txt`.
-- No FORMS in the student path. It is the mentor's cross-check, later.
+- Python 3.10+ with `numpy`, `scipy`, `astropy`, `matplotlib`. Use them:
+  astropy owns time and frames, scipy owns integration and rotations,
+  numpy owns arrays. The student calls `propagate`, never sees RK45.
+- Custom models only where no package does the job (IGRF, the line-of-
+  sight integral, cutoff rigidity, backgrounds, FOV geometry).
+- Keep the package count at those four; anything new goes into
+  `requirements.txt` with a reason. No FORMS in the student path.
+- As little code as possible: functions on arrays, vectorised over rows,
+  no classes.
 
 ## Style — strict PEP 8
 - 79-char line limit.
@@ -18,12 +21,24 @@ Teaching codebase. The student audience is the primary constraint on every decis
 - Run mentally through PEP 8 before proposing any code.
 
 ## File / module layout
-- One function per file where practical. Files live in `src/darknessalp/`.
-- File name = function name (e.g. `compute_orbit.py` contains `compute_orbit()`).
-- `__init__.py` re-exports the public API; nothing else.
-- Tests mirror the source: `tests/test_compute_orbit.py` tests `compute_orbit()`.
-- `src/darknessalp/bfield/` and `yamamoto/` are legacy (numpy, old naming);
-  convert to the rules above one file at a time, don't extend them.
+- `src/darknessalp/<topic>/` subpackages, one topic per file, a few
+  short functions each. Topics: `frames` (astropy time and reference
+  frames), `orbit` (analytic circular + J2, `propagate`), `dynamics`
+  (accelerations and torques, no integration), `kinematics` (body
+  attitude, slews), `pointing` (targets, constraints, laws, schedules),
+  `field` (IGRF, dipole, magnetic coordinates), `geometry` (LOS
+  integral, limb, umbra, FOV), `background` (CXB, GRXE, NXB proxy,
+  sources), `sim` (state table).
+- Each `__init__.py` re-exports its topic's public API; nothing else.
+- Functions take and return numpy arrays shaped `(N, 3)` or `(N,)`;
+  positions in km, fields in tesla, angles in degrees, time as astropy
+  `Time`.
+- Run scripts live outside `src/`: `scripts/` for thin argparse tools,
+  `jupyter/` for the simulation run notebooks that build a sequence and
+  show results. Nothing in `src/` prints or plots.
+- Tests mirror the topics: `tests/test_<topic>.py`.
+- `src/darknessalp/bfield/` and `yamamoto/` are legacy oracles; do not
+  extend them.
 
 ## Where things go
 - `jupyter/` notebooks. `Notebook/` notes (.md, tracked). `docs/` references
@@ -45,6 +60,7 @@ Teaching codebase. The student audience is the primary constraint on every decis
 ## What to avoid
 - Clever one-liners that sacrifice readability. Students read this.
 - Deep nesting. Flatten with early returns.
-- Classes unless state genuinely needs to travel. Functions first.
+- Classes. Functions on arrays; a dict of arrays is the record type.
+- Hand-rolled numerics that scipy or astropy already provide.
 - Abstract base classes, decorators, metaclasses — not in this repo.
 - Type annotations are optional; add them only if they clarify, not clutter.

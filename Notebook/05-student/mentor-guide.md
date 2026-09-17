@@ -107,13 +107,13 @@ without them.
 
 ## Reference implementations exist (2026-09-17)
 
-Stages 1–4 now have working stdlib scripts in `src/darknessalp/`, one
-function per file with a known-answer test each, and `plots/fov_view.py`
-draws what the boresight sees. See [[../02-mission-analysis/tooling]].
-Decide per student whether they re-derive Stage 1 and 3 (recommended — the
-trig and the integral are the point) and read the rest, or use the scripts
-as scaffolding from the start. Either way the tests are the answer key:
-`python -m unittest discover -s tests`.
+Stages 1–4 are covered by the library in `src/darknessalp/` (numpy,
+scipy, astropy; topic folders; known-answer tests) and the run notebook
+`jupyter/darkness_alp_sim.ipynb`. See [[../02-mission-analysis/tooling]].
+The student drives the notebook and writes little code; the fifteen-line
+orbit and the hand integral in Stages 1 and 3 are still worth doing once
+on paper or in a scratch cell, then compared with the library. The tests
+are the answer key: `python -m unittest discover -s tests`.
 
 One check changed: the Stage 4 intuition "smallest along the field lines"
 is only true at high magnetic latitude. The corrected version is in

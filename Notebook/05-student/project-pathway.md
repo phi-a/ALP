@@ -93,7 +93,7 @@ that comes out at the wrong place. Write down which one you are using at every s
 
 **Question:** what is the Earth's magnetic field at the satellite?
 
-**What you do:** use the field model in the repo (`load_igrf` and `igrf_field` in `src/darknessalp/` —
+**What you do:** use the field model in the repo (`field.load_igrf` and `field.igrf_field` —
 two function calls; `lmax=1` gives the simple dipole). For each point along your orbit from Stage 1, get
 the magnetic field vector. Plot its strength over one day.
 
