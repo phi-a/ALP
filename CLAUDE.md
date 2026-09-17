@@ -4,8 +4,12 @@
 Teaching codebase. The student audience is the primary constraint on every decision.
 
 ## Language
-- Vanilla Python 3.10+ only. No third-party packages unless unavoidable and approved.
-- Standard library first. If you reach for `numpy`, stop and ask.
+- Python 3.10+. Standard library first for the student-path scripts in
+  `src/darknessalp/`; the trig and the integrals are the teaching content.
+- `numpy`, `scipy`, `astropy`, `matplotlib` are allowed where they
+  genuinely simplify (analysis layer, plots, test oracles). Keep the
+  package count low; anything new goes into `requirements.txt`.
+- No FORMS in the student path. It is the mentor's cross-check, later.
 
 ## Style — strict PEP 8
 - 79-char line limit.

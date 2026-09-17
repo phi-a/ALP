@@ -45,13 +45,27 @@ Run tests:
 python -m unittest discover -s tests
 ```
 
+Draw what the boresight sees:
+
+```powershell
+python plots/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --out outputs/fov.png
+```
+
 ## Project layout
 
-- `src/darknessalp/`: package code
+- `src/darknessalp/`: package code, one function per file, stdlib
+  - orbit and time: `circular_orbit` (J2 node rate), `julian_date`, `gmst`
+  - frames: `eci_to_ecef`, `ecef_to_eci`, `ecef_to_spherical`,
+    `radec_to_eci`, `galactic_to_radec`, `radec_to_galactic`
+  - field: `load_igrf` (IGRF-14), `igrf_field`, `dipole_field`,
+    `field_eci`, `schmidt_legendre`, `magnetic_latitude`, `cutoff_rigidity`
+  - geometry: `los_field_integral`, `earth_limb_angle`, `in_umbra`,
+    `sun_direction`, `fov_axes`, `project_to_fov`, `earth_limb_directions`
+  - `bright_sources`: the brightest 2-10 keV sources for FOV checks
   - `fetch_axion_limit.py`, `list_axion_limits.py`: AxionLimits archive
-  - `bfield/`: IGRF13 / CHAOS geomagnetic models
-  - `yamamoto/`: Suzaku data and Yamamoto 2020 validation
-- `src/routines/`: custom FORMS-native routines used by missions and notebooks
+  - `bfield/`, `yamamoto/`: legacy numpy code, used as test oracles
+- `plots/`: matplotlib scripts (`fov_view.py`: the view from the boresight)
+- `src/routines/`: FORMS routines, not used by the student path
 - `jupyter/`: all notebooks (FORMS missions, Yamamoto 2020 Fig. 7, cohort)
 - `Notebook/`: project notes and decisions — the second memory (tracked)
 - `docs/`: papers, slides, drafts — references (not tracked)
