@@ -2,7 +2,7 @@
 type: charter
 tags: [darkness, alp, smallsat, project-frame]
 created: 2026-09-08
-updated: 2026-09-08
+updated: 2026-09-17
 status: active
 ---
 
@@ -13,15 +13,49 @@ implementation, generated evidence, validation records, and manuscript.
 
 ## Research question
 
-Can a DarkNESS-class observation place an identifiable and scientifically new
-constraint on the combined decay-and-conversion amplitude for relativistic
-ALPs from $\chi\rightarrow aa$, and which mission requirements control that
-constraint?
+Using the DarkNESS platform, what observing ConOps maximises the identifiable
+geomagnetic ALP–photon conversion signal against particle and diffuse X-ray
+backgrounds, and what does that ConOps require of the mission?
 
-The project succeeds when the analysis first establishes whether any
-currently allowed source benchmark is reachable, then produces an
-evidence-backed reach or no-reach result with the pointing, telemetry,
-calibration, and background-reproducibility requirements that control it.
+Sub-questions:
+
+1. Which pointing law maximises residual conversion information after
+   background regression, under the radiator, limb, slew, and telemetry
+   constraints?
+2. How much is gained over the nominal sterile-neutrino pointing?
+3. What is the cost of umbra-only versus sunlit imaging, and what thermal
+   and background evidence would justify sunlit operation?
+4. What background monitoring (proxies, control exposures, particle
+   monitor) is needed for the signal to remain identifiable?
+
+The ALP ConOps uses DarkNESS as the platform and is not bound to the
+sterile-neutrino pointing. Platform constraints still apply. The deliverable
+is a ConOps, its gain over nominal pointing, and the mission requirements
+that follow. It is not a coupling limit: the provisional reach sits inside
+stellar and helioscope bounds, so the coupling question is a conditional
+follow-on (see [[research-plan]] result 6).
+
+Superseded question (2026-09-08): whether a DarkNESS-class observation can
+place a scientifically new constraint on the combined
+decay-and-conversion amplitude for $\chi\rightarrow aa$. Retained as the
+journal-extension question.
+
+## Geometry the analysis must own
+
+The signal is set by the line of sight through the magnetosphere, not by a
+sky target. $\mathbf B_\perp$ is the field component perpendicular to the line
+of sight; the body frame enters only through which directions the aperture
+may point. The control variables are orbit position and pointing direction,
+both varying each minute. The cosmological ALP flux is isotropic; the Galactic
+component scales with dark-matter column density.
+
+The background is not constant. Particle background tracks geomagnetic
+position exactly as $B$ does (the central confound, Q7), and diffuse X-ray,
+limb, and Sun terms are direction- and time-dependent. The first analysis
+product is therefore a per-orbit-sample map of $K(\hat n)$ over the allowed
+pointing set with geomagnetic coordinates, limb angle, Sun angle, and eclipse
+flag, used to find pointings where $K$ varies while background proxies stay
+flat.
 
 ## Physical channel
 

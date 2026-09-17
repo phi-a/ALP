@@ -2,7 +2,7 @@
 type: note
 tags: [darkness, alp, decisions]
 created: 2026-07-28
-updated: 2026-09-08
+updated: 2026-09-17
 status: active
 ---
 
@@ -261,6 +261,27 @@ conversion probability supplies one factor of $g_{a\gamma\gamma}^{2}$.
 **Reversed if:** a specific microscopic model is adopted in which the parent
 decay width is itself tied to $g_{a\gamma\gamma}$. That model must derive and
 declare the resulting dependence.
+
+---
+
+## D18 - The headline question is the ALP ConOps, not the coupling reach
+
+**2026-09-17.** The research question is now: using the DarkNESS platform,
+what observing ConOps maximises the identifiable geomagnetic conversion
+signal against particle and diffuse backgrounds, and what does it require of
+the mission. The ALP ConOps is free of the sterile-neutrino pointing but
+keeps the platform constraints. Umbra-only versus sunlit imaging is carried
+as two named cases (extends D5). The 2026-09-08 coupling-reach question
+becomes the journal-extension follow-on.
+
+**Why:** the provisional coupling reach sits inside stellar and helioscope
+bounds, so it cannot be the headline. The identifiability of conversion
+variation against geomagnetically correlated background is the open,
+falsifiable result, and the student starts from the geometry and constraint
+map that answers it.
+
+**Reversed if:** the science-definition gate finds an allowed source benchmark
+within DarkNESS reach, which would restore the coupling question as primary.
 
 ---
 
