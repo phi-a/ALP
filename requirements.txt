@@ -1,6 +1,10 @@
 -e .
 git+https://github.com/phi-a/FORMS.git@main#subdirectory=python/sdk
+git+https://github.com/phi-a/FORMS.git@main#subdirectory=python
 notebook
 ipykernel
 matplotlib
-git+https://github.com/phi-a/FORMS.git@main#subdirectory=python
+numpy
+astropy
+chaosmagpy
+pytest

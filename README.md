@@ -48,12 +48,16 @@ python -m unittest discover -s tests
 ## Project layout
 
 - `src/darknessalp/`: package code
-- `src/darknessalp/say_hello.py`: starter function example
-- `src/darknessalp/__main__.py`: simple command-line entry point
+  - `fetch_axion_limit.py`, `list_axion_limits.py`: AxionLimits archive
+  - `bfield/`: IGRF13 / CHAOS geomagnetic models
+  - `yamamoto/`: Suzaku data and Yamamoto 2020 validation
 - `src/routines/`: custom FORMS-native routines used by missions and notebooks
-- `notebooks/`: all project notebooks, including the FORMS SDK mission examples
-- `docs/`: reference material and notes
-- `output/`: code-generated results and derived artifacts
+- `jupyter/`: all notebooks (FORMS missions, Yamamoto 2020 Fig. 7, cohort)
+- `Notebook/`: project notes and decisions — the second memory (tracked)
+- `docs/`: papers, slides, drafts — references (not tracked)
+- `data/`: model coefficients and cached limit files; `data/suzaku/` not tracked
+- `freeflyer/`: FreeFlyer scripts
+- `outputs/`: code-generated results (not tracked)
 
 ## Next steps
 

@@ -1,0 +1,60 @@
+---
+type: note
+tags: [darkness, alp, open-questions]
+created: 2026-07-28
+updated: 2026-09-08
+status: active
+---
+
+# Open questions
+
+Blocking items first. Each carries what it blocks, so the cost of leaving it open is visible.
+
+## Blocking
+
+| # | Question | Blocks | Who can answer |
+|---|---|---|---|
+| Q14 | Does any benchmark allowed by current invisible-decay and $g_{a\gamma\gamma}$ constraints produce a detectable DarkNESS count rate? | Scientific motivation and permission to optimize the mission | Primary-literature synthesis plus source-to-count calculation |
+| Q15 | Can the Milky Way and extragalactic source normalizations be reproduced from a common derivation without a fitted scale? | Every mission sensitivity and coupling translation | Derivation review against Yamamoto and Dror et al. |
+| Q1 | Is the 20° FOV a **full cone** (half-angle 10°) or a half-angle? | Grasp, and therefore every sensitivity number, linearly | DarkNESS team / aperture drawing |
+| Q2 | Why does `LimitCalculation` use 8 cm² and 20 % when the paper says 12 cm² and ~50 % masking? | Reuse of the existing chain; a 1.5× area error propagates as 1.1× in $g$ | Original author of that chain |
+| Q3 | Which orbit is manifested — ISS-like, SSO noon/midnight, or SSO dawn/dusk? | Which of the three cases is primary; dawn/dusk breaks umbra-only observing | Launch manifest, mid-2026 |
+| Q4 | Which body axis does the payload aperture look along? | Whether a given science pointing is compatible with the radiator constraint | Fig. 8 / mechanical ICD |
+
+Q1 and Q2 are both answerable today by asking a person. They should be resolved before any number is
+quoted, because both scale the final answer directly.
+
+Q3 does not block the work — the study should carry all three cases and produce a ranking — but it does
+determine which result is the headline.
+
+## Important, not blocking
+
+| # | Question | Note |
+|---|---|---|
+| Q5 | Is umbra-only science actually required for the ALP analysis? | Inherited from thermal/solar-background needs of the primary science. If relaxable, duty cycle roughly doubles — and it is the difference between viable and not under dawn/dusk SSO. See [[decisions]] |
+| Q6 | Slew rate, settle time, momentum management limits | Bounds how aggressive a scan law can be; an on/off pairing strategy needs slews within an orbit |
+| Q7 | Does NXB correlate with $(B_\perp L)^2$, and how strongly? | **The central systematic.** Both track geomagnetic position. Quantify before quoting a limit — [[03-sensitivity/method]] |
+| Q8 | Can the within-FOV brightness gradient be used as a discriminant? | Suzaku could not do this; DarkNESS's 20° cone might. Needs a statistics study |
+| Q9 | Is any dedicated observing time obtainable, or is this strictly parasitic? | Determines whether the optimised schedule is a recommendation or a fantasy |
+| Q10 | DarkNESS-2 lobster-eye optics — parameters? | Out of scope until the design firms up. Would raise $A$ and lower $\Omega$; only the product matters. See [[decisions]] |
+| Q11 | Is the SmallSat result strictly a parasitic current-flight analysis, or may it compare a bounded dedicated schedule as a DarkNESS-class case study? | Determines the claim language and whether optimized pointing is a recommendation or a counterfactual trade |
+| Q12 | Which source channel wins at count level: Galactic line or cosmological continuum? | Prevents the project from choosing pointing freedom over spectral identifiability without evidence |
+| Q13 | Which in-frame and housekeeping quantities can act as particle-background proxies? | Determines whether the conversion kernel is identifiable and what telemetry/calibration requirements follow |
+| Q16 | Is IGRF alone accurate enough for the useful path, or are external magnetosphere and space-weather models required? | Conversion uncertainty and possible covariance with particle backgrounds |
+| Q17 | Which ionosphere and plasmasphere electron-density model is adequate for the phase calculation? | Low-mass transition, resonant cases, and path-dependent phase |
+| Q18 | Where should each ray terminate: fixed Earth radii, magnetopause, or a field-model boundary? | Absolute conversion normalization and mass reach |
+| Q19 | Which existing searches constrain the same product $g_{a\gamma\gamma}^{2}f_\chi\mathcal B_{aa}/\tau_\chi$? | Claim of scientific novelty |
+| Q20 | What source broadening is resolvable after the flight-like skipper-CCD redistribution? | Whether the Milky Way feature supplies meaningful spectral discrimination |
+
+## Answered
+
+| # | Question | Answer | Date |
+|---|---|---|---|
+| A1 | Does the ALP analysis require pointing at the Galactic Centre? | **No.** The extragalactic component is isotropic to leading order. The linked Milky Way component does scale with dark-matter column density and benefits from GC pointing | 2026-07-28, clarified 2026-09-08 |
+| A2 | What coherence mass should be used? | Compute from our own $L$; do **not** inherit Yamamoto's text value of 3.3×10⁻⁶ eV, which is inconsistent with their own figure and stated geometry. See [[01-physics/coherence-and-mass-reach]] | 2026-07-28 |
+| A3 | Are the incident keV ALPs the cold dark matter itself? | **No.** In the reference channel they are relativistic daughters of a heavier dark-matter parent. A coupling-only curve is conditional on the parent-decay model | 2026-09-08 |
+
+## Links
+
+- part of [[ALP]]
+- decisions taken: [[decisions]]

@@ -1,7 +1,10 @@
-# Docs
+# docs/ — references (not tracked)
 
-Use this folder for reference material, notes, and source documents related to
-the mission concept.
+Papers, slides, drafts, and anything downloaded. Git ignores everything
+here except this file.
 
-By repo convention, PDFs and image files are ignored by Git.
+- `papers/` — PDFs and DOCX
+- `paper-draft/` — LaTeX draft of the ALP paper
+- `student-research/` — student guide slides and templates
 
+Notes and decisions go in `Notebook/`, not here.

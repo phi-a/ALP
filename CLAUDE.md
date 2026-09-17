@@ -18,6 +18,14 @@ Teaching codebase. The student audience is the primary constraint on every decis
 - File name = function name (e.g. `compute_orbit.py` contains `compute_orbit()`).
 - `__init__.py` re-exports the public API; nothing else.
 - Tests mirror the source: `tests/test_compute_orbit.py` tests `compute_orbit()`.
+- `src/darknessalp/bfield/` and `yamamoto/` are legacy (numpy, old naming);
+  convert to the rules above one file at a time, don't extend them.
+
+## Where things go
+- `jupyter/` notebooks. `Notebook/` notes (.md, tracked). `docs/` references
+  (untracked). `data/` inputs. `freeflyer/` FreeFlyer scripts. `outputs/`
+  generated (untracked).
+- New decisions and results summaries go in `Notebook/`, dated.
 
 ## Code length
 - Minimise character count. No padding, no boilerplate prose.

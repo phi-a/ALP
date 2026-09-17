@@ -8,21 +8,14 @@ __pycache__/
 dist/
 build/
 *.egg-info/
-output/*
-!output/.gitkeep
+
+# references live in docs/ but are not tracked
+docs/*
+!docs/README.md
+
+# large downloaded archives
+data/suzaku/
+
+# generated results
 outputs/*
 !outputs/.gitkeep
-*.pdf
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.bmp
-*.tif
-*.tiff
-*.webp
-
-!*.py
-
-# Reference material under docs/ should be tracked (e.g. papers for students)
-!docs/**
