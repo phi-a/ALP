@@ -32,6 +32,14 @@ background drivers.
 The initial orbital phase and RAAN are simulation seeds. The extended run must
 sample or marginalize them before a mission conclusion is reported.
 
+**Status 2026-09-17.** The geometry inputs exist as stdlib scripts
+([[../02-mission-analysis/tooling]]): orbit with J2, frames, IGRF-14,
+the line-of-sight integral with occultation, umbra, limb angle, Sun,
+magnetic latitude and cutoff rigidity, sky frames. Not yet written:
+cone quadrature, background columns, and the state table itself. Add a
+limb-angle covariate to the nuisance hierarchy (Q22) and carry the
+occultation frames as a candidate control (Q21).
+
 ## Required state
 
 Each sample records epoch, inertial and Earth-fixed spacecraft state,

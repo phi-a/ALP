@@ -2,110 +2,102 @@
 type: note
 tags: [darkness, alp, mission-analysis, tooling]
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-09-17
 status: active
 ---
 
-# Tooling decision: Python stack, not an astrodynamics platform
+# Tooling: the building-block scripts
 
-**Decision: piece it together in Python.** GMAT, STK, and Orekit solve problems this study does not have,
-and do not solve the one problem it does have.
+**Decision (D19, 2026-09-17): small stdlib scripts written for this
+project, one function per file, each with a known-answer test.** This
+supersedes the 2026-07-28 recommendation of `skyfield` + `ppigrf`, kept
+below as history. The reasons for avoiding GMAT/STK/Orekit still hold.
 
-## Why the heavy tools do not fit
+## Why not an astrodynamics platform
 
-**This is a design study, not operations.** We need the *statistical distribution* of accessible
-$(B_\perp L)^2$ over a representative year, not the predicted position of a specific spacecraft at a
-specific second. A position error of a few km is irrelevant — the geomagnetic field varies over hundreds
-of km. The precision those tools exist to provide is precision we would throw away.
+This is a design study, not operations: we need the distribution of
+accessible $K=(B_\perp L)^2$ over a representative year, not a
+spacecraft's position to the kilometre. The one hard piece — the
+line-of-sight field integral — is custom work on any platform. We need
+pointing geometry, not attitude dynamics. No manoeuvres, no covariance.
 
-**The one hard piece is not in any of them.** The line-of-sight IGRF integral
-([[geomagnetic-integral]]) is custom work regardless of platform. GMAT and Orekit do not model the
-geomagnetic field for this purpose; STK's magnetic modules are not built for line-of-sight integration
-either. We write that module either way.
+The one place fidelity matters is **J2 nodal regression**: without it a
+sun-synchronous orbit does not stay sun-synchronous and the eclipse trade
+in [[orbit-cases]] is wrong. It is one line in `circular_orbit`.
 
-**We need pointing geometry, not attitude dynamics.** No reaction-wheel simulation, no momentum
-management, no control loops. Just a unit vector plus constraint checks (Sun angle, Earth limb, umbra,
-radiator direction). This is the point where people reach for STK and should not.
+## Rules
 
-**No maneuvers, no station-keeping, no covariance, no collision avoidance.** Those are the things that
-justify a real astrodynamics platform. We have none of them.
+- `src/darknessalp/`: stdlib, one function per file, file name = function
+  name, one-line docstring, a `tests/test_<name>.py` with a number the
+  student can check by hand. The trig and the integral are the teaching
+  content, so they are not hidden in a package.
+- `numpy`, `scipy`, `astropy`, `matplotlib` are allowed where they
+  genuinely simplify: the analysis layer (maps, state table), `plots/`,
+  and as oracles in tests. Keep the count low; new ones go into
+  `requirements.txt`.
+- No FORMS in the student path. It is the mentor's independent
+  cross-check, later. The legacy numpy `bfield/` and `yamamoto/` code is
+  also oracle-only.
 
-## The one place fidelity genuinely matters
+## What exists (2026-09-17)
 
-**J2 nodal precession, for the sun-synchronous cases.** A sun-synchronous orbit is *defined* by its nodal
-regression matching Earth's mean motion about the Sun. Propagate it with plain two-body Keplerian motion
-and the orbit plane will not precess, the local time of ascending node will drift away from its design
-value over the year, and the eclipse fractions and beta-angle behaviour — which drive the whole umbra
-trade in [[orbit-cases]] — will be wrong.
-
-This is free if you use SGP4 (which includes secular J2) or apply the analytic nodal regression directly.
-It is a silent, serious error if you hand-roll a circular orbit and forget it. Worth an explicit check:
-propagate an SSO for a year and confirm the LTAN holds to within minutes.
-
-## Recommended stack
-
-| Package | Role | Note |
+| File | Returns | Check that passes |
 |---|---|---|
-| `skyfield` | Time systems, frame transforms, Sun/Earth ephemeris, SGP4 | Beginner-friendly docs, actively maintained. Use it for frames — do not hand-roll |
-| `ppigrf` | IGRF-13/14 field model | Pure Python, numpy-vectorised, one function call |
-| `numpy`, `scipy`, `matplotlib` | Everything else | Already installed |
-| `astropy` | Units, coordinates if wanted | Already installed |
+| `julian_date`, `gmst` | JD; GMST deg | J2000 = 2451545.0, 280.461°; astropy to 0.01° |
+| `circular_orbit` | ECI r, v; J2 node rate | 92.8 min at 420 km; SSO 0.9856°/d at 97.4°; ISS −5°/d |
+| `eci_to_ecef`, `ecef_to_eci`, `ecef_to_spherical` | rotations; geocentric lat, lon, r | round trips |
+| `sun_direction` | ECI unit vector | astropy, equinox of date, to 0.007° |
+| `in_umbra`, `earth_limb_angle` | flags, degrees | Earth angular radius 69.74° at 420 km |
+| `load_igrf` | IGRF-14 `{(n, m): (g, h)}` nT, to 2030 | epoch values; SV extrapolation |
+| `schmidt_legendre` | $P_n^m$, $dP/d\theta$ to n=13 | closed forms n≤2; finite difference 1e-8 |
+| `igrf_field(lmax)`, `dipole_field` | tesla, ECEF | legacy IGRF-13 to 3 nT; `lmax=1` ≡ dipole; SAA 22 µT, pole 57 µT |
+| `field_eci` | tesla, ECI | frame-independent magnitude |
+| `los_field_integral` | $\|\mathcal A\|$ T m, running total, occulted flag | closed forms 83.3 (zenith) and 11.3 (nadir); reversal dips; 20 ms per full-IGRF ray |
+| `magnetic_latitude`, `cutoff_rigidity` | $\lambda_m$; Störmer $R_c$ GV | 80.9° at the pole; 14.9 GV |
+| `radec_to_eci`, `galactic_to_radec`, `radec_to_galactic` | sky frames | GC 266.405°, −28.936°; astropy to 1e-3° |
+| `fov_axes`, `project_to_fov`, `angular_separation`, `earth_limb_directions` | satellite-view offsets, degrees | radius = true angle from boresight |
+| `bright_sources` | 18 brightest 2–10 keV sources, `ASSUME` fluxes | positions checked |
+| `plots/fov_view.py` | what the boresight sees: Earth, Sun, Galaxy, sources, $K$ map | figures in `outputs/` |
 
-Avoid `poliastro` — development stopped and it forked to `hapsira`; not a good dependency for a student
-project. Avoid `orekit` (Java-backed, heavy install, steep curve) unless the project outgrows Python,
-which it will not.
+51 tests: `python -m unittest discover -s tests`.
 
-## Where the actual risk is
+**Frame convention.** ECI is the mean equator and equinox *of date* —
+what GMST rotates into ECEF, and what the Almanac Sun formula gives.
+J2000 catalogue positions differ by ≤0.4° over 2026–2028; ignored for a
+20° cone, noted here so nobody hunts for it. Latitude is geocentric;
+geodetic differs by <0.2°.
 
-Not propagator accuracy. **Coordinate frames and time systems.** Inertial vs Earth-fixed vs geodetic
-lat/lon/alt, and UTC vs UT1 vs TT. This is the dominant bug source in the whole project and it produces
-results that look plausible.
+**Speed.** A full-IGRF ray (200 steps) costs 20 ms; a dipole ray 1 ms.
+A 25×25 direction grid with the dipole is 0.6 s, so sky maps at one
+epoch are interactive and a year at one orbit per week is minutes. Use
+`lmax=1` for scans, `lmax=13` for final numbers.
 
-Which is the argument *for* using a tested library rather than writing transforms by hand — and for two
-cheap validation gates:
+## Still to write
 
-1. **IGRF check.** Evaluate the field at a known latitude, longitude, and altitude and compare against
-   NOAA's online geomagnetic calculator. Catches nearly every frame error immediately.
-2. **Orbit check.** Propagate a real TLE and compare against a second source. GMAT is free and scriptable
-   — using it *once* as a cross-check, rather than as the platform, is a reasonable middle path if a
-   controlled tool is wanted in the loop for credibility.
+`fov_directions` (cone quadrature), `dm_column_density` (NFW $S_\phi$),
+`cxb_intensity`, `grxe_intensity`, `nxb_proxy`, `state_table`, and the
+per-target $\rho[K, R_c]$ map. Then the two remaining figures: the
+meridian-plane geometry diagram and the instant full-sky $K$ map.
 
-The South Atlantic Anomaly appearing in the right place (Stage 2 of [[../05-student/project-pathway]]) is
-the same gate in student-facing form.
+## Validation gates
 
-## On AI-generated code
+The two cheap gates from the original plan both pass: IGRF against an
+independent implementation (3 nT, the IGRF-13→14 revision of the 2020
+epoch) and the SAA appearing in the right place. Frames are checked
+against astropy. What LLM-written orbital code gets wrong silently is the
+frame; the tests above are what make generated code safe here.
 
-This is a few hundred lines using well-documented libraries — squarely within what current models write
-competently, and there is no reason to avoid using them.
+## History
 
-The specific danger: **LLM-written orbital code looks right and silently uses the wrong frame.** It will
-run, produce plausible numbers, and plot something believable. A student without programming experience
-cannot catch that by reading it.
-
-So the known-answer checks at every stage are not pedagogy garnish — they are the mechanism that makes
-AI-assisted code safe here. Generate freely, verify against the physics every time.
-
-## Compute budget, and why the stage ladder is also the compute ladder
-
-The naive approach — a full year at 60 s cadence × a full sky map × path integration — is about
-$5\times10^5 \times 10^3 \times 150 \approx 10^{11}$ field evaluations. Not feasible, and not necessary.
-
-The sensible progression, which matches the student stages:
-
-| Scope | Evaluations | Runtime |
-|---|---|---|
-| One epoch, one direction | ~150 | instant |
-| One epoch, full sky map | ~150 k | seconds |
-| One orbit, ~100 epochs | ~15 M | seconds to minutes, vectorised |
-| Representative year (1 orbit per week) | ~800 M | minutes to hours; optimise then |
-
-**Speed trick when it becomes necessary:** use a tilted dipole for broad scans — analytic, trivially
-vectorised, and accurate to a few percent at these distances — and switch to full IGRF for final numbers.
-Validating the dipole against IGRF is itself a useful check.
+2026-07-28: recommended `skyfield` for frames and `ppigrf` for the field,
+with numpy. Superseded by D19: the student learns more from fifteen lines
+of trigonometry with a known answer than from a library call, and the
+pure-Python IGRF turned out fast enough.
 
 ## Links
 
 - part of [[../ALP]]
 - what it computes: [[geomagnetic-integral]]
+- map it serves: [[conops-physics-map]]
 - cases: [[orbit-cases]]
 - student view: [[../05-student/project-pathway]]

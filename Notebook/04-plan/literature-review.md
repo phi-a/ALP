@@ -1,7 +1,7 @@
 ---
 title: Literature Review - DarkNESS LEO Diffuse X-ray Mission Design for Geomagnetic ALP Conversion
-status: working review v0.1
-updated: 2026-09-08
+status: working review v0.2
+updated: 2026-09-17
 ---
 
 # Literature Review
@@ -143,14 +143,40 @@ Fit the time-energy correlation model, profile the background components, perfor
 5. The unresolved problem is whether a constrained DarkNESS schedule can increase signal leverage without creating degeneracy with geomagnetically driven backgrounds.
 6. This work develops, validates, and applies a mission-design framework to answer that question and produce a systematics-aware sensitivity projection.
 
+### 6. Additions from the 2026-09-17 pass
+
+- **No keV-band follow-up to Yamamoto et al. has appeared.** The
+  geomagnetic conversion channel is still open ground. The 2025–2026 PTEP
+  "Earth as detector" papers are ultralight axions ($10^{-15}$ eV) in ELF
+  magnetometer data — a different regime, not a competitor.
+- **Solar axions via the night-side field (GECOSAX).** Davoudiasl & Huber
+  proposed pointing at the occulted Sun from the dark side; Fraser et al.
+  tested it with XMM. The signal scales as $g^4$ and needs $\sim10^4$ cm²,
+  so it is not competitive for a 12 cm² non-imaging detector, but it is
+  the same line-of-sight tool pointed at the Earth, and it establishes
+  that night-Earth frames carry a small, calculable conversion path.
+- **Non-X-ray background as a function of cutoff rigidity** is standard
+  practice: Suzaku `xisnxbgen` and XRISM `xtdnxbgen` weight night-Earth
+  data by the COR histogram, and the Xtend NXB *shape* is COR-independent
+  to <10 %. A scalar Störmer proxy $R_c = 14.9\cos^4\lambda_m/r^2$ GV per
+  frame is therefore the right first nuisance model.
+- **Analytic celestial backgrounds** adequate for a 20° cone: CXB
+  $I(E) = 11.6\,E^{-1.41}$ ph cm⁻² s⁻¹ sr⁻¹ keV⁻¹ (De Luca & Molendi),
+  ≈10 ct s⁻¹ in the DarkNESS cone; Galactic ridge traced by 3.5 µm NIR
+  brightness with bulge + exponential disk (Revnivtsev et al.); a short
+  bright-source catalogue for contamination flags (Sco X-1 is 24° from
+  the GC).
+- **Primordial cosmic ALP background** (Conlon & Marsh) is a second
+  isotropic template for the pointing-free channel.
+
 ## Immediate research gaps
 
 1. The 20-degree FOV convention and aperture-body-axis definition remain unresolved.
 2. The legacy 8 cm2 / 20% `LimitCalculation` configuration is not reconciled with the published 12 cm2 area, QE, and masking assumptions.
 3. No DarkNESS-specific LEO event-spectrum model has been identified. The status and accessibility of the Fermilab Geant4 geometry and Gaido background implementation should be established.
 4. The available onboard proxies for particle environment and detector state are not yet defined. An onboard particle monitor may not exist, making track rate, rejected-event rate, or image morphology particularly important.
-5. A matched control-observation mode is not yet part of the published ConOps.
-6. The covariance between $(B_\perp L)^2$ and cutoff rigidity has not been calculated for any candidate DarkNESS schedule.
+5. A matched control-observation mode is not yet part of the published ConOps. Earth-occultation frames are a candidate (D20, Q21).
+6. The covariance between $(B_\perp L)^2$ and cutoff rigidity has not been calculated for any candidate DarkNESS schedule. The tools now exist ([[../02-mission-analysis/tooling]]); the limb-angle covariate must be carried alongside because maximum-$K$ directions are limb-grazing.
 
 ## First committed technical work package
 
@@ -181,6 +207,18 @@ This package tests the paper's central premise with minimal dependence on uncert
 - [Agostinelli et al. 2003, Geant4](https://doi.org/10.1016/S0168-9002(03)01368-8)
 - [Gaido et al. 2025, Cherenkov background in low-noise silicon](https://arxiv.org/abs/2507.00226)
 - [Figueroa-Feliciano et al. 2015, Micro-X sterile-neutrino search model](https://doi.org/10.1088/0004-637X/814/1/82)
+
+Added 2026-09-17:
+
+- [Davoudiasl & Huber 2006, solar axions in the Earth's field](https://doi.org/10.1103/PhysRevLett.97.141302)
+- [Fraser et al. 2014, GECOSAX with XMM-Newton](https://academic.oup.com/mnras/article/445/2/2146/2140714)
+- [De Luca & Molendi 2004, 2–8 keV CXB spectrum](https://www.aanda.org/articles/aa/abs/2004/21/aa0421/aa0421.html)
+- [Revnivtsev et al. 2006, Galactic ridge traced by NIR](https://ui.adsabs.harvard.edu/abs/2006A&A...452..169R/abstract)
+- [Conlon & Marsh 2013, cosmic axion background](https://arxiv.org/abs/1305.3603)
+- [XRISM Xtend NXB and cutoff rigidity, HEASARC](https://heasarc.gsfc.nasa.gov/docs/xrism/analysis/abc_guide/Xtend_Data_Analysis.html)
+- [Störmer cutoff and CREME forms, SPENVIS](https://www.spenvis.oma.be/help/background/creme/creme.html)
+- [IGRF-14 coefficients, NCEI](https://www.ngdc.noaa.gov/IAGA/vmod/coeffs/igrf14coeffs.txt)
+- [Nishizawa et al. 2026, ultralight axions in terrestrial ELF fields (different regime)](https://academic.oup.com/ptep/article/2026/7/073E02/8704104)
 
 
 

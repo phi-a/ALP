@@ -2,7 +2,7 @@
 type: note
 tags: [darkness, alp, student, mentoring]
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-09-17
 status: active
 audience: mentor
 ---
@@ -105,8 +105,24 @@ uses 8 cm² and 20% against a published 12 cm² and ~50% masking). Both scale th
 Both are one email. Neither should be the student's problem, and Stage 5 will produce a wrong number
 without them.
 
+## Reference implementations exist (2026-09-17)
+
+Stages 1–4 now have working stdlib scripts in `src/darknessalp/`, one
+function per file with a known-answer test each, and `plots/fov_view.py`
+draws what the boresight sees. See [[../02-mission-analysis/tooling]].
+Decide per student whether they re-derive Stage 1 and 3 (recommended — the
+trig and the integral are the point) and read the rest, or use the scripts
+as scaffolding from the start. Either way the tests are the answer key:
+`python -m unittest discover -s tests`.
+
+One check changed: the Stage 4 intuition "smallest along the field lines"
+is only true at high magnetic latitude. The corrected version is in
+[[project-pathway]] and the numbers are in
+[[../02-mission-analysis/pointing-optimization]].
+
 ## Links
 
 - student version: [[project-pathway]]
+- tools: [[../02-mission-analysis/tooling]]
 - full research plan: [[../04-plan/research-plan]]
 - home: [[../ALP]]

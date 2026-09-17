@@ -285,6 +285,46 @@ within DarkNESS reach, which would restore the coupling question as primary.
 
 ---
 
+## D19 - The toolkit is small stdlib scripts written here, with packages kept minimal
+
+**2026-09-17.** Student-path scripts in `src/darknessalp/` are stdlib, one
+function per file, each with a known-answer test. `numpy`, `scipy`,
+`astropy`, `matplotlib` are allowed where they genuinely simplify (analysis
+layer, plots, test oracles); anything new goes into `requirements.txt`. No
+FORMS in the student path — it is the mentor's later cross-check. The field
+model is IGRF-14 with `lmax` as the fidelity knob (1 = tilted dipole for
+scans); CHAOS is a later comparison. Latitude is geocentric; the ECI frame
+is the mean equinox of date. J2 nodal regression stays in the orbit model.
+Supersedes the 2026-07-28 `skyfield`/`ppigrf` recommendation in
+[[02-mission-analysis/tooling]].
+
+**Why:** teaching codebase. The trig and the integral are the learning
+content and the known-answer checks are what make generated code safe. The
+pure-Python IGRF is fast enough (20 ms per ray) that a library buys nothing.
+
+**Reversed if:** the analysis layer outgrows what a few hundred lines can
+carry, or a student cannot get through Stages 1–3 with the scripts as
+scaffolding.
+
+---
+
+## D20 - Earth-facing boresight is allowed; thermal is deferred
+
+**2026-09-17.** The PI confirmed the platform does not forbid pointing the
+aperture at the Earth. Thermal margin is ignored for now. Radiator panels
+and direct-Sun avoidance remain constraints to model. Consequence: the
+Earth-occultation frames of a fixed target are a candidate $K$-off control
+(≈2 % of sky $K$ at matched cutoff rigidity), which makes "keep science
+frames running through occultation" a requirement candidate (Q21).
+
+**Why:** the on/off pair is the most useful thing the study can hand the
+mission, and occultation delivers one without slews or a new ADCS mode.
+
+**Reversed if:** the thermal model or the radiator geometry (Q4) shows an
+Earth-facing boresight is not sustainable for a useful fraction of an orbit.
+
+---
+
 ## Links
 
 - part of [[ALP]]

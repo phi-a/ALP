@@ -2,7 +2,7 @@
 type: plan
 tags: [darkness, alp, student, pathway]
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-09-17
 status: active
 audience: student
 ---
@@ -93,9 +93,9 @@ that comes out at the wrong place. Write down which one you are using at every s
 
 **Question:** what is the Earth's magnetic field at the satellite?
 
-**What you do:** install a magnetic field model (`ppigrf` is a good one — one pip install, one function
-call). For each point along your orbit from Stage 1, get the magnetic field vector. Plot its strength over
-one day.
+**What you do:** use the field model in the repo (`load_igrf` and `igrf_field` in `src/darknessalp/` —
+two function calls; `lmax=1` gives the simple dipole). For each point along your orbit from Stage 1, get
+the magnetic field vector. Plot its strength over one day.
 
 **Hand in:** a plot of field strength versus time for one day, and the same values plotted on a world map.
 
@@ -134,8 +134,9 @@ perpendicular to your viewing direction, and add it up.
 outward.
 
 **You'll know it's right when:**
-- you get something in the range **50–300 T m** depending on direction
-- squaring it gives 10⁴–10⁵ T²m², which is what the 2020 paper reports
+- looking straight up from the magnetic equator at 420 km gives **83 T m** (the hand calculation above,
+  times $(R_E/r)^2$); other directions give anything from 5 to 340 T m
+- squaring the typical values gives 10⁴–10⁵ T²m², which is what the 2020 paper reports
 - the running total *flattens out* — almost all the contribution comes from close to Earth, so extending
   from 10 to 20 Earth radii should barely change the answer. Check this.
 
@@ -161,8 +162,12 @@ changes.
 **Hand in:** a sky map of the field integral, and a short description of where the good directions are and
 whether they move as the satellite goes around.
 
-**You'll know it's right when:** the pattern makes physical sense. The field integral should be largest
-when you look *across* the field lines and smallest when you look *along* them. Check a case by hand.
+**You'll know it's right when:** the pattern makes physical sense — and it is less obvious than it
+sounds. The biggest values are always just above the Earth's limb (the longest path through strong
+field). From the magnetic equator, straight up is the *smallest* sky direction, not looking along the
+field: a straight line leaves a curved field line. Only at high magnetic latitude, where the field lines
+are nearly straight, does looking along them give a small answer (about 5 T m). Check the equator case by
+hand: straight up should be 83 T m and along the axis should be twice that.
 
 **The idea that makes this research rather than a calculation:** we do not only want the strongest possible
 pointing. We want *both* strong-field and weak-field pointings, taken under otherwise identical conditions.

@@ -2,7 +2,7 @@
 type: note
 tags: [darkness, alp, open-questions]
 created: 2026-07-28
-updated: 2026-09-08
+updated: 2026-09-17
 status: active
 ---
 
@@ -19,7 +19,7 @@ Blocking items first. Each carries what it blocks, so the cost of leaving it ope
 | Q1 | Is the 20° FOV a **full cone** (half-angle 10°) or a half-angle? | Grasp, and therefore every sensitivity number, linearly | DarkNESS team / aperture drawing |
 | Q2 | Why does `LimitCalculation` use 8 cm² and 20 % when the paper says 12 cm² and ~50 % masking? | Reuse of the existing chain; a 1.5× area error propagates as 1.1× in $g$ | Original author of that chain |
 | Q3 | Which orbit is manifested — ISS-like, SSO noon/midnight, or SSO dawn/dusk? | Which of the three cases is primary; dawn/dusk breaks umbra-only observing | Launch manifest, mid-2026 |
-| Q4 | Which body axis does the payload aperture look along? | Whether a given science pointing is compatible with the radiator constraint | Fig. 8 / mechanical ICD |
+| Q4 | Which body axis does the payload aperture look along, and where are the radiator panels? | Whether a given science pointing is compatible with the radiator and Sun constraints. Earth-facing is not forbidden (D20) | Fig. 8 / mechanical ICD |
 
 Q1 and Q2 are both answerable today by asking a person. They should be resolved before any number is
 quoted, because both scale the final answer directly.
@@ -40,11 +40,12 @@ determine which result is the headline.
 | Q11 | Is the SmallSat result strictly a parasitic current-flight analysis, or may it compare a bounded dedicated schedule as a DarkNESS-class case study? | Determines the claim language and whether optimized pointing is a recommendation or a counterfactual trade |
 | Q12 | Which source channel wins at count level: Galactic line or cosmological continuum? | Prevents the project from choosing pointing freedom over spectral identifiability without evidence |
 | Q13 | Which in-frame and housekeeping quantities can act as particle-background proxies? | Determines whether the conversion kernel is identifiable and what telemetry/calibration requirements follow |
-| Q16 | Is IGRF alone accurate enough for the useful path, or are external magnetosphere and space-weather models required? | Conversion uncertainty and possible covariance with particle backgrounds |
-| Q17 | Which ionosphere and plasmasphere electron-density model is adequate for the phase calculation? | Low-mass transition, resonant cases, and path-dependent phase |
-| Q18 | Where should each ray terminate: fixed Earth radii, magnetopause, or a field-model boundary? | Absolute conversion normalization and mass reach |
+| Q16 | Is IGRF alone accurate enough for the useful path, or are external magnetosphere and space-weather models required? | Conversion uncertainty and possible covariance with particle backgrounds. IGRF-14 adopted (D19); the T96 ablation is still owed |
+| Q18 | Where should each ray terminate: fixed Earth radii, magnetopause, or a field-model boundary? | Absolute conversion normalization and mass reach. 10 $R_E$ adopted; truncation costs 1 % ([[02-mission-analysis/geomagnetic-integral]]) |
 | Q19 | Which existing searches constrain the same product $g_{a\gamma\gamma}^{2}f_\chi\mathcal B_{aa}/\tau_\chi$? | Claim of scientific novelty |
 | Q20 | What source broadening is resolvable after the flight-like skipper-CCD redistribution? | Whether the Milky Way feature supplies meaningful spectral discrimination |
+| Q21 | Do science frames continue through Earth occultation, and can the night-Earth frame serve as the $K$-off / NXB control? | Whether the free on/off pair in [[02-mission-analysis/conops-physics-map]] exists; a requirement to hand the team (D20) |
+| Q22 | What is the Earth-limb / atmospheric X-ray background as a function of limb angle, day and night? | The maximum-$K$ directions are limb-grazing, so this covariate is correlated with signal by construction ([[02-mission-analysis/pointing-optimization]]) |
 
 ## Answered
 
@@ -53,6 +54,7 @@ determine which result is the headline.
 | A1 | Does the ALP analysis require pointing at the Galactic Centre? | **No.** The extragalactic component is isotropic to leading order. The linked Milky Way component does scale with dark-matter column density and benefits from GC pointing | 2026-07-28, clarified 2026-09-08 |
 | A2 | What coherence mass should be used? | Compute from our own $L$; do **not** inherit Yamamoto's text value of 3.3×10⁻⁶ eV, which is inconsistent with their own figure and stated geometry. See [[01-physics/coherence-and-mass-reach]] | 2026-07-28 |
 | A3 | Are the incident keV ALPs the cold dark matter itself? | **No.** In the reference channel they are relativistic daughters of a heavier dark-matter parent. A coupling-only curve is conditional on the parent-decay model | 2026-09-08 |
+| A4 (was Q17) | Which ionosphere/plasmasphere model is needed for the phase? | **None, at first order.** Worst-case $n_e = 10^6$ cm⁻³ gives $\omega_{\rm pl} = 3.7\times10^{-8}$ eV against a coherence knee near $2\times10^{-5}$ eV at 3 keV: $\omega_{\rm pl}^2/m_a^2 \sim 4\times10^{-6}$. Revisit only for $m_a \lesssim 10^{-7}$ eV | 2026-09-17 |
 
 ## Links
 

@@ -2,7 +2,7 @@
 type: moc
 tags: [moc, darkness, alp]
 created: 2026-06-22
-updated: 2026-09-08
+updated: 2026-09-17
 status: active
 ---
 
@@ -65,9 +65,11 @@ line. See [[decisions]] D1.
 
 ## Mission analysis
 
-- [[02-mission-analysis/geomagnetic-integral|Field integral]] — the one new module; definitions and validation
+- [[02-mission-analysis/conops-physics-map|ConOps ↔ physics map]] — what each ConOps variable touches; pointing tiers by mission cost; occultation as the free "off" state
+- [[02-mission-analysis/geomagnetic-integral|Field integral]] — the one new module; definitions and the validation gates, which pass
+- [[02-mission-analysis/pointing-optimization|Pointing optimisation]] — **the research element**; where the field actually is, measured
 - [[02-mission-analysis/orbit-cases|Orbit cases]] — ISS-like, SSO noon/midnight, SSO dawn/dusk
-- [[02-mission-analysis/pointing-optimization|Pointing optimisation]] — **the research element**
+- [[02-mission-analysis/tooling|Tooling]] — the stdlib building blocks, their known-answer checks, frame convention
 
 ## Sensitivity
 

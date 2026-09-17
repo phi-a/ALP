@@ -2,15 +2,17 @@
 type: note
 tags: [darkness, alp, mission-analysis, geomagnetic]
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-09-17
 status: active
 ---
 
 # The line-of-sight field integral
 
-The one new physics module. Everything else in the chain already exists in `LimitCalculation`. This note
-fixes the definition precisely enough to implement, because sign and endpoint conventions are exactly where
-this kind of calculation goes wrong quietly.
+The one new physics module. This note fixes the definition precisely
+enough to implement, because sign and endpoint conventions are exactly
+where this kind of calculation goes wrong quietly. Implemented as
+`los_field_integral` (see [[tooling]]); the gates below pass as of
+2026-09-17.
 
 ## Definition
 
@@ -43,11 +45,12 @@ Two things to get right:
 
 | Choice | Baseline | Tag | Note |
 |---|---|---|---|
-| Internal field | IGRF-14 | `EXT` | Current release; IGRF-13 acceptable, differences negligible here |
-| External field | none, initially | `ASSUME` | Tsyganenko T96/T05 as an ablation — see below |
-| $L_{\max}$ | 10 $R_E$, with convergence test | `ASSUME` | $B \sim r^{-3}$, so the integral converges fast |
-| Earth occultation | hard cut when the ray intersects the solid Earth | `ASSUME` | Also drives limb-avoidance |
-| Atmospheric absorption | none, for rays above the limb | `ASSUME` | Revisit if limb-grazing geometries survive the trade |
+| Internal field | IGRF-14, `lmax` 13 (1 = tilted dipole for scans) | `EXT` | `data/bfield/igrf14coeffs.txt`, valid to 2030 |
+| External field | none | `ASSUME` | Tsyganenko T96/T05 as an ablation — see below |
+| Plasma | none | `DERIV` | $\omega_{\rm pl}^2/m_a^2 \sim 4\times10^{-6}$ at the knee; A4 in [[../open-questions]] |
+| $L_{\max}$ | 10 $R_E$ | `ASSUME` | truncation costs 1 % (83.4 → 82.4 T m zenith); 20 $R_E$ recovers it |
+| Earth occultation | ray ends at the surface | `ASSUME` | the path from surface to spacecraft still converts: 11 T m nadir at 420 km |
+| Atmospheric absorption | none above the limb | `ASSUME` | revisit if limb-grazing geometries survive the trade |
 
 **On the external field.** IGRF alone is defensible for a first pass: at a few $R_E$ the internal dipole
 still dominates the total, and Yamamoto used IGRF-12 only. But the external contribution grows with
@@ -58,20 +61,25 @@ afterthought.
 
 ## Convergence and cross-checks
 
-Before trusting any output:
+Status 2026-09-17, all in `tests/test_los_field_integral.py`:
 
-1. **Sanity magnitude.** Yamamoto report $(B_\perp L)^2 \sim 10^4$–$10^5$ T² m² for Suzaku-like geometry,
-   i.e. $B_\perp L \sim$ 100–300 T m, with an IGRF-12 calculation every 60 s out to 6 $R_E$. Reproducing
-   that magnitude in a Suzaku-like orbit is the primary validation gate for this module.
-2. **Dipole limit.** For a pure dipole and a zenith-pointing observer at the magnetic equator the integral
-   has a closed form; check the numerics against it.
-3. **$L_{\max}$ convergence.** Vary 4 → 20 $R_E$ and confirm the integral plateaus.
-4. **Sign/parity.** Field reversal along the path can cause cancellation. Confirm the code exhibits it
-   (integrate through a field reversal deliberately) rather than silently taking $|B_\perp|$ inside the
-   integral — a classic error that inflates the answer.
+1. **Sanity magnitude.** Yamamoto report $B_\perp L \sim$ 100–300 T m
+   for Suzaku-like geometry. Our dipole scan at 420 km gives 5–340 T m
+   depending on direction and magnetic latitude (table in
+   [[pointing-optimization]]). Passes.
+2. **Dipole closed forms.** Zenith at the magnetic equator:
+   $B_0 R_E^3/2r_0^2 = 83.3$ T m; nadir through the Earth:
+   $B_0 R_E (1 - R_E^2/r_0^2)/2 = 11.3$ T m. Both to 1 %.
+3. **$L_{\max}$ convergence.** 5 → 10 → 20 $R_E$: 79.5, 82.4, 83.4 T m.
+   Plateau confirmed; 10 $R_E$ adopted.
+4. **Sign/parity.** A ray from $\lambda_m = 15°$ looking south along the
+   axis crosses the equatorial plane where $B_\rho$ flips: the running
+   total rises to 18 T m, falls through zero, ends at 161 T m against a
+   naive $\int|B_\perp|ds = 196$ T m. Cancellation is real and the code
+   shows it.
 
-That last one deserves emphasis: $\int B_\perp ds \ne \int |B_\perp| ds$. Cancellation across field
-reversals is physical and *reduces* the signal. Any implementation that never shows cancellation is wrong.
+$\int B_\perp ds \ne \int |B_\perp| ds$. Any implementation that
+never shows the dip in gate 4 is wrong.
 
 ## Field of view
 
@@ -94,5 +102,6 @@ That data cube is the input to [[pointing-optimization]].
 
 - part of [[../ALP]]
 - physics: [[../01-physics/alp-signal-chain]]
+- implementation: [[tooling]]
 - consumer: [[pointing-optimization]]
 - orbits: [[orbit-cases]]

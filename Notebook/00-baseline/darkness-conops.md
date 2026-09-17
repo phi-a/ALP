@@ -2,7 +2,7 @@
 type: note
 tags: [darkness, alp, baseline, conops]
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-09-17
 status: active
 ---
 
@@ -44,9 +44,10 @@ joint optimisation over sky position *and* field geometry.
 | Constraint | Source | Status in the model |
 |---|---|---|
 | Umbra-only science | `DN-V` p. 4799 | **Baseline.** Flagged as a candidate to relax — see [[../decisions]] |
-| Radiator secondary-axis constraint | `DN-V` p. 4800 | Must be modelled; it couples attitude to thermal |
-| Earth limb avoidance | `ASSUME` | Angle TBD; bright-limb and albedo background rise sharply |
-| Sun keep-out | `ASSUME` | Implied by radiator and window constraints, angle TBD |
+| Radiator secondary-axis constraint | `DN-V` p. 4800 | Radiator panels and direct-Sun avoidance to be modelled; thermal margin deferred (D20, 2026-09-17) |
+| Earth-facing boresight | PI, 2026-09-17 | **Not forbidden.** Occultation frames are usable as the $K$-off control — see [[../02-mission-analysis/conops-physics-map]]; frames-through-occultation is Q21 |
+| Earth limb avoidance | `ASSUME` | Angle TBD; the maximum-$K$ directions are limb-grazing, so this trades directly against signal (Q22) |
+| Sun keep-out | `ASSUME` | Aperture and radiators; angle TBD |
 | SAA exclusion | `EXT` + `DN-V` p. 4798 | Standard mask; costs duty cycle |
 | Slew rate, settle time, momentum management | `DN-TBC` | Unknown — bounds how fast a scan law can move |
 | Ground-station passes | `DN-V` p. 4799 | UHF command via ISU, S-band downlink; interrupts science |
@@ -66,4 +67,5 @@ choose. This is developed in [[../02-mission-analysis/orbit-cases]].
 
 - part of [[../ALP]]
 - numbers: [[darkness-parameters]]
+- what the constraints touch in the physics: [[../02-mission-analysis/conops-physics-map]]
 - consumes into: [[../02-mission-analysis/pointing-optimization]]
