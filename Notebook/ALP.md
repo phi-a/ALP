@@ -69,7 +69,8 @@ line. See [[decisions]] D1.
 - [[02-mission-analysis/geomagnetic-integral|Field integral]] — the one new module; definitions and the validation gates, which pass
 - [[02-mission-analysis/pointing-optimization|Pointing optimisation]] — **the research element**; where the field actually is, measured
 - [[02-mission-analysis/orbit-cases|Orbit cases]] — ISS-like, SSO noon/midnight, SSO dawn/dusk
-- [[02-mission-analysis/tooling|Tooling]] — the stdlib building blocks, their known-answer checks, frame convention
+- [[02-mission-analysis/pointing-system|Pointing system]] — target → mode → schedule → steering → boresight; the ritual every run declares
+- [[02-mission-analysis/tooling|Tooling]] — the numpy/scipy/astropy library by topic, known-answer checks, speed, first run
 
 ## Sensitivity
 

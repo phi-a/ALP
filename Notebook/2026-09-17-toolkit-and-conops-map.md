@@ -24,6 +24,10 @@ What happened today and where each piece went.
   `jupyter/darkness_alp_sim.ipynb` (D21). The vectorised LOS integral
   is 60× faster.
   → [[02-mission-analysis/tooling]]
+- **Pointing system** — target specs (inertial, bodies, orbit-based,
+  field-based), modes with analytic roll, condition → mode schedules,
+  rate-limited steering with quaternions and no dynamics.
+  → [[02-mission-analysis/pointing-system]]
 - **First full-day run** — GC fixed target, ISS-like, 2027-05-01:
   corr($K$, $R_c$) = +0.74, corr($K$, limb) = −0.87 on 513 usable sky
   frames. → [[02-mission-analysis/tooling]] §First run

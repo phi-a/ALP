@@ -25,7 +25,8 @@ Teaching codebase. The student audience is the primary constraint on every decis
   short functions each. Topics: `frames` (astropy time and reference
   frames), `orbit` (analytic circular + J2, `propagate`), `dynamics`
   (accelerations and torques, no integration), `kinematics` (body
-  attitude, slews), `pointing` (targets, constraints, laws, schedules),
+  attitude, slews, rate-limited steering), `pointing` (target specs,
+  modes = target + roll rule, condition → mode schedules, constraints),
   `field` (IGRF, dipole, magnetic coordinates), `geometry` (LOS
   integral, limb, umbra, FOV), `background` (CXB, GRXE, NXB proxy,
   sources), `sim` (state table).

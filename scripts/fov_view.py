@@ -80,7 +80,7 @@ def main():
     time = frames.times(a.epoch, a.t)[0]
     coeffs = field.load_igrf(float(frames.decimal_year(time)))
     r, _ = orbit.circular_orbit(a.t, a.alt, a.inc, a.raan)
-    n = pointing.target(a.target)
+    n = pointing.sky_target(a.target)
     ax = fov_view(r[0], time, n, coeffs, a.extent, a.lmax)
 
     r_ecef = frames.eci_to_ecef(r, time)

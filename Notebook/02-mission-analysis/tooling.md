@@ -80,12 +80,21 @@ corr($K$, limb angle) = −0.87** on the usable frames. The nominal
 target is strongly confounded on both counts, which is the premise of
 [[pointing-optimization]] made quantitative.
 
+## Pointing system (same day, later)
+
+`pointing/targets.py` (inertial, solar-system, orbit-based, field-based
+specs), `pointing/modes.py` (primary + roll rule → attitude),
+`pointing/schedule.py` (condition → mode), `kinematics/steering.py`
+(rate-limited chase, no dynamics). The ritual is in [[pointing-system]].
+The notebook now schedules `gc` in umbra and `anti_sun` in sunlight and
+steers at 1.5°/s; 34 tests.
+
 ## Still to write
 
-`pointing/schedule.py` (two-target alternation, per-orbit selection),
-field-tracking law, `dynamics/attitude.py` and radiator/Sun keep-outs
-with a real body geometry (Q4), the per-target $\rho[K, R_c]$ sky map,
-CHAOS comparison, the meridian-plane geometry figure.
+`dynamics/attitude.py` and radiator/Sun keep-outs with a real body
+geometry (Q4), the per-target $\rho[K, R_c]$ sky map, a rule-emitting
+schedule optimiser, CHAOS comparison, the meridian-plane geometry
+figure.
 
 ## History
 
