@@ -18,7 +18,7 @@ class TestTargets(unittest.TestCase):
                                    atol=1e-12)
 
     def test_orbit_based_directions(self):
-        d = {s: pointing.direction(s, self.time, self.r, self.v)
+        d = {s: pointing.target_direction(s, self.time, self.r, self.v)
              for s in ("zenith", "nadir", "velocity", "orbit_normal")}
         np.testing.assert_allclose(d["zenith"], -d["nadir"])
         dots = np.sum(d["velocity"] * d["zenith"], axis=1)
@@ -27,16 +27,18 @@ class TestTargets(unittest.TestCase):
         np.testing.assert_allclose(dots, 0.0, atol=1e-9)
 
     def test_bodies_and_field_rules(self):
-        moon = pointing.direction("moon", self.time, self.r)
+        moon = pointing.target_direction("moon", self.time, self.r)
         np.testing.assert_allclose(np.linalg.norm(moon, axis=1), 1.0)
-        sun = pointing.direction("sun", self.time, self.r)
-        anti = pointing.direction("anti_sun", self.time, self.r)
+        sun = pointing.target_direction("sun", self.time, self.r)
+        anti = pointing.target_direction("anti_sun", self.time, self.r)
         self.assertGreater(np.sum(sun[0] * -anti[0]), 0.999)
         b = np.tile([0.0, 0.0, 1.0], (len(self.t), 1))
-        perp = pointing.direction("b_perp", self.time, self.r, self.v, b)
+        perp = pointing.target_direction("b_perp", self.time, self.r,
+                                         self.v, b)
         np.testing.assert_allclose(np.sum(perp * b, axis=1), 0.0, atol=1e-9)
         self.assertTrue(np.all(np.sum(perp * self.r, axis=1) > 0))
-        along = pointing.direction("b_along", self.time, self.r, self.v, b)
+        along = pointing.target_direction("b_along", self.time, self.r,
+                                          self.v, b)
         self.assertTrue(np.all(np.sum(along * self.r, axis=1) >= 0))
 
     def test_mode_roll_puts_radiator_away_from_earth(self):

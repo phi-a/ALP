@@ -23,14 +23,15 @@ src/darknessalp/
   frames/      time, GCRS<->ITRS, Sun, Galactic     (astropy)
   orbit/       circular + J2 secular rates; propagate (scipy solve_ivp)
   dynamics/    accelerations and torques — models, no integration loop
-  kinematics/  body attitude (scipy Rotation), slew angle and time
-  pointing/    targets, keep-outs, pointing laws, later schedules
+  kinematics/  body attitude (scipy Rotation), slews, steering
+  pointing/    target specs, modes, condition schedules, keep-outs
   field/       IGRF-14 vectorised (lmax=1 is the dipole), magnetic coords
   geometry/    LOS integral over many rays at once, limb, umbra, FOV
   background/  CXB, GRXE, NXB proxy, bright sources
   sim/         state_table -> dict of arrays, CSV
 jupyter/darkness_alp_sim.ipynb   the run file
 scripts/fov_view.py              thin CLI + the reusable fov_view() axes
+scripts/api_reference.py         regenerates the API reference note
 ```
 
 Rules: astropy owns time and frames, scipy owns integration and
@@ -39,7 +40,11 @@ the job. Functions take `(N, 3)` km / tesla / degrees and astropy
 `Time`; no classes; nothing in `src/` prints or plots. Four packages,
 nothing new without a reason in `requirements.txt`. No FORMS.
 
-## Known-answer checks (31 tests pass)
+Every public function, with its signature and one-line contract, is
+in [[api-reference]] — generated from the docstrings by
+`scripts/api_reference.py`, with a test that fails if it goes stale.
+
+## Known-answer checks (37 tests pass)
 
 | Check | Value |
 |---|---|
@@ -87,7 +92,12 @@ specs), `pointing/modes.py` (primary + roll rule → attitude),
 `pointing/schedule.py` (condition → mode), `kinematics/steering.py`
 (rate-limited chase, no dynamics). The ritual is in [[pointing-system]].
 The notebook now schedules `gc` in umbra and `anti_sun` in sunlight and
-steers at 1.5°/s; 34 tests.
+steers at 1.5°/s. 37 tests.
+
+Two functions were named `direction` in different topics; they are now
+`pointing.target_direction` (a spec to a sky direction) and
+`geometry.offset_direction` (an angular offset within the field of
+view).
 
 ## Still to write
 

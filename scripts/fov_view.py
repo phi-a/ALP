@@ -29,7 +29,8 @@ def fov_view(r_eci, time, n_hat, coeffs, extent=40.0, lmax=13, ax=None):
     x_hat, y_hat = geometry.fov_axes(n_hat)
     grid = np.linspace(-extent, extent, 61)
     gx, gy = np.meshgrid(grid, grid)
-    dirs = geometry.direction(gx, gy, n_hat, x_hat, y_hat).reshape(-1, 3)
+    dirs = geometry.offset_direction(gx, gy, n_hat, x_hat,
+                                     y_hat).reshape(-1, 3)
 
     res = geometry.los_field_integral(r_eci, dirs, time, coeffs, lmax=lmax,
                                       n_steps=100)

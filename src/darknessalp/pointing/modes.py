@@ -2,7 +2,7 @@
 import numpy as np
 
 from darknessalp.kinematics.attitude import look_at
-from darknessalp.pointing.targets import direction
+from darknessalp.pointing.targets import target_direction
 
 
 def mode(primary, roll="anti_earth"):
@@ -12,10 +12,10 @@ def mode(primary, roll="anti_earth"):
 
 def desired_attitude(m, time, r_eci, v_eci, b_eci=None):
     """Return body->ECI Rotation(s) realising a mode at each sample."""
-    z = direction(m["primary"], time, r_eci, v_eci, b_eci)
+    z = target_direction(m["primary"], time, r_eci, v_eci, b_eci)
     spec = {"anti_earth": "zenith", "anti_sun": "anti_sun"}.get(
         m["roll"], m["roll"])
-    hint = direction(spec, time, r_eci, v_eci, b_eci)
+    hint = target_direction(spec, time, r_eci, v_eci, b_eci)
     return look_at(z, hint)
 
 

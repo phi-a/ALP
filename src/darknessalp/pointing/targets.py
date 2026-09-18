@@ -27,7 +27,7 @@ def body_direction(name, time, r_eci):
     return _unit(np.atleast_2d(pos) - np.atleast_2d(r_eci))
 
 
-def direction(spec, time, r_eci, v_eci=None, b_eci=None):
+def target_direction(spec, time, r_eci, v_eci=None, b_eci=None):
     """Return (N, 3) boresight targets for a spec string."""
     r = np.atleast_2d(r_eci)
     n = len(r)

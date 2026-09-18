@@ -23,7 +23,7 @@ def project(v, n_hat, x_hat, y_hat):
     return theta * px / norm, theta * py / norm
 
 
-def direction(x_deg, y_deg, n_hat, x_hat, y_hat):
+def offset_direction(x_deg, y_deg, n_hat, x_hat, y_hat):
     """Return unit vectors at angular offsets (x, y) from the boresight."""
     x, y = np.broadcast_arrays(np.asarray(x_deg, float),
                                np.asarray(y_deg, float))
@@ -46,6 +46,7 @@ def cone_directions(n_hat, half_angle_deg=10.0, rings=3):
         xs += list(r_mid * np.cos(phi))
         ys += list(r_mid * np.sin(phi))
         ws += [(edges[k + 1] ** 2 - edges[k] ** 2) / count] * count
-    dirs = direction(np.array(xs), np.array(ys), n_hat, x_hat, y_hat)
+    dirs = offset_direction(np.array(xs), np.array(ys), n_hat,
+                            x_hat, y_hat)
     weights = np.array(ws) / sum(ws)
     return dirs, weights

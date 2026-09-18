@@ -24,7 +24,7 @@ class TestGeometryView(unittest.TestCase):
     def test_projection_preserves_angle(self):
         n = np.array([1.0, 0, 0])
         x, y = geometry.fov_axes(n)
-        v = geometry.direction(3.0, 4.0, n, x, y)
+        v = geometry.offset_direction(3.0, 4.0, n, x, y)
         px, py = geometry.project(v, n, x, y)
         np.testing.assert_allclose([px[0], py[0]], [3.0, 4.0], atol=1e-9)
         self.assertAlmostEqual(kinematics.angle_between(v, n)[0], 5.0)
