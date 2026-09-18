@@ -374,12 +374,16 @@ in which case the gates move to a separate slow marker.
 the axion-limit data, and the allowed-signal ceiling screen. The FORMS
 sample notebooks and the old Suzaku/Yamamoto exploration notebooks are
 deleted, along with the `yamamoto/` and `bfield/` packages and their
-tests that nothing else used. FORMS remains available in `routines/` and
-`missions/` for the PI's own later cross-check.
+tests that nothing else used. FORMS remains available in `routines/`
+for the PI's own later cross-check; `missions/` is removed too.
 
 **Why:** the old notebooks encoded a superseded architecture and kept
 dependencies (pyIGRF, chaosmagpy, the untracked Suzaku archive) alive
 for no current result. Everything is recoverable from git history.
+
+The two Suzaku validation records in `02-mission-analysis/` stay as the
+provenance for D9, marked archived, pointing at the data-free gate that
+replaced them.
 
 **Reversed if:** the Suzaku cohort validation is needed again, in which
 case it returns as a topic package with tests, not as notebooks.

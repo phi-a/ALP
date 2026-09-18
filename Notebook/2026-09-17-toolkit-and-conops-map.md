@@ -40,6 +40,8 @@ What happened today and where each piece went.
   Fig 7, and the allowed-signal ceiling; FORMS and old Suzaku notebooks,
   `yamamoto/`, `bfield/` and their tests removed (all in git history).
   Fig 7 now uses `fetch_axion_limit` instead of its own downloader.
+  `missions/` removed; `routines/` kept for the FORMS cross-check. The
+  two Suzaku validation records are marked archived.
 - **Field-integral gates pass** — closed forms, $L_{\max}$ plateau,
   reversal cancellation. → [[02-mission-analysis/geomagnetic-integral]]
 - **First sky scan** — max $K$ is limb-grazing; "along the field" is low

@@ -1,10 +1,18 @@
 ---
 title: Yamamoto Geometry Validation - Suzaku 101002010
-status: passed
+status: archived
 updated: 2026-07-30
 ---
 
 # Yamamoto Geometry Validation - Suzaku 101002010
+
+> **Archival record, 2026-09-17.** The code behind this result
+> (`src/darknessalp/yamamoto/`, the Suzaku archive loader, and the
+> notebooks that drove them) was removed when the library was rebuilt;
+> it is recoverable from git history. The result stands as the
+> provenance for decision D9. The current kernel is validated instead by
+> a data-free Suzaku-like gate — see [[testing]] §4 — which reproduces
+> Yamamoto's reported $(B_\perp L)^2$ band without the archive.
 
 ## Result
 

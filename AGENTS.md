@@ -13,18 +13,14 @@ lives in your environment, *not* in this folder, and must not be modified.
 - **Use the `forms` API; do not change the library.** If FORMS does not do what
   you want, the fix is almost always a call you have not made yet — not a source
   edit. `import forms`, then drive everything through the handle: `f = forms.FORMS()`.
-- **Keep mission scripts and routines separate — this is the important one.**
-  - A **mission** is a full, runnable simulation: configure `forms`, set the
-    scenario, propagate it, report the result. Mission scripts live in
-    **`missions/`** — one file per scenario, with a descriptive name
-    (`missions/leo_formation.py`, not `sim1.py`). `missions/example_mission.py`
-    is a worked template; copy and rename it.
-  - A **routine** is a small, *reusable calculation* built on `forms`: a function
-    of the handle (and forms bricks or your own models) that returns a value, so
-    missions can share it. Routines live in **`routines/`**;
-    `routines/sdk_routine.py` is the worked example.
-  - **Do not put a whole mission script in `routines/`.** If you are writing a
-    `def main()` that configures and propagates, it's a mission → `missions/`.
+- **Routines only.** A **routine** is a small, *reusable calculation* built on
+  `forms`: a function of the handle (and forms bricks or your own models) that
+  returns a value. Routines live in **`routines/`**; `routines/sdk_routine.py`
+  is the worked example.
+- **This workspace has no `missions/` folder.** The project's own simulation
+  lives in `src/darknessalp/` and `jupyter/darkness_alp_sim.ipynb` and does not
+  use FORMS. FORMS is kept here only as an independent cross-check of that
+  simulation — see `Notebook/02-mission-analysis/testing.md`.
 
 ## Learn the API before you build — two doc surfaces
 
@@ -56,13 +52,11 @@ against the `forms` handle. (See the Book page `forms.grounding`.)
   what the library already provides.
 - **Use matplotlib for plots.** It ships with the SDK. Never hand-roll image/PNG
   encoding, and don't hand-roll CSV/JSON writing where the stdlib does it.
-- **Structure a mission** as CONFIGURATION → build → run → report;
-  `missions/example_mission.py` is the template.
 - **Routines are pure functions of `forms`** (or forms bricks) — no rendering or
-  I/O grab-bags. One mission per file; write outputs to `outputs/`.
+  I/O grab-bags. Write outputs to `outputs/`.
 
 ## Getting started
 
-Open `sdk_quickstart.ipynb` and run it top to bottom — it builds an orbit, records
-variables, runs a routine, and finds eclipse windows: the whole SDK in one pass.
-To update the library, re-run the pip install from the FORMS README.
+Use `f.api_search` and `f.book_ai` as above to find the call you need, then write
+a routine in `routines/`. To update the library, re-run the pip install from the
+FORMS README.
