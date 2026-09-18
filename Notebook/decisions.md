@@ -348,6 +348,44 @@ comes back.
 
 ---
 
+## D22 - Testing is five layers, and pytest is the runner
+
+**2026-09-17.** Known answers, invariants, cross-checks against
+independent implementations, gates against published numbers, and pinned
+end-to-end regressions. `python -m pytest` is the command; `unittest
+discover` is banned because it silently collected zero tests from
+pytest-style files. Regression pins are descriptions, not requirements:
+when one moves, recompute it deliberately and say why.
+
+**Why:** the project's credibility rests on numbers a reader can check
+elsewhere, not on the code running. The published-number layer earned
+this immediately by finding that `circular_orbit` measured altitude
+above the IGRF reference sphere rather than the WGS84 equatorial radius.
+
+**Reversed if:** the suite gets slow enough that people stop running it,
+in which case the gates move to a separate slow marker.
+
+---
+
+## D23 - The repository keeps three notebooks
+
+**2026-09-17.** `jupyter/` holds the simulation run file
+(`darkness_alp_sim.ipynb`), the Yamamoto 2020 Figure 7 regeneration with
+the axion-limit data, and the allowed-signal ceiling screen. The FORMS
+sample notebooks and the old Suzaku/Yamamoto exploration notebooks are
+deleted, along with the `yamamoto/` and `bfield/` packages and their
+tests that nothing else used. FORMS remains available in `routines/` and
+`missions/` for the PI's own later cross-check.
+
+**Why:** the old notebooks encoded a superseded architecture and kept
+dependencies (pyIGRF, chaosmagpy, the untracked Suzaku archive) alive
+for no current result. Everything is recoverable from git history.
+
+**Reversed if:** the Suzaku cohort validation is needed again, in which
+case it returns as a topic package with tests, not as notebooks.
+
+---
+
 ## Links
 
 - part of [[ALP]]

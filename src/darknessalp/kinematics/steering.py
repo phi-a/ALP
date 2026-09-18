@@ -12,10 +12,13 @@ def steer(desired, t_s, rate_deg_s=1.5, settle_deg=0.1, start=None,
     error = np.empty(n)
     moved = np.empty(n)
     current = desired[0] if start is None else start
+
+    # a one-element stack would make every angle below an array
+    current = Rotation.from_quat(np.ravel(current.as_quat()))
     for k in range(n):
         dt = t[k] - t[k - 1] if k else 0.0
         gap = desired[k] * current.inv()            # rotation still to do
-        angle = np.degrees(gap.magnitude())
+        angle = float(np.degrees(gap.magnitude()))
         step = min(angle, rate_deg_s * dt)
         if angle > 1e-12:
             current = Rotation.from_rotvec(

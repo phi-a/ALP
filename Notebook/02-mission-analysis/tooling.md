@@ -44,7 +44,10 @@ Every public function, with its signature and one-line contract, is
 in [[api-reference]] — generated from the docstrings by
 `scripts/api_reference.py`, with a test that fails if it goes stale.
 
-## Known-answer checks (37 tests pass)
+## Known-answer checks (58 tests pass)
+
+The full scheme — invariants, published-number gates, regression pins —
+is in [[testing]].
 
 | Check | Value |
 |---|---|
@@ -55,7 +58,7 @@ in [[api-reference]] — generated from the docstrings by
 | along-axis from the equator | 2× zenith |
 | reversal ray | running total dips |
 | $L_{\max}$ 10 vs 20 $R_E$ | within 2 % |
-| period at 420 km; SSO node rate at 500 km / 97.4° | 92.8 min; 0.9856°/d |
+| period at 420 km; SSO node rate at 500 km / 97.4° | 92.97 min; 0.9856°/d |
 | frames: ECEF rotates 90° in 6 h; GC at RA 266.405°; Sun at equinox | pass |
 | cone quadrature weights; projection radius = true angle | pass |
 | state table, one orbit, CSV round trip | pass |
@@ -65,6 +68,7 @@ caveat is gone. Latitude is geocentric (`frames.spherical`).
 
 **Analytic vs numerical orbit.** `circular_orbit` is a mean-element
 model (period, node rate, argument-of-latitude rate all with J2).
+Altitude is above the WGS84 equatorial radius, not the IGRF sphere.
 `propagate` from the same state drifts ~900 km/day in-track because
 that state is then osculating and J2 offsets the semi-major axis by
 ~6 km. Use the analytic orbit for design sweeps; use `propagate` when

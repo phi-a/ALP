@@ -37,9 +37,12 @@ Teaching codebase. The student audience is the primary constraint on every decis
 - Run scripts live outside `src/`: `scripts/` for thin argparse tools,
   `jupyter/` for the simulation run notebooks that build a sequence and
   show results. Nothing in `src/` prints or plots.
-- Tests mirror the topics: `tests/test_<topic>.py`.
-- `src/darknessalp/bfield/` and `yamamoto/` are legacy oracles; do not
-  extend them.
+- Tests mirror the topics: `tests/test_<topic>.py`, plus
+  `test_invariants`, `test_validation_gates` (published numbers) and
+  `test_scenario_regression` (pinned end-to-end answers). Run them with
+  `python -m pytest`, never `unittest discover`.
+- A new public function needs a docstring and a known-answer test, and
+  the API reference regenerated.
 
 ## Where things go
 - `jupyter/` notebooks. `Notebook/` notes (.md, tracked). `docs/` references

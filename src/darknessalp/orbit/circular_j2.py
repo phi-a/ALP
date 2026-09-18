@@ -1,14 +1,18 @@
-"""Analytic circular orbit with secular J2 node regression."""
+"""Analytic circular orbit with secular J2 node regression.
+
+Altitude is above the WGS84 equatorial radius, the usual convention for
+quoting an orbit -- not above the IGRF reference sphere the field model
+uses.
+"""
 import numpy as np
 
-from darknessalp.constants import (
-    J2, MU_EARTH_KM3_S2, R_EARTH_KM, R_EQUATOR_KM)
+from darknessalp.constants import J2, MU_EARTH_KM3_S2, R_EQUATOR_KM
 
 
 def circular_orbit(t_s, alt_km, inc_deg, raan_deg=0.0, u0_deg=0.0):
     """Return ECI position (N, 3) km and velocity (N, 3) km/s."""
     t = np.atleast_1d(t_s).astype(float)
-    a = R_EARTH_KM + alt_km
+    a = R_EQUATOR_KM + alt_km
     n = np.sqrt(MU_EARTH_KM3_S2 / a**3)
     i = np.radians(inc_deg)
 
@@ -32,4 +36,5 @@ def circular_orbit(t_s, alt_km, inc_deg, raan_deg=0.0, u0_deg=0.0):
 
 def period_s(alt_km):
     """Return the circular orbital period in seconds."""
-    return 2 * np.pi * np.sqrt((R_EARTH_KM + alt_km) ** 3 / MU_EARTH_KM3_S2)
+    return 2 * np.pi * np.sqrt((R_EQUATOR_KM + alt_km) ** 3
+                               / MU_EARTH_KM3_S2)

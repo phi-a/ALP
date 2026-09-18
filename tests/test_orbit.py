@@ -12,14 +12,15 @@ def node_deg(r, v):
 
 class TestOrbit(unittest.TestCase):
     def test_period_and_radius(self):
-        self.assertAlmostEqual(orbit.period_s(420.0) / 60, 92.8, places=1)
+        self.assertAlmostEqual(orbit.period_s(420.0) / 60, 93.0, places=1)
         r, v = orbit.circular_orbit([0.0, 1234.0], 420.0, 51.6, 40.0, 70.0)
-        np.testing.assert_allclose(np.linalg.norm(r, axis=1), 6791.2)
+        np.testing.assert_allclose(np.linalg.norm(r, axis=1), 6798.137)
         np.testing.assert_allclose(np.linalg.norm(v, axis=1), 7.66, atol=0.01)
 
     def test_max_latitude_is_inclination(self):
         r, _ = orbit.circular_orbit(np.arange(0, 6000, 10.0), 420.0, 51.6)
-        self.assertAlmostEqual(r[:, 2].max() / 6791.2, 0.7837, places=3)
+        self.assertAlmostEqual(r[:, 2].max() / 6798.137, 0.7837,
+                               places=3)
 
     def test_sun_synchronous_node_rate(self):
         r, v = orbit.circular_orbit([0.0, 86400.0], 500.0, 97.4)

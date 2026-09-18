@@ -31,6 +31,15 @@ What happened today and where each piece went.
 - **First full-day run** — GC fixed target, ISS-like, 2027-05-01:
   corr($K$, $R_c$) = +0.74, corr($K$, limb) = −0.87 on 513 usable sky
   frames. → [[02-mission-analysis/tooling]] §First run
+- **Testing scheme** — five layers (known answers, invariants,
+  cross-checks, published-number gates, regression pins); 58 tests under
+  `python -m pytest`. Found four real bugs, including `circular_orbit`
+  measuring altitude above the IGRF sphere instead of the WGS84
+  equatorial radius. → [[02-mission-analysis/testing]]
+- **Cleanup** — jupyter/ reduced to the sim run file, Yamamoto 2020
+  Fig 7, and the allowed-signal ceiling; FORMS and old Suzaku notebooks,
+  `yamamoto/`, `bfield/` and their tests removed (all in git history).
+  Fig 7 now uses `fetch_axion_limit` instead of its own downloader.
 - **Field-integral gates pass** — closed forms, $L_{\max}$ plateau,
   reversal cancellation. → [[02-mission-analysis/geomagnetic-integral]]
 - **First sky scan** — max $K$ is limb-grazing; "along the field" is low

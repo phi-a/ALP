@@ -70,6 +70,7 @@ line. See [[decisions]] D1.
 - [[02-mission-analysis/pointing-optimization|Pointing optimisation]] — **the research element**; where the field actually is, measured
 - [[02-mission-analysis/orbit-cases|Orbit cases]] — ISS-like, SSO noon/midnight, SSO dawn/dusk
 - [[02-mission-analysis/pointing-system|Pointing system]] — target → mode → schedule → steering → boresight; the ritual every run declares
+- [[02-mission-analysis/testing|Testing]] — the five layers, what each catches, and the four bugs they found
 - [[02-mission-analysis/api-reference|API reference]] — every public function, generated from the docstrings
 - [[02-mission-analysis/tooling|Tooling]] — the numpy/scipy/astropy library by topic, known-answer checks, speed, first run
 

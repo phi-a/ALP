@@ -1,5 +1,6 @@
 """The generated API reference must cover the package and stay current."""
 import inspect
+import os
 import subprocess
 import sys
 import unittest
@@ -33,10 +34,11 @@ class TestApiReference(unittest.TestCase):
                 self.assertTrue(inspect.getdoc(obj), f"{topic}.{name}")
 
     def test_note_is_current(self):
+        env = dict(os.environ, PYTHONPATH=str(ROOT / "src"))
         with TemporaryDirectory() as tmp:
             fresh = Path(tmp) / "api.md"
             subprocess.run([sys.executable, str(SCRIPT), str(fresh)],
-                           cwd=ROOT, check=True)
+                           cwd=ROOT, check=True, env=env)
             self.assertEqual(fresh.read_text(encoding="utf-8"),
                              NOTE.read_text(encoding="utf-8"),
                              "regenerate: python scripts/api_reference.py "
