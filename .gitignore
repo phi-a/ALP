@@ -3,8 +3,6 @@ __pycache__/
 .pytest_cache/
 .venv/
 .env
-.jupyter/
-.tmp/
 dist/
 build/
 *.egg-info/
@@ -12,9 +10,6 @@ build/
 # references live in docs/ but are not tracked
 docs/*
 !docs/README.md
-
-# large downloaded archives
-data/suzaku/
 
 # generated results
 outputs/*

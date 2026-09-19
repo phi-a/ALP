@@ -5,17 +5,16 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "darknessalp"
 version = "0.1.0"
-description = "Minimal LEO orbit simulation scaffold for ALP CONOPS studies"
+description = "LEO orbit, field and pointing simulation for the DarkNESS ALP ConOps study"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
   { name = "phi-a" }
 ]
-dependencies = []
+dependencies = ["numpy", "scipy", "astropy", "matplotlib"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

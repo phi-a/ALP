@@ -390,6 +390,25 @@ case it returns as a topic package with tests, not as notebooks.
 
 ---
 
+## D24 - FORMS leaves the repository
+
+**2026-09-19.** `routines/`, `src/routines/`, `AGENTS.md`, the FORMS
+lines in `requirements.txt`, `04-plan/forms-integration.md` and the
+`06-yamamoto-suzaku-archive/` stubs are deleted. `chaosmagpy` and
+`data/bfield/CHAOS-8.3.mat` go with them; the CHAOS comparison stays a
+listed next step. `freeflyer/` held only a README and is removed until
+there is a script to put in it. The Yamamoto Fig. 7 PNG is generated
+into `outputs/`, not tracked.
+
+**Why:** one model, one path. FORMS was never in the student path (D21)
+and the cross-check it promised is now the test suite (D22). Every file
+in the tree should be something the student or mentor runs or reads.
+
+**Reversed if:** an independent propagator cross-check is wanted; it
+returns as a script under `scripts/` with its own requirement line.
+
+---
+
 ## Links
 
 - part of [[ALP]]

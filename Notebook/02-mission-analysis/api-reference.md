@@ -57,7 +57,7 @@ The geomagnetic field and magnetic coordinates.
 | `igrf_field(r_ecef, coeffs, lmax=13)` | Return the field in tesla, ECEF axes, for (N, 3) ECEF points in km. |
 | `igrf_field_eci(r_eci, time, coeffs, lmax=13)` | Return the field in tesla, ECI axes, for (N, 3) ECI points. |
 | `l_shell(mag_lat_deg, r_km)` | Return the dipole L-shell of a point. |
-| `load_igrf(year, path=WindowsPath('C:/Users/phial/Documents/Python/ALP/.claude/worktrees/darkness-alp-simulation-d0c85c/data/bfield/igrf14coeffs.txt'))` | Return (g, h) arrays [n, m] in nT at a decimal year. |
+| `load_igrf(year, path='data/bfield/igrf14coeffs.txt')` | Return (g, h) arrays [n, m] in nT at a decimal year. |
 | `magnetic_latitude(r_ecef, coeffs)` | Return dipole magnetic latitude in degrees for (N, 3) ECEF points. |
 | `schmidt_legendre(nmax, theta)` | Return P[n][m] and dP/dtheta[n][m], each shaped like theta. |
 

@@ -41,4 +41,4 @@ the DarkNESS projection can reuse the same loader.
 - `data/suzaku/` (2.4 GB) was not copied; `suzaku_archive.py` re-downloads
   on demand.
 - `06-yamamoto-suzaku-archive/` holds older versions of notes that also
-  exist in `04-plan/`; merge or delete.
+  exist in `04-plan/`; merge or delete. *Deleted 2026-09-19.*

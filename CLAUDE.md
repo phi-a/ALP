@@ -46,8 +46,7 @@ Teaching codebase. The student audience is the primary constraint on every decis
 
 ## Where things go
 - `jupyter/` notebooks. `Notebook/` notes (.md, tracked). `docs/` references
-  (untracked). `data/` inputs. `freeflyer/` FreeFlyer scripts. `outputs/`
-  generated (untracked).
+  (untracked). `data/` inputs. `outputs/` generated (untracked).
 - New decisions and results summaries go in `Notebook/`, dated.
 
 ## Code length
