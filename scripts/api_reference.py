@@ -6,6 +6,7 @@ import re
 import darknessalp as d
 
 FUNC_DEFAULT = re.compile(r"<function (\w+) at 0x[0-9A-Fa-f]+>")
+PATH_DEFAULT = re.compile(r"(?:Windows|Posix)Path\('.*?/(data/[^']*)'\)")
 
 BLURB = {
     "frames": "Time and reference frames. astropy does the work.",
@@ -36,7 +37,8 @@ def rows(topic):
             out.append((f"`{name}`", f"constant: {_summary(obj)}"))
             continue
         sig = FUNC_DEFAULT.sub(r"\1", str(inspect.signature(obj)))
-        doc = (inspect.getdoc(obj) or "").split("\n")[0]
+        sig = PATH_DEFAULT.sub(r"'\1'", sig)
+        doc =(inspect.getdoc(obj) or "").split("\n")[0]
         out.append((f"`{name}{sig}`", doc))
     return out
 
