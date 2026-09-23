@@ -5,12 +5,15 @@ from tempfile import TemporaryDirectory
 import numpy as np
 
 from darknessalp import orbit, pointing, sim
+from darknessalp.constants import R_EQUATOR_KM
 
 
 class TestStateTable(unittest.TestCase):
     def test_one_orbit_table(self):
         t = np.arange(0, 5600, 600.0)
-        r, _ = orbit.circular_orbit(t, 420.0, 51.6)
+        r0, v0 = orbit.elements_to_state(R_EQUATOR_KM + 420.0, 0.0, 51.6,
+                                         0.0, 0.0, 0.0)
+        r, _ = orbit.propagate(r0, v0, t)
         n = np.tile(pointing.sky_target("gc"), (len(t), 1))
         table = sim.state_table("2027-05-01T00:00:00", t, r, n, lmax=1)
         self.assertEqual(len(table["amp_tm"]), len(t))

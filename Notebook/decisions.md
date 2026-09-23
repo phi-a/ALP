@@ -457,6 +457,45 @@ scope.
 
 ---
 
+## D27 - One orbit setup: CCSDS elements, numerical gravity, GCRF
+
+**2026-09-23.** `orbit/` is one path: osculating Keplerian elements in
+the CCSDS OPM set go through `elements_to_state`, `propagate` integrates
+them with a named force model (`"point"`, `"j2"`) or any acceleration
+function, and `write_oem` / `read_oem` exchange the result as a CCSDS
+OEM (KVN). Epochs are astropy `Time`, given as ISO 8601 or a Julian
+date. The state is on GCRF axes; OEM files may be written on EME2000
+axes, converted with astropy's frame bias (23.147 mas, under 1 m in
+LEO). `circular_orbit` is removed; its secular J2 node rate is now the
+known answer the numerical propagation is tested against
+(ALP-OR-01 to 17).
+
+**Why:** a student should learn one orbit setup, and it should be the
+one real tools use. OPM elements in, OEM out means a FreeFlyer, GMAT
+or STK ephemeris can replace ours without touching the rest of the
+chain.
+
+**Pins moved.** The same initial state now evolves under full J2
+rather than mean-element secular rates, so the reference scenario
+changed: umbra samples 52 → 54, usable sky samples 37 → 39, median
+$|\mathcal A|$ 74.84 → 76.79 T m, maximum 148.77 → 158.30 T m,
+maximum aperture/boresight $K$ 1.266 → 1.313, correlation of $K$ with
+cutoff rigidity 0.894 → 0.907. The halo pins and the limb correlation
+did not move. The J2 orbit is slightly eccentric, so velocity is no
+longer exactly perpendicular to zenith; the pointing-geometry test
+uses point-mass gravity for that reason.
+
+**Simplification carried:** J2 acts about the GCRF $z$-axis, not the
+Earth's rotation axis of date. They differ by precession since J2000,
+about 0.4° in 2027. Inclination and node are measured from the GCRF
+equator.
+
+**Reversed if:** a study needs drag, third bodies or higher harmonics.
+Those enter as an acceleration function passed to `propagate`, not as
+a second propagator.
+
+---
+
 ## Links
 
 - part of [[ALP]]

@@ -23,8 +23,8 @@ Teaching codebase. The student audience is the primary constraint on every decis
 ## File / module layout
 - `src/darknessalp/<topic>/` subpackages, one topic per file, a few
   short functions each. Topics: `frames` (astropy time and reference
-  frames), `orbit` (analytic circular + J2, `propagate`), `dynamics`
-  (accelerations and torques, no integration), `kinematics` (body
+  frames), `orbit` (CCSDS elements, `propagate` point or J2, OEM),
+  `dynamics` (accelerations and torques, no integration), `kinematics` (body
   attitude, slews, rate-limited steering), `pointing` (target specs,
   modes = target + roll rule, condition → mode schedules, constraints),
   `field` (IGRF, dipole, magnetic coordinates), `geometry` (LOS

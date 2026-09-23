@@ -4,13 +4,16 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 from darknessalp import background, frames, kinematics, orbit, pointing
+from darknessalp.constants import R_EQUATOR_KM
 
 
 class TestTargets(unittest.TestCase):
     def setUp(self):
         self.t = np.arange(0, 600, 60.0)
         self.time = frames.times("2027-05-01T00:00:00", self.t)
-        self.r, self.v = orbit.circular_orbit(self.t, 420.0, 51.6)
+        r0, v0 = orbit.elements_to_state(R_EQUATOR_KM + 420.0, 0.0, 51.6,
+                                         0.0, 0.0, 0.0)
+        self.r, self.v = orbit.propagate(r0, v0, self.t, "point")
 
     def test_sky_targets(self):
         self.assertAlmostEqual(np.linalg.norm(pointing.sky_target("gc")), 1)

@@ -4,7 +4,9 @@ from astropy.time import Time, TimeDelta
 
 
 def times(epoch, t_s):
-    """Return astropy Time for seconds after a datetime or ISO epoch."""
+    """Return Time for seconds after an ISO, Julian-date or Time epoch."""
+    if isinstance(epoch, (int, float)):      # a Julian date, UTC
+        epoch = Time(epoch, format="jd", scale="utc")
     return Time(epoch) + TimeDelta(np.atleast_1d(t_s), format="sec")
 
 

@@ -5,7 +5,8 @@ LEO dark matter searches with an ALP-magnetic-field interaction proxy.
 
 The model, as of 2026-09-17:
 
-- Circular orbit with J2 secular rates, or numerical propagation (scipy)
+- One orbit setup: CCSDS OPM elements, numerical propagation with
+  point-mass or J2 gravity (scipy), GCRF, CCSDS OEM in and out
 - Astropy time and GCRS/ITRS frames, Sun, Galactic coordinates
 - IGRF-14 geomagnetic field, vectorised, with the dipole as `lmax=1`
 - Line-of-sight transverse field integral per ray, with Earth occultation
@@ -57,7 +58,8 @@ python scripts/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --ou
   functions on arrays, one subpackage per topic:
   - `frames/` time and reference frames (astropy): `times`, `eci_to_ecef`,
     `sun_vector`, `galactic_vector`, `to_galactic`
-  - `orbit/` analytic circular + J2 (`circular_orbit`), `propagate` (scipy)
+  - `orbit/` `elements_to_state`, `propagate` (point or J2),
+    `write_oem`, `read_oem`, `period_s`
   - `dynamics/` accelerations (`two_body`, `j2_acceleration`)
   - `kinematics/` body attitude (`look_at`, `boresight`), slews
   - `pointing/` `target`, `feasible`, pointing laws

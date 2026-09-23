@@ -5,14 +5,16 @@ import numpy as np
 
 from darknessalp import (
     dynamics, field, frames, geometry, kinematics, orbit, pointing)
-from darknessalp.constants import MU_EARTH_KM3_S2
+from darknessalp.constants import MU_EARTH_KM3_S2, R_EQUATOR_KM
+
+ISS = (R_EQUATOR_KM + 420.0, 0.0, 51.6, 0.0, 0.0, 0.0)
 
 
 class TestOrbitInvariants(unittest.TestCase):
     def test_two_body_conserves_energy_and_angular_momentum(self):
-        r0, v0 = orbit.circular_orbit(0.0, 420.0, 51.6)
+        r0, v0 = orbit.elements_to_state(*ISS)
         t = np.arange(0, 5600, 100.0)
-        r, v = orbit.propagate(r0[0], v0[0], t, acceleration=dynamics.two_body)
+        r, v = orbit.propagate(r0, v0, t, gravity=dynamics.two_body)
         speed2 = np.sum(v * v, axis=1)
         radius = np.linalg.norm(r, axis=1)
         energy = speed2 / 2 - MU_EARTH_KM3_S2 / radius
@@ -23,9 +25,9 @@ class TestOrbitInvariants(unittest.TestCase):
 
     def test_j2_conserves_energy_and_polar_angular_momentum(self):
         # J2 is conservative and axisymmetric: h_z is the constant, not |h|
-        r0, v0 = orbit.circular_orbit(0.0, 420.0, 51.6)
+        r0, v0 = orbit.elements_to_state(*ISS)
         t = np.arange(0, 5600, 100.0)
-        r, v = orbit.propagate(r0[0], v0[0], t)
+        r, v = orbit.propagate(r0, v0, t)
         h_z = np.cross(r, v)[:, 2]
         self.assertLess(np.ptp(h_z) / abs(h_z[0]), 1e-9)
 
@@ -75,7 +77,7 @@ class TestGeometryInvariants(unittest.TestCase):
     def setUp(self):
         self.coeffs = field.load_igrf(2027.0)
         self.time = frames.times("2027-05-01T00:00:00", 0.0)[0]
-        self.r = orbit.circular_orbit(0.0, 420.0, 51.6)[0][0]
+        self.r = orbit.elements_to_state(*ISS)[0][0]
 
     def test_occultation_agrees_with_the_limb_angle(self):
         rng = np.random.default_rng(0)
