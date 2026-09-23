@@ -76,13 +76,16 @@ python scripts/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --ou
   living document (one day of an ISS-like orbit under a mode schedule:
   state table, orbit strip, boresight view, OEM file). Variants are
   copies named `main_sequence_vN.ipynb`.
-  `DarkNESS_ALP_Allowed_Signal_Ceiling.ipynb` is the go/no-go theory
-  screen, run on the simulated orbit; `Yamamoto2020_Fig7.ipynb`
+  `conops.ipynb` is the picture book: six figures for intuition and
+  ConOps graphics (conversion path, aperture view, one orbit, ground
+  track, sky maps, count ceiling), drawn from the same simulated
+  mission by `scripts/conops_figures.py`; `Yamamoto2020_Fig7.ipynb`
   regenerates the axion-limit figure from the
   [AxionLimits](https://github.com/cajohare/AxionLimits) archive
   (`fetch_axion_limit(name, coupling)` downloads once into
   `data/axionlimits/<coupling>/`)
-- `scripts/` — thin argparse tools (`fov_view.py`)
+- `scripts/` — thin argparse tools (`fov_view.py`,
+  `conops_figures.py`, `api_reference.py`)
 - `tests/` — one file per topic, plus invariants, published-number
   gates, and an end-to-end scenario regression
 - `Notebook/02-mission-analysis/api-reference.md` — every public function,

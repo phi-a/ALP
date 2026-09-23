@@ -526,6 +526,30 @@ time; then the second is a `_vN` copy, not a new structure.
 
 ---
 
+## D29 - The ceiling screen becomes the ConOps picture book
+
+**2026-09-23.** `jupyter/DarkNESS_ALP_Allowed_Signal_Ceiling.ipynb` is
+replaced by `jupyter/conops.ipynb`: six figures for intuition and
+ConOps graphics, each drawn from the simulated mission with the
+main-sequence settings — the conversion path in the plane of the ray,
+the aperture view, one orbit in time, the day's ground track with modes
+and the weak-field region, the sky maps of continuum, line and
+confound, and the count ceiling with the mass reach. The figure code is
+`scripts/conops_figures.py`, importable by the notebook and the deck,
+with a CLI that renders the reference case. The ceiling calculation
+survives as figure 6; its D28 numbers do not change.
+
+**Why:** the screen answered one question (no allowed benchmark reaches
+a count) and the answer is now in the decision log. What the project
+needs from a notebook is the set of pictures that explain *how* the
+mission targets the objective, kept in step with the simulation.
+
+**Reversed if:** the viability gate needs the screen as a separate,
+auditable calculation again; then it returns as a `_vN` of the main
+sequence, not as a fourth notebook.
+
+---
+
 ## Links
 
 - part of [[ALP]]
