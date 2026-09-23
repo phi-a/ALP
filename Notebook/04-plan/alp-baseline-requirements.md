@@ -65,6 +65,20 @@ status column here is updated with the evidence pointer.
 | ALP-CH-15 | The conversion kernel shall be averaged over the 20° full-cone aperture. | T | **Met** — `test_fov_hairline_cone_is_the_boresight`, [[../2026-09-23-fov-field-integral]] |
 | ALP-CH-16 | The aperture average shall converge to 1 % under one ring refinement. | A | **Open** |
 | ALP-CH-17 | The aperture average shall recover the boresight kernel as the cone half-angle tends to zero. | T | **Met** — `test_cone_average_recovers_the_boresight_in_a_smooth_field` |
+| ALP-CH-18 | The source model shall include the primordial cosmic ALP background as an isotropic component with a normalisation independent of $\Theta$. | T | **Open** |
+| ALP-CH-19 | The cosmic ALP background spectrum shall follow the Conlon–Marsh thermal-like form with the mean energy as a declared parameter. | I | **Open** |
+| ALP-CH-20 | The cosmic ALP background normalisation shall respect the declared $\Delta N_{\rm eff}$ bound. | A | **Open** |
+| ALP-CH-21 | The forecast shall report the fraction of the cosmic ALP background spectrum falling inside the 1–10 keV science band. | A | **Open** |
+| ALP-CH-22 | The forecast shall report the spectral separability of the cosmic ALP background from the extragalactic continuum inside the science band. | A | **Open** |
+
+The cosmic ALP background converts in the geomagnetic field through the
+same kernel as the extragalactic continuum (ALP-CH-15) with no sky
+dependence, so it imposes no mission-analysis requirement: any schedule
+selected for the continuum serves it. It enters the study through the
+viability gate as a second allowed isotropic benchmark, bounded by
+$\Delta N_{\rm eff}$ rather than by $\tau_\chi$. Only the high-energy tail
+of its ~0.1–1 keV spectrum reaches the band; ALP-CH-21 decides whether
+that tail is worth carrying.
 
 ## MD — Counts model
 
@@ -134,11 +148,11 @@ status column here is updated with the evidence pointer.
 
 | Group | Met | Open | Gated |
 |---|---:|---:|---:|
-| CH | 8 | 8 | 1 |
+| CH | 8 | 13 | 1 |
 | MD | 1 | 7 | 0 |
 | MA | 9 | 14 | 0 |
 | PR | 5 | 2 | 1 |
-| **Total** | **23** | **31** | **2** |
+| **Total** | **23** | **36** | **2** |
 
 ## Links
 

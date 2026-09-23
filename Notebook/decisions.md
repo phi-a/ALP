@@ -409,6 +409,24 @@ returns as a script under `scripts/` with its own requirement line.
 
 ---
 
+## D25 - The cosmic ALP background is a source requirement, not a mission one
+
+**2026-09-23.** ALP-CH-18 to ALP-CH-22 add the primordial cosmic ALP
+background (Conlon & Marsh 2013) to the baseline requirements as a
+second isotropic source with its own normalisation. No mission-analysis
+requirement is added for it.
+
+**Why:** it converts through the same pointing-free kernel as the
+extragalactic continuum, so any schedule chosen for the continuum
+serves it. It matters only at the viability gate, as a second allowed
+benchmark bounded by the effective neutrino number, and only through
+the tail of its spectrum that reaches 1-10 keV.
+
+**Reversed if:** ALP-CH-21 shows the in-band fraction is negligible, in
+which case the five requirements are retired in one entry.
+
+---
+
 ## Links
 
 - part of [[ALP]]
