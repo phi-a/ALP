@@ -304,3 +304,4 @@ does not duplicate large generated tables or implementation details.
 - signal chain: [[../01-physics/alp-signal-chain]]
 - derivation contract: [[../01-physics/detection-channel-derivation-contract]]
 - sensitivity method: [[../03-sensitivity/method]]
+- requirements: [[alp-baseline-requirements]]
