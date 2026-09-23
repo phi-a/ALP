@@ -16,6 +16,8 @@ Current work package: [[04-plan/next-step]].
 
 Journal framing: [[04-plan/journal-contribution-scope]].
 
+Requirements: [[04-plan/alp-baseline-requirements]].
+
 > Home note for a DarkNESS case study of geomagnetic conversion of relativistic ALPs produced by
 > dark-matter decay, benchmarked against Yamamoto et al. 2020.
 
