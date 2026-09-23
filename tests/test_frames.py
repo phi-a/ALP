@@ -1,6 +1,7 @@
 import unittest
 
 import numpy as np
+from scipy.spatial.transform import Rotation
 
 from darknessalp import frames
 
@@ -10,6 +11,21 @@ class TestFrames(unittest.TestCase):
         t = frames.times("2027-01-01T00:00:00", [0.0, 86400.0])
         self.assertEqual(len(t), 2)
         self.assertAlmostEqual(frames.decimal_year(t)[0], 2027.0, places=4)
+
+    def test_julian_date_epoch(self):
+        t = frames.times(2451545.0, [0.0, 3600.0])
+        self.assertEqual(t[0].isot, "2000-01-01T12:00:00.000")
+        self.assertEqual(t[1].isot, "2000-01-01T13:00:00.000")
+
+    def test_eme2000_is_the_iers_frame_bias(self):
+        """IERS Conventions 2010: xi0 -16.617, eta0 -6.819, da0 -14.6 mas."""
+        x = frames.gcrf_to_eme2000(np.eye(3))
+        np.testing.assert_allclose(x @ x.T, np.eye(3), atol=1e-15)
+        angle_mas = np.degrees(Rotation.from_matrix(x).magnitude()) * 3.6e6
+        self.assertAlmostEqual(angle_mas, 23.147, delta=0.01)
+        v = np.array([[6798.137, 10.0, -3.0]])
+        np.testing.assert_allclose(
+            frames.eme2000_to_gcrf(frames.gcrf_to_eme2000(v)), v, rtol=1e-15)
 
     def test_eci_ecef_round_trip(self):
         t = frames.times("2027-05-01T00:00:00", 0.0)

@@ -91,6 +91,28 @@ the bar the extragalactic continuum must clear at the viability gate.
 | ALP-MD-07 | The counts model shall carry the 20° full cone (half-angle 10°, $\Omega = 0.0955$ sr) as the aperture acceptance. | I | **Met** — `half_angle_deg=10.0` default; [[../00-baseline/darkness-parameters]] |
 | ALP-MD-08 | The counts model shall distinguish geometric area from effective collecting area. | I | **Open** — 12 cm² vs 8 cm² × 0.20 unreconciled |
 
+## OR — Orbit and time
+
+| ID | Requirement | V | Status |
+|---|---|---|---|
+| ALP-OR-01 | The orbit model shall accept the initial state as osculating Keplerian elements in the CCSDS OPM set $(a, e, i, \Omega, \omega, \nu)$. | T | **Met** — `test_orbit.TestElements` |
+| ALP-OR-02 | The orbit model shall propagate the state by numerical integration of a selectable acceleration. | T | **Met** — `orbit.propagate` |
+| ALP-OR-03 | The orbit model shall offer point-mass gravity as a named force model. | T | **Met** — `test_point_mass_closes_after_one_period` |
+| ALP-OR-04 | The orbit model shall offer point-mass gravity with the J2 term as a named force model. | T | **Met** — `test_j2_node_regression_matches_the_secular_rate` |
+| ALP-OR-05 | The orbit model shall accept a caller-supplied acceleration function as the force model. | T | **Met** — `test_custom_acceleration_matches_the_named_model` |
+| ALP-OR-06 | The point-mass propagation shall hold specific orbital energy constant to 1 part in $10^9$ over one orbit. | T | **Met** — `test_two_body_conserves_energy_and_angular_momentum` |
+| ALP-OR-07 | The J2 propagation shall reproduce the analytic secular node-regression rate to 1 %. | T | **Met** — `test_j2_node_regression_matches_the_secular_rate` |
+| ALP-OR-08 | The J2 propagation shall reproduce the Sun-synchronous node rate of 0.9856°/day at 500 km to 0.01°/day. | T | **Met** — `test_sun_synchronous_inclination_gives_the_solar_rate` |
+| ALP-OR-09 | The orbit model shall express the state on GCRF axes. | I | **Met** — `frames.eci_ecef`, D27 |
+| ALP-OR-10 | The time model shall accept the epoch as an ISO 8601 string. | T | **Met** — `test_times_and_decimal_year` |
+| ALP-OR-11 | The time model shall accept the epoch as a Julian date. | T | **Met** — `test_julian_date_epoch` |
+| ALP-OR-12 | The ephemeris writer shall produce a CCSDS OEM in KVN form. | T | **Met** — `test_kvn_header` |
+| ALP-OR-13 | The ephemeris writer shall label the time system with the CCSDS name of the epoch's time scale. | T | **Met** — `test_kvn_header` |
+| ALP-OR-14 | The ephemeris writer shall offer EME2000 as a selectable reference frame. | T | **Met** — `test_eme2000_round_trip` |
+| ALP-OR-15 | The EME2000 conversion shall reproduce the IERS frame bias of 23.147 mas to 0.01 mas. | T | **Met** — `test_eme2000_is_the_iers_frame_bias` |
+| ALP-OR-16 | The ephemeris reader shall recover a written state to 1 mm. | T | **Met** — `test_gcrf_round_trip` |
+| ALP-OR-17 | The ephemeris reader shall recover the state from an OEM written by an external tool. | T | **Open** — no FreeFlyer or GMAT OEM on file |
+
 ## MA — Mission analysis
 
 | ID | Requirement | V | Status |
@@ -149,9 +171,10 @@ the bar the extragalactic continuum must clear at the viability gate.
 |---|---:|---:|---:|---:|
 | CH | 9 | 7 | 1 | 5 |
 | MD | 1 | 7 | 0 | 0 |
+| OR | 16 | 1 | 0 | 0 |
 | MA | 9 | 14 | 0 | 0 |
 | PR | 5 | 2 | 1 | 0 |
-| **Total** | **24** | **30** | **2** | **5** |
+| **Total** | **40** | **31** | **2** | **5** |
 
 ## Links
 

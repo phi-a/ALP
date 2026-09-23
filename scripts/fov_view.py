@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from darknessalp import background, field, frames, geometry, orbit, pointing
+from darknessalp.constants import R_EQUATOR_KM
 
 HALF_ANGLE = 10.0
 
@@ -80,7 +81,9 @@ def main():
     a = parse_args()
     time = frames.times(a.epoch, a.t)[0]
     coeffs = field.load_igrf(float(frames.decimal_year(time)))
-    r, _ = orbit.circular_orbit(a.t, a.alt, a.inc, a.raan)
+    r0, v0 = orbit.elements_to_state(R_EQUATOR_KM + a.alt, 0.0, a.inc,
+                                     a.raan, 0.0, 0.0)
+    r, _ = orbit.propagate(r0, v0, a.t)
     n = pointing.sky_target(a.target)
     ax = fov_view(r[0], time, n, coeffs, a.extent, a.lmax)
 

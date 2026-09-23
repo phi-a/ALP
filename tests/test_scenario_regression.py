@@ -9,6 +9,7 @@ import unittest
 import numpy as np
 
 from darknessalp import frames, kinematics, orbit, pointing, sim
+from darknessalp.constants import R_EQUATOR_KM
 
 EPOCH = "2027-05-01T00:00:00"
 CADENCE_S, DURATION_S = 600.0, 86400.0
@@ -18,7 +19,9 @@ ALT_KM, INC_DEG = 420.0, 51.6
 def run_scenario():
     """Return (table, mode_index, slewing) for the reference schedule."""
     t = np.arange(0.0, DURATION_S, CADENCE_S)
-    r, v = orbit.circular_orbit(t, ALT_KM, INC_DEG)
+    r0, v0 = orbit.elements_to_state(R_EQUATOR_KM + ALT_KM, 0.0, INC_DEG,
+                                     0.0, 0.0, 0.0)
+    r, v = orbit.propagate(r0, v0, t, gravity="j2")
     time = frames.times(EPOCH, t)
     rules = [("umbra", pointing.mode("gc")),
              ("always", pointing.mode("anti_sun"))]
@@ -39,20 +42,20 @@ class TestScenarioRegression(unittest.TestCase):
 
     def test_duty_cycle(self):
         self.assertEqual(len(self.table["t_s"]), 144)
-        self.assertEqual(int(self.table["umbra"].sum()), 52)
+        self.assertEqual(int(self.table["umbra"].sum()), 54)
         self.assertEqual(int(self.table["occulted"].sum()), 57)
         self.assertEqual(int(self.slewing.sum()), 30)
-        self.assertEqual(int(self.sky.sum()), 37)
+        self.assertEqual(int(self.sky.sum()), 39)
 
     def test_conversion_kernel(self):
         amp = self.table["amp_tm"][self.sky]
-        self.assertAlmostEqual(float(np.median(amp)), 74.84, delta=0.05)
-        self.assertAlmostEqual(float(amp.max()), 148.77, delta=0.05)
+        self.assertAlmostEqual(float(np.median(amp)), 76.79, delta=0.05)
+        self.assertAlmostEqual(float(amp.max()), 158.30, delta=0.05)
 
     def test_fov_gradient(self):
         ratio = (self.table["k_fov_t2m2"] / self.table["k_t2m2"])[self.sky]
-        self.assertAlmostEqual(float(np.median(ratio)), 1.017, delta=0.002)
-        self.assertAlmostEqual(float(ratio.max()), 1.266, delta=0.005)
+        self.assertAlmostEqual(float(np.median(ratio)), 1.016, delta=0.002)
+        self.assertAlmostEqual(float(ratio.max()), 1.313, delta=0.005)
 
     def test_halo_column_over_the_aperture(self):
         d_ratio = (self.table["d_fov_gevcm2"] / self.table["d_gevcm2"])
@@ -67,7 +70,7 @@ class TestScenarioRegression(unittest.TestCase):
         k = self.table["k_t2m2"][self.sky]
         rho_rc = np.corrcoef(k, self.table["cutoff_gv"][self.sky])[0, 1]
         rho_limb = np.corrcoef(k, self.table["limb_deg"][self.sky])[0, 1]
-        self.assertAlmostEqual(rho_rc, 0.894, delta=0.005)
+        self.assertAlmostEqual(rho_rc, 0.907, delta=0.005)
         self.assertAlmostEqual(rho_limb, -0.987, delta=0.005)
 
     def test_run_is_deterministic(self):

@@ -8,7 +8,7 @@ import unittest
 import numpy as np
 
 from darknessalp import background, field, frames, geometry, orbit
-from darknessalp.constants import R_EARTH_KM
+from darknessalp.constants import R_EARTH_KM, R_EQUATOR_KM
 
 
 class TestPublishedNumbers(unittest.TestCase):
@@ -17,7 +17,9 @@ class TestPublishedNumbers(unittest.TestCase):
         coeffs = field.load_igrf(2010.0)
         t = np.arange(0, 5700, 300.0)
         time = frames.times("2010-01-01T00:00:00", t)
-        r, _ = orbit.circular_orbit(t, 570.0, 31.0)   # Suzaku-like
+        r0, v0 = orbit.elements_to_state(R_EQUATOR_KM + 570.0, 0.0, 31.0,
+                                         0.0, 0.0, 0.0)  # Suzaku-like
+        r, _ = orbit.propagate(r0, v0, t)
         rng = np.random.default_rng(0)
         amplitudes = []
         for k in range(len(t)):
@@ -60,15 +62,20 @@ class TestPublishedNumbers(unittest.TestCase):
 
     def test_orbital_periods(self):
         """ISS ~92.97 min at 420 km; 94.6 min at 500 km."""
-        self.assertAlmostEqual(orbit.period_s(420.0) / 60, 92.97, delta=0.1)
-        self.assertAlmostEqual(orbit.period_s(500.0) / 60, 94.6, delta=0.1)
+        for alt, minutes in ((420.0, 92.97), (500.0, 94.6)):
+            self.assertAlmostEqual(orbit.period_s(R_EQUATOR_KM + alt) / 60,
+                                   minutes, delta=0.1)
 
     def test_sun_synchronous_inclination_gives_the_solar_rate(self):
         """An SSO precesses 360 deg/yr = 0.9856 deg/day."""
-        r, v = orbit.circular_orbit([0.0, 86400.0], 500.0, 97.4)
+        r0, v0 = orbit.elements_to_state(R_EQUATOR_KM + 500.0, 0.0, 97.4,
+                                         0.0, 0.0, 0.0)
+        t = np.arange(0.0, 2 * 86400.0, 60.0)
+        r, v = orbit.propagate(r0, v0, t)
         h = np.cross(r, v)
-        node = np.degrees(np.arctan2(h[:, 0], -h[:, 1]))
-        self.assertAlmostEqual(np.diff(node)[0], 0.9856, delta=0.01)
+        node = np.degrees(np.unwrap(np.arctan2(h[:, 0], -h[:, 1])))
+        rate = np.polyfit(t / 86400.0, node, 1)[0]
+        self.assertAlmostEqual(rate, 0.9856, delta=0.01)
 
 
 if __name__ == "__main__":

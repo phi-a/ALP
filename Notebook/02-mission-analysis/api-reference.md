@@ -70,11 +70,13 @@ Time and reference frames. astropy does the work.
 | `decimal_year(time)` | Return the decimal year of a Time (scalar or array). |
 | `ecef_to_eci(v_ecef, time)` | Return (N, 3) ECI vectors for (N, 3) ECEF vectors at Time(s). |
 | `eci_to_ecef(v_eci, time)` | Return (N, 3) ECEF vectors for (N, 3) ECI vectors at Time(s). |
+| `eme2000_to_gcrf(v)` | Return (N, 3) vectors on GCRF axes for (N, 3) EME2000 vectors. |
 | `galactic_vector(l_deg, b_deg)` | Return unit vectors toward Galactic (l, b) in degrees. |
+| `gcrf_to_eme2000(v)` | Return (N, 3) vectors on EME2000 axes for (N, 3) GCRF vectors. |
 | `radec_vector(ra_deg, dec_deg)` | Return unit vectors toward J2000 (ra, dec) in degrees. |
 | `spherical(r_ecef)` | Return geocentric (lat_deg, lon_deg, r_km) arrays of ECEF points. |
 | `sun_vector(time)` | Return (N, 3) unit vectors toward the Sun at Time(s). |
-| `times(epoch, t_s)` | Return astropy Time for seconds after a datetime or ISO epoch. |
+| `times(epoch, t_s)` | Return Time for seconds after an ISO, Julian-date or Time epoch. |
 | `to_galactic(v)` | Return Galactic (l_deg, b_deg) of (N, 3) ICRS unit vectors. |
 | `unit_vector(coord)` | Return (N, 3) ICRS unit vectors of a SkyCoord (ICRS ~ GCRS here). |
 
@@ -115,9 +117,11 @@ Where the spacecraft is.
 
 | Call | Returns |
 |---|---|
-| `circular_orbit(t_s, alt_km, inc_deg, raan_deg=0.0, u0_deg=0.0)` | Return ECI position (N, 3) km and velocity (N, 3) km/s. |
-| `period_s(alt_km)` | Return the circular orbital period in seconds. |
-| `propagate(r0, v0, t_s, acceleration=two_body_j2)` | Return r (N, 3) and v (N, 3) at times t_s from an initial state. |
+| `elements_to_state(a_km, e, inc_deg, raan_deg, argp_deg, nu_deg, mu=398600.4418)` | Return position (N, 3) km and velocity (N, 3) km/s from elements. |
+| `period_s(a_km, mu=398600.4418)` | Return the two-body orbital period in seconds. |
+| `propagate(r0, v0, t_s, gravity='j2')` | Return r (N, 3) km and v (N, 3) km/s at t_s >= 0 s after the epoch. |
+| `read_oem(path)` | Return (Time, r (N, 3) km, v (N, 3) km/s) on GCRF axes from an OEM. |
+| `write_oem(path, time, r, v, ref_frame='GCRF', object_name='DARKNESS')` | Write GCRF states (km, km/s) as a CCSDS OEM on ref_frame axes. |
 
 ## `pointing`
 

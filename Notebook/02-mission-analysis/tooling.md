@@ -21,7 +21,7 @@ control loops.
 ```
 src/darknessalp/
   frames/      time, GCRS<->ITRS, Sun, Galactic     (astropy)
-  orbit/       circular + J2 secular rates; propagate (scipy solve_ivp)
+  orbit/       CCSDS elements -> propagate (point | j2); OEM in/out
   dynamics/    accelerations and torques — models, no integration loop
   kinematics/  body attitude (scipy Rotation), slews, steering
   pointing/    target specs, modes, condition schedules, keep-outs
@@ -66,13 +66,14 @@ is in [[testing]].
 Frames are now GCRS/ITRS via astropy, so the earlier "equinox of date"
 caveat is gone. Latitude is geocentric (`frames.spherical`).
 
-**Analytic vs numerical orbit.** `circular_orbit` is a mean-element
-model (period, node rate, argument-of-latitude rate all with J2).
-Altitude is above the WGS84 equatorial radius, not the IGRF sphere.
-`propagate` from the same state drifts ~900 km/day in-track because
-that state is then osculating and J2 offsets the semi-major axis by
-~6 km. Use the analytic orbit for design sweeps; use `propagate` when
-the initial state is a real one.
+**One orbit setup (D27).** Osculating CCSDS OPM elements →
+`elements_to_state` → `propagate(..., gravity="point" | "j2")` on GCRF
+axes → `write_oem`. Quote altitude above the WGS84 equatorial radius
+($a = 6378.137 + h$ km), not the IGRF sphere. Elements are osculating:
+a circular orbit at epoch picks up a small J2 eccentricity and a mean
+semi-major axis ~6 km off, so it drifts ~900 km/day in-track from a
+mean-element orbit with the same numbers. One day with J2 takes
+0.2 s.
 
 ## Speed
 
