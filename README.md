@@ -34,7 +34,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
 ```
 
-Run the simulation: open `jupyter/darkness_alp_sim.ipynb` and run all cells.
+Run the simulation: open `jupyter/main_sequence.ipynb` and run all cells.
 
 Run tests:
 
@@ -42,7 +42,7 @@ Run tests:
 python -m pytest
 ```
 
-58 tests, ~6 s. See `Notebook/02-mission-analysis/testing.md` for what
+About 75 tests, ~10 s. See `Notebook/02-mission-analysis/testing.md` for what
 each layer checks. Do not use `unittest discover` — it silently skips
 the pytest-style files.
 
@@ -72,11 +72,16 @@ python scripts/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --ou
   - `sim/` `state_table`, `to_csv`
   - `fetch_axion_limit`, `list_axion_limits` — the AxionLimits archive
     loader, cached in `data/axionlimits/`
-- `jupyter/` — `darkness_alp_sim.ipynb` is **the run file** (one day of an
-  ISS-like orbit under a mode schedule: state table, orbit strip,
-  boresight view); `Yamamoto2020_Fig7.ipynb` regenerates the axion-limit
-  figure; `DarkNESS_ALP_Allowed_Signal_Ceiling.ipynb` is the go/no-go
-  theory screen
+- `jupyter/` — `main_sequence.ipynb` is **the simulation pipeline**, a
+  living document (one day of an ISS-like orbit under a mode schedule:
+  state table, orbit strip, boresight view, OEM file). Variants are
+  copies named `main_sequence_vN.ipynb`.
+  `DarkNESS_ALP_Allowed_Signal_Ceiling.ipynb` is the go/no-go theory
+  screen, run on the simulated orbit; `Yamamoto2020_Fig7.ipynb`
+  regenerates the axion-limit figure from the
+  [AxionLimits](https://github.com/cajohare/AxionLimits) archive
+  (`fetch_axion_limit(name, coupling)` downloads once into
+  `data/axionlimits/<coupling>/`)
 - `scripts/` — thin argparse tools (`fov_view.py`)
 - `tests/` — one file per topic, plus invariants, published-number
   gates, and an end-to-end scenario regression
@@ -88,7 +93,7 @@ python scripts/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --ou
 
 ## Next steps
 
-- Per-target correlation map of K against cutoff rigidity and limb angle
-- Pointing schedules (two fixed targets, field-tracking) in `pointing/`
-- Attitude dynamics and radiator/Sun constraints in `dynamics/`, `kinematics/`
-- CHAOS field model comparison
+See `Notebook/04-plan/alp-baseline-requirements.md` for what is open.
+The nearest ones: background proxy columns and an SAA mask in the state
+table, an absolute particle-background level, the sky map of K against
+cutoff rigidity over a full node-precession cycle.

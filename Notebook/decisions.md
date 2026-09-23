@@ -496,6 +496,36 @@ a second propagator.
 
 ---
 
+## D28 - One living pipeline; the ceiling screen runs on it
+
+**2026-09-23.** `jupyter/main_sequence.ipynb` (renamed from
+`darkness_alp_sim.ipynb`) is the one simulation pipeline, kept
+current. A variant is a copy named `main_sequence_vN.ipynb`, first
+cell saying what it tests, result in a dated note. The allowed-signal
+ceiling notebook is rebuilt on the library: propagated CCSDS orbit,
+Galactic Centre pointing, aperture-averaged $K$ and $D$ from the state
+table, umbra sky-visible exposure, and the phase-aware integral for the
+mass dependence; its `dataclass` inputs are plain constants. The two
+2026-09-17 session logs are deleted: they described a stdlib toolkit,
+FORMS routines and `circular_orbit`, none of which exist.
+
+**Result.** For the allowed benchmark ($g = 5.8\times10^{-11}$ GeV⁻¹,
+$f\,\mathrm{Br}/\tau = 6.3\times10^{-3}$ Gyr⁻¹, 7 keV parent) over the
+187-day science phase: Milky Way line $9\times10^{-3}$ counts,
+continuum $1.2\times10^{-3}$. The hand-set version gave $8\times10^{-5}$;
+the factor ~120 is almost all exposure (5.7 Ms simulated against an
+assumed 90 ks), with $\langle K\rangle = 1.5\times10^4$ T² m² and
+$\langle D\rangle = 1.3\times10^{23}$ GeV cm⁻². Still two orders below
+one count. Coherence halves at $m_a \approx 1.7\times10^{-5}$ eV.
+
+**Why:** one pipeline is one thing to keep correct, and a screen that
+runs on the simulated mission cannot drift from it.
+
+**Reversed if:** two studies need incompatible pipelines at the same
+time; then the second is a `_vN` copy, not a new structure.
+
+---
+
 ## Links
 
 - part of [[ALP]]

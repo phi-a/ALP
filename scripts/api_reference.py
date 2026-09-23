@@ -74,7 +74,7 @@ def main():
         lines.append("")
     lines += ["## Links", "", "- part of [[../ALP]]",
               "- why these exist: [[tooling]], [[pointing-system]]",
-              "- the run file: `jupyter/darkness_alp_sim.ipynb`", ""]
+              "- the pipeline: `jupyter/main_sequence.ipynb`", ""]
     with open(args.out, "w", encoding="utf-8") as handle:
         handle.write("\n".join(lines))
 

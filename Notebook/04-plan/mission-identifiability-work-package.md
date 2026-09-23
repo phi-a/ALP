@@ -32,13 +32,13 @@ background drivers.
 The initial orbital phase and RAAN are simulation seeds. The extended run must
 sample or marginalize them before a mission conclusion is reported.
 
-**Status 2026-09-17.** The geometry inputs exist as stdlib scripts
-([[../02-mission-analysis/tooling]]): orbit with J2, frames, IGRF-14,
-the line-of-sight integral with occultation, umbra, limb angle, Sun,
-magnetic latitude and cutoff rigidity, sky frames. Not yet written:
-cone quadrature, background columns, and the state table itself. Add a
-limb-angle covariate to the nuisance hierarchy (Q22) and carry the
-occultation frames as a candidate control (Q21).
+**Status 2026-09-23.** Analyses 1–3 run in
+`jupyter/main_sequence.ipynb`: CCSDS orbit with J2, the state table
+with the aperture-averaged kernel and halo column
+([[../2026-09-23-fov-field-integral]], [[../2026-09-23-source-models]]).
+Not yet written: background proxy columns, the SAA mask, the nuisance
+hierarchy (limb angle Q22, occultation control Q21). Requirement status
+is tracked in [[alp-baseline-requirements]].
 
 ## Required state
 

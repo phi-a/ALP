@@ -29,7 +29,7 @@ src/darknessalp/
   geometry/    LOS integral over many rays at once, limb, umbra, FOV
   background/  CXB, GRXE, NXB proxy, bright sources
   sim/         state_table -> dict of arrays, CSV
-jupyter/darkness_alp_sim.ipynb   the run file
+jupyter/main_sequence.ipynb      the simulation pipeline
 scripts/fov_view.py              thin CLI + the reusable fov_view() axes
 scripts/api_reference.py         regenerates the API reference note
 ```
