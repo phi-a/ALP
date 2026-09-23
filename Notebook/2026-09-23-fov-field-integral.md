@@ -19,7 +19,7 @@ share of the aperture that looks at the Earth.
 For the isotropic (extragalactic continuum) channel the whole
 direction and time dependence of the ALP signal is the conversion
 kernel; the source is a constant. So the signal a schedule collects
-is $\sum_i \langle Kangle_i\,\Delta t_i$ up to a normalisation
+is $\sum_i \langle K\rangle_i\,\Delta t_i$ up to a normalisation
 that cancels in any schedule comparison. The boresight value is not
 what the detector measures across a 20° field
 ([[01-physics/alp-signal-chain]], within-FOV gradient).
@@ -28,7 +28,7 @@ what the detector measures across a 20° field
 
 | | |
 |---|---|
-| median $\langle Kangle / K_{m boresight}$ (sky samples) | 1.017 |
+| median $\langle K\rangle / K_{\rm boresight}$ (sky samples) | 1.017 |
 | range | 1.011 – 1.266 |
 
 The aperture average sits 1–2 % above the boresight for most of the
@@ -46,7 +46,7 @@ ray; the day-long notebook run goes from ~20 s to ~50 s.
 - put `k_fov_t2m2` beside `cutoff_gv`, GRXE and `umbra` and test
   whether the kernel modulation is separable from theirs
 - the Milky Way line reuses this quadrature with the NFW column
-  density inside the weighted sum: $\langle D\cdot Kangle$
+  density inside the weighted sum: $\langle D\cdot K\rangle$
 
 ## Links
 
