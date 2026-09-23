@@ -4,6 +4,7 @@ from scipy.integrate import cumulative_trapezoid
 
 from darknessalp.constants import R_EARTH_KM
 from darknessalp.field.igrf import igrf_field_eci
+from darknessalp.geometry.fov import cone_directions
 
 
 def path_end_km(r_eci, n_hats, l_max_re=10.0):
@@ -39,3 +40,15 @@ def los_field_integral(r_eci, n_hats, time, coeffs, lmax=13, q_per_m=0.0,
     running_tm = np.linalg.norm(running, axis=2)
     return {"amplitude_tm": running_tm[:, -1], "running_tm": running_tm,
             "s_km": s_km, "occulted": occulted}
+
+
+def fov_field_integral(r_eci, n_hat, time, coeffs, lmax=13, q_per_m=0.0,
+                       half_angle_deg=10.0, rings=3):
+    """Return FOV-mean |A|^2 in T^2 m^2, per-ray |A|; ray 0 = boresight."""
+    dirs, weights = cone_directions(n_hat, half_angle_deg, rings)
+    res = los_field_integral(r_eci, dirs, time, coeffs, lmax=lmax,
+                             q_per_m=q_per_m)
+    amp = res["amplitude_tm"]
+    return {"k_t2m2": float(np.sum(weights * amp**2)),
+            "amplitude_tm": amp, "occulted": res["occulted"],
+            "weights": weights}
