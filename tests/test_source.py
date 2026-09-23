@@ -1,7 +1,6 @@
 import unittest
 
 import numpy as np
-from scipy.integrate import quad
 
 from darknessalp import source
 from darknessalp.source.halo import (
@@ -27,25 +26,6 @@ class TestHalo(unittest.TestCase):
     def test_centre_exceeds_anticentre(self):
         gc, anti = source.column_density([0.0, 180.0], [0.0, 0.0])
         self.assertGreater(gc / anti, 5.0)
-
-
-class TestCab(unittest.TestCase):
-    def test_unit_norm_and_mean(self):
-        total = quad(source.cab_spectrum, 0.0, np.inf)[0]
-        mean = quad(lambda e: e * source.cab_spectrum(e), 0.0, np.inf)[0]
-        self.assertAlmostEqual(total, 1.0, places=8)
-        self.assertAlmostEqual(mean, 0.238, places=8)
-
-    def test_band_fraction(self):
-        self.assertAlmostEqual(source.cab_band_fraction(0.0, np.inf), 1.0)
-        self.assertAlmostEqual(source.cab_band_fraction(1.0, 10.0),
-                               6.19e-4, delta=0.01e-4)
-        self.assertAlmostEqual(source.cab_band_fraction(1.0, 10.0, 0.532),
-                               0.110, delta=0.001)
-
-    def test_flux_scales_with_delta_neff(self):
-        self.assertAlmostEqual(source.cab_flux(1.14) / source.cab_flux(),
-                               2.0)
 
 
 if __name__ == "__main__":

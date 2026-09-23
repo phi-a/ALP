@@ -6,11 +6,13 @@ updated: 2026-09-23
 status: active
 ---
 
-# 2026-09-23 — the two source models: halo column and cosmic ALP background
+# 2026-09-23 — source models: the halo column, and the cosmic ALP background checked and retired
 
 New topic `source/`. With the conversion kernel already in `geometry/`,
-all three ALP signal models in [[02-mission-analysis/conops-physics-map]]
-now have their direction-dependent part in the library.
+the two surviving ALP channels in [[02-mission-analysis/conops-physics-map]]
+now have their direction-dependent part in the library. The third, the
+cosmic ALP background, was built, checked against the diffuse X-ray
+background, and retired the same day (D26).
 
 ## Milky Way halo — `source.halo`
 
@@ -46,33 +48,47 @@ cone average of a cuspy $D$ is only as good as the core radius. The
 ring-refinement check (ALP-CH-16) should be run for $D$ before the
 Milky Way line is used for a number.
 
-## Cosmic ALP background — `source.cab`
+## Cosmic ALP background — checked and retired
 
-Conlon & Marsh 2013 (arXiv:1304.1804) eq. 5.18, the matter-domination
-form: $dn/dE \propto E^{1/2}\exp[-(E/E_*)^{3/2}]$. That is a Weibull
-distribution with shape 3/2, so `scipy.stats.weibull_min` supplies the
-pdf, the cdf and the mean $\langle E\rangle = E_*\,\Gamma(5/3)$ with no
-numerics of ours. The mean energy is the declared parameter (ALP-CH-19);
-the paper's worked example gives 238 eV for a $5\times10^6$ GeV modulus
-and scales as $m_\Phi^{-1/2}$. Flux $0.96\times10^6$ cm⁻² s⁻¹ at
-$\Delta N_{\rm eff} = 0.57$, linear in $\Delta N_{\rm eff}$.
+**Model.** Conlon & Marsh 2013 (arXiv:1304.1804) eq. 5.18, the
+matter-domination form $dn/dE \propto E^{1/2}\exp[-(E/E_*)^{3/2}]$, is
+a Weibull distribution with shape 3/2; `scipy.stats.weibull_min` gave
+the spectrum and band fraction. Mean energy 238 eV for a
+$5\times10^6$ GeV modulus (eq. 5.13), scaling as $m_\Phi^{-1/2}$. Flux
+$0.96\times10^6$ cm⁻² s⁻¹ at $\Delta N_{\rm eff} = 0.57$ (fig. 8),
+linear in $\Delta N_{\rm eff}$.
 
-**ALP-CH-21, in-band fraction (1–10 keV):**
+**Why it could be checked early.** It is the only source in the study
+with an absolute flux — set by $\Delta N_{\rm eff}$, not by an unknown
+lifetime — so its converted brightness is a number at any coupling.
 
-| $m_\Phi$ / GeV | $\langle E\rangle$ | fraction in band | in-band flux / cm⁻² s⁻¹ |
-|---:|---:|---:|---:|
-| $5\times10^6$ | 238 eV | $6.2\times10^{-4}$ | 600 |
-| $10^6$ | 532 eV | 0.11 | $1.1\times10^{5}$ |
+**Check.** Coherent conversion $P = (g\,B_\perp L/2)^2$ with
+1 T = 195.35 eV², at the CAST limit $g = 6.6\times10^{-11}$ GeV⁻¹.
+Converted in-band intensity (flux × band fraction / 4π × $P$) against
+the CXB, $\int_1^{10} 11.6\,E^{-1.41}\,dE$ ph cm⁻² s⁻¹ sr⁻¹:
 
-So whether the CAB tail matters is a modulus-mass question: three
-orders of magnitude between the two ends of the motivated range. The
-requirement is met as an analysis; the disposition (D25, retire or
-keep) waits on the viability gate, where this flux is compared with
-the $\chi\to aa$ benchmark.
+| $B_\perp L$ | $P$ | $\langle E\rangle$ | in band | converted / CXB |
+|---:|---:|---:|---:|---:|
+| 75 T m (reference median) | $6.0\times10^{-18}$ | 238 eV | $6.2\times10^{-4}$ | $1.6\times10^{-17}$ |
+| 75 T m | $6.0\times10^{-18}$ | 532 eV | 0.11 | $2.9\times10^{-15}$ |
+| 150 T m (reference max) | $2.4\times10^{-17}$ | 238 eV | $6.2\times10^{-4}$ | $6.6\times10^{-17}$ |
+| 150 T m | $2.4\times10^{-17}$ | 532 eV | 0.11 | $1.2\times10^{-14}$ |
+
+**Disposition.** Best case $10^{-14}$ of the background. ALP-CH-18 to
+22 retired, `source/cab.py` removed (the model is in this branch's git
+history). The band fraction D25 expected to decide it varies by 10³;
+the conversion probability, at $10^{-17}$, is what decides it.
+
+**What it tells the rest of the study.** The extragalactic
+$\chi\to aa$ continuum converts through the same kernel at the same
+$P$. To reach the diffuse background it needs an in-band ALP flux
+about $10^{14}$ times the cosmic ALP background's. That is the
+quantity the viability gate (D16) has to find in the allowed
+parameter space.
 
 ## Links
 
 - part of [[ALP]]
-- requirements: [[04-plan/alp-baseline-requirements]] CH-05, CH-18, CH-19, CH-21
+- requirements: [[04-plan/alp-baseline-requirements]] CH-05; CH-18 to 22 retired
 - kernel over the aperture: [[2026-09-23-fov-field-integral]]
-- decisions: [[decisions]] D15, D25
+- decisions: [[decisions]] D15, D25, D26

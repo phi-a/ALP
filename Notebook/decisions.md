@@ -425,6 +425,36 @@ the tail of its spectrum that reaches 1-10 keV.
 **Reversed if:** ALP-CH-21 shows the in-band fraction is negligible, in
 which case the five requirements are retired in one entry.
 
+**Superseded by D26** the same day, on the conversion probability
+rather than the band fraction.
+
+---
+
+## D26 - The cosmic ALP background is retired
+
+**2026-09-23.** ALP-CH-18 to ALP-CH-22 are retired and
+`source/cab.py` is removed (recoverable from git history).
+
+**Why:** the cosmic ALP background is the only source in the study
+with an absolute flux, fixed by the effective neutrino number, so
+its viability could be checked before the gate. At the CAST limit
+$g = 6.6\times10^{-11}$ GeV⁻¹ and the best reference-schedule field
+geometry ($B_\perp L = 150$ T m, $P = 2.4\times10^{-17}$), the
+converted brightness in 1–10 keV is $1.2\times10^{-14}$ of the
+diffuse X-ray background for a mean energy of 532 eV, and
+$7\times10^{-17}$ at the paper's 238 eV benchmark. The band
+fraction D25 anticipated is not what decides it; the conversion
+probability is. See [[2026-09-23-source-models]].
+
+**Consequence:** the extragalactic $\chi\to aa$ continuum converts
+through the same kernel, so it needs an in-band flux about
+$10^{14}$ times the cosmic ALP background's to reach the diffuse
+background. That is the number the viability gate tests.
+
+**Reversed if:** a detector with orders of magnitude more grasp, or
+a conversion region with orders of magnitude more $B_\perp L$, is in
+scope.
+
 ---
 
 ## Links
