@@ -66,6 +66,7 @@ python scripts/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --ou
   - `geometry/` `los_field_integral` (vectorised over rays), `limb_angle`,
     `in_umbra`, FOV projection and cone quadrature
   - `background/` CXB, GRXE, NXB proxy, bright sources
+  - `source/` NFW halo `column_density`, cosmic ALP background spectrum
   - `sim/` `state_table`, `to_csv`
   - `fetch_axion_limit`, `list_axion_limits` — the AxionLimits archive
     loader, cached in `data/axionlimits/`

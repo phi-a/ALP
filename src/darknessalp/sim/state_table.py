@@ -12,6 +12,7 @@ from darknessalp.geometry.limb import limb_angle
 from darknessalp.geometry.los_integral import fov_field_integral
 from darknessalp.geometry.umbra import in_umbra
 from darknessalp.kinematics.slew import angle_between
+from darknessalp.source.halo import column_density
 
 
 def state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0,
@@ -26,7 +27,8 @@ def state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0,
     sun = sun_vector(time)
     l_gal, b_gal = to_galactic(boresights)
 
-    amp, k_fov, occ_frac = (np.empty(len(t)) for _ in range(3))
+    amp, k_fov, occ_frac, d_bore, d_fov, dk_fov = (
+        np.empty(len(t)) for _ in range(6))
     occ = np.empty(len(t), bool)
     for k in range(len(t)):
         res = fov_field_integral(r_eci[k], boresights[k], time[k], coeffs,
@@ -35,6 +37,9 @@ def state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0,
         amp[k], occ[k] = res["amplitude_tm"][0], res["occulted"][0]
         k_fov[k] = res["k_t2m2"]
         occ_frac[k] = np.sum(res["weights"] * res["occulted"])
+        d = column_density(*to_galactic(res["dirs"]))
+        d_bore[k], d_fov[k] = d[0], np.sum(res["weights"] * d)
+        dk_fov[k] = np.sum(res["weights"] * d * res["amplitude_tm"] ** 2)
 
     return {
         "t_s": t, "x_km": r_eci[:, 0], "y_km": r_eci[:, 1],
@@ -48,6 +53,8 @@ def state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0,
         "l_deg": l_gal, "b_deg": b_gal,
         "amp_tm": amp, "k_t2m2": amp**2,
         "k_fov_t2m2": k_fov, "fov_occ_frac": occ_frac,
+        "d_gevcm2": d_bore, "d_fov_gevcm2": d_fov,
+        "dk_fov_gevcm2_t2m2": dk_fov,
     }
 
 

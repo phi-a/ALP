@@ -29,7 +29,8 @@ Teaching codebase. The student audience is the primary constraint on every decis
   modes = target + roll rule, condition → mode schedules, constraints),
   `field` (IGRF, dipole, magnetic coordinates), `geometry` (LOS
   integral, limb, umbra, FOV), `background` (CXB, GRXE, NXB proxy,
-  sources), `sim` (state table).
+  sources), `source` (halo column density, ALP source spectra), `sim`
+  (state table).
 - Each `__init__.py` re-exports its topic's public API; nothing else.
 - Functions take and return numpy arrays shaped `(N, 3)` or `(N,)`;
   positions in km, fields in tesla, angles in degrees, time as astropy

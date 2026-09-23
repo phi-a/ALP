@@ -147,6 +147,18 @@ The per-sample record every run produces.
 | `state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0, half_angle_deg=10.0)` | Return a dict of arrays, one entry per sample, for a pointing law. |
 | `to_csv(table, path)` | Write a state table to CSV with a header row. |
 
+## `source`
+
+Where the ALPs come from: the halo column, the CAB spectrum.
+
+| Call | Returns |
+|---|---|
+| `cab_band_fraction(e_lo_kev, e_hi_kev, mean_kev=0.238)` | Return the fraction of the CAB flux between e_lo_kev and e_hi_kev. |
+| `cab_flux(delta_neff=0.57)` | Return the isotropic CAB flux in cm^-2 s^-1, linear in delta_neff. |
+| `cab_spectrum(e_kev, mean_kev=0.238)` | Return the unit-normalised CAB spectrum in keV^-1 at e_kev. |
+| `column_density(l_deg, b_deg, r_max_kpc=200.0, **nfw)` | Return D = int rho ds in GeV cm^-2 toward Galactic (l, b), per row. |
+| `nfw_density(r_kpc, rho_s=0.31979205000000005, r_s_kpc=20.0, r_core_kpc=0.1)` | Return the NFW density in GeV cm^-3 at Galactocentric radius r_kpc. |
+
 ## Links
 
 - part of [[../ALP]]

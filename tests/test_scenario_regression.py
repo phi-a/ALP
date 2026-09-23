@@ -54,6 +54,15 @@ class TestScenarioRegression(unittest.TestCase):
         self.assertAlmostEqual(float(np.median(ratio)), 1.017, delta=0.002)
         self.assertAlmostEqual(float(ratio.max()), 1.266, delta=0.005)
 
+    def test_halo_column_over_the_aperture(self):
+        d_ratio = (self.table["d_fov_gevcm2"] / self.table["d_gevcm2"])
+        dk = self.table["dk_fov_gevcm2_t2m2"]
+        dk_ratio = dk / (self.table["d_fov_gevcm2"] * self.table["k_fov_t2m2"])
+        self.assertAlmostEqual(float(np.median(d_ratio[self.sky])), 0.641,
+                               delta=0.002)
+        self.assertAlmostEqual(float(np.median(dk_ratio[self.sky])), 0.995,
+                               delta=0.002)
+
     def test_background_confounding(self):
         k = self.table["k_t2m2"][self.sky]
         rho_rc = np.corrcoef(k, self.table["cutoff_gv"][self.sky])[0, 1]

@@ -52,7 +52,7 @@ status column here is updated with the evidence pointer.
 | ALP-CH-02 | The source model shall include the Milky Way line component at $E_0 = m_\chi/2$. | T | **Open** |
 | ALP-CH-03 | The source model shall include the extragalactic continuum component with support only at $E \le E_0$. | T | **Open** |
 | ALP-CH-04 | The source model shall derive the Milky Way component from the same parent parameters $(f_\chi, \tau_\chi, \mathcal B_{aa})$ as the extragalactic component. | A | **Open** — D15 |
-| ALP-CH-05 | The Milky Way component shall scale with the dark-matter column density $D_\chi(l,b)$ along the boresight. | T | **Open** |
+| ALP-CH-05 | The Milky Way component shall scale with the dark-matter column density $D_\chi(l,b)$ along the boresight. | T | **Met** — `test_source.TestHalo`, `d_gevcm2` |
 | ALP-CH-06 | The source model shall reproduce one published benchmark spectrum without a fitted scale factor. | A | **Gated** — D16 |
 | ALP-CH-07 | The conversion model shall integrate the signed transverse field vector along each ray. | T | **Met** — `test_reversal_shows_a_dip` |
 | ALP-CH-08 | The conversion model shall carry the phase $q = m_a^2/2E$ along each ray. | T | **Met** — `test_phase_reduces_amplitude` |
@@ -65,10 +65,10 @@ status column here is updated with the evidence pointer.
 | ALP-CH-15 | The conversion kernel shall be averaged over the 20° full-cone aperture. | T | **Met** — `test_fov_hairline_cone_is_the_boresight`, [[../2026-09-23-fov-field-integral]] |
 | ALP-CH-16 | The aperture average shall converge to 1 % under one ring refinement. | A | **Open** |
 | ALP-CH-17 | The aperture average shall recover the boresight kernel as the cone half-angle tends to zero. | T | **Met** — `test_cone_average_recovers_the_boresight_in_a_smooth_field` |
-| ALP-CH-18 | The source model shall include the primordial cosmic ALP background as an isotropic component with a normalisation independent of $\Theta$. | T | **Open** |
-| ALP-CH-19 | The cosmic ALP background spectrum shall follow the Conlon–Marsh thermal-like form with the mean energy as a declared parameter. | I | **Open** |
+| ALP-CH-18 | The source model shall include the primordial cosmic ALP background as an isotropic component with a normalisation independent of $\Theta$. | T | **Met** — `source.cab_flux`, `cab_spectrum` |
+| ALP-CH-19 | The cosmic ALP background spectrum shall follow the Conlon–Marsh thermal-like form with the mean energy as a declared parameter. | I | **Met** — eq. 5.18 of arXiv:1304.1804, Weibull(3/2); `test_source.TestCab` |
 | ALP-CH-20 | The cosmic ALP background normalisation shall respect the declared $\Delta N_{\rm eff}$ bound. | A | **Open** |
-| ALP-CH-21 | The forecast shall report the fraction of the cosmic ALP background spectrum falling inside the 1–10 keV science band. | A | **Open** |
+| ALP-CH-21 | The forecast shall report the fraction of the cosmic ALP background spectrum falling inside the 1–10 keV science band. | A | **Met** — 0.06 % at 238 eV, 11 % at 532 eV; [[../2026-09-23-source-models]] |
 | ALP-CH-22 | The forecast shall report the spectral separability of the cosmic ALP background from the extragalactic continuum inside the science band. | A | **Open** |
 
 The cosmic ALP background converts in the geomagnetic field through the
@@ -138,7 +138,8 @@ that tail is worth carrying.
 
 `t_s`, `x_km y_km z_km`, `lat_deg lon_deg alt_km`, `maglat_deg`,
 `cutoff_gv`, `limb_deg`, `sun_deg`, `umbra`, `occulted`,
-`l_deg b_deg`, `amp_tm`, `k_t2m2`, `k_fov_t2m2`, `fov_occ_frac`.
+`l_deg b_deg`, `amp_tm`, `k_t2m2`, `k_fov_t2m2`, `fov_occ_frac`,
+`d_gevcm2`, `d_fov_gevcm2`, `dk_fov_gevcm2_t2m2`.
 
 ## Table B — background proxy fields
 
@@ -148,11 +149,11 @@ that tail is worth carrying.
 
 | Group | Met | Open | Gated |
 |---|---:|---:|---:|
-| CH | 8 | 13 | 1 |
+| CH | 12 | 9 | 1 |
 | MD | 1 | 7 | 0 |
 | MA | 9 | 14 | 0 |
 | PR | 5 | 2 | 1 |
-| **Total** | **23** | **36** | **2** |
+| **Total** | **27** | **32** | **2** |
 
 ## Links
 
