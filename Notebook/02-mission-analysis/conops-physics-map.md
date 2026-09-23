@@ -19,11 +19,12 @@ probe, and the three consequences that set the design. From the
 |---|---|---|---|
 | χ→aa Milky Way line | line at $m_\chi/2$, width from halo velocity | $S_\phi(l,b)$ **and** $K$ | joint; skipper resolution is the discriminant |
 | χ→aa extragalactic continuum | redshifted continuum | $K$ only (isotropic) | **pointing-free** channel |
-| primordial cosmic ALP background (moduli decay, Conlon & Marsh 2013) | fixed thermal-ish shape, mean ~0.1–1 keV, tail into band | $K$ only (isotropic) | same machinery, different template; $\Delta N_{\rm eff}$-bounded |
+| primordial cosmic ALP background (moduli decay, Conlon & Marsh 2013) | fixed thermal-ish shape, mean ~0.1–1 keV, tail into band | $K$ only (isotropic) | **retired, D26**: converted flux $\le 10^{-14}$ of the CXB |
 | solar axions, GECOSAX (Davoudiasl & Huber 2006; Fraser+ 2014) | Primakoff, peaks 3 keV | point at the **occulted Sun** from umbra | $\propto g^4$, needs ~10⁴ cm²; not competitive at 12 cm² |
 | ultralight axion / dark photon (PTEP 2026, ELF magnetometers) | 10⁻¹⁵ eV, Hz | — | different regime, ignore |
 
-Everything DarkNESS can do sits in rows 1–3, and rows 2–3 share one
+Everything DarkNESS can do sits in rows 1–2 (row 3 was checked and
+retired, D26), and rows 2–3 share one
 kernel $K(\mathbf r_{\rm sc},\hat n,E)=|\int_0^{L}B_\perp e^{iqs}ds|^2$
 with no sky dependence. That is why the ConOps question is a geometry
 question first.

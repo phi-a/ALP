@@ -51,4 +51,4 @@ def fov_field_integral(r_eci, n_hat, time, coeffs, lmax=13, q_per_m=0.0,
     amp = res["amplitude_tm"]
     return {"k_t2m2": float(np.sum(weights * amp**2)),
             "amplitude_tm": amp, "occulted": res["occulted"],
-            "weights": weights}
+            "weights": weights, "dirs": dirs}

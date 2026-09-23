@@ -167,7 +167,8 @@ Fit the time-energy correlation model, profile the background components, perfor
   bright-source catalogue for contamination flags (Sco X-1 is 24° from
   the GC).
 - **Primordial cosmic ALP background** (Conlon & Marsh) is a second
-  isotropic template for the pointing-free channel.
+  isotropic template for the pointing-free channel. Checked and
+  retired: [[../decisions]] D26.
 
 ## Immediate research gaps
 

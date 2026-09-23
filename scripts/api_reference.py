@@ -18,6 +18,7 @@ BLURB = {
     "geometry": "Lines of sight, the Earth disk, and the field of view.",
     "background": "Celestial and particle background models.",
     "sim": "The per-sample record every run produces.",
+    "source": "Where the ALPs come from: the dark-matter halo column.",
 }
 
 
