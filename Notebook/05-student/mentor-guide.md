@@ -109,7 +109,7 @@ without them.
 
 Stages 1–4 are covered by the library in `src/darknessalp/` (numpy,
 scipy, astropy; topic folders; known-answer tests) and the run notebook
-`jupyter/darkness_alp_sim.ipynb`. See [[../02-mission-analysis/tooling]].
+`jupyter/main_sequence.ipynb`. See [[../02-mission-analysis/tooling]].
 The student drives the notebook and writes little code; the fifteen-line
 orbit and the hand integral in Stages 1 and 3 are still worth doing once
 on paper or in a scratch cell, then compared with the library. The tests

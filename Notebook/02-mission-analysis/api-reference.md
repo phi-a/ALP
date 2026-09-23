@@ -164,4 +164,4 @@ Where the ALPs come from: the dark-matter halo column.
 
 - part of [[../ALP]]
 - why these exist: [[tooling]], [[pointing-system]]
-- the run file: `jupyter/darkness_alp_sim.ipynb`
+- the pipeline: `jupyter/main_sequence.ipynb`
