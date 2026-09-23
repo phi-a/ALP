@@ -49,6 +49,11 @@ class TestScenarioRegression(unittest.TestCase):
         self.assertAlmostEqual(float(np.median(amp)), 74.84, delta=0.05)
         self.assertAlmostEqual(float(amp.max()), 148.77, delta=0.05)
 
+    def test_fov_gradient(self):
+        ratio = (self.table["k_fov_t2m2"] / self.table["k_t2m2"])[self.sky]
+        self.assertAlmostEqual(float(np.median(ratio)), 1.017, delta=0.002)
+        self.assertAlmostEqual(float(ratio.max()), 1.266, delta=0.005)
+
     def test_background_confounding(self):
         k = self.table["k_t2m2"][self.sky]
         rho_rc = np.corrcoef(k, self.table["cutoff_gv"][self.sky])[0, 1]

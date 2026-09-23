@@ -87,6 +87,7 @@ Lines of sight, the Earth disk, and the field of view.
 | `cone_directions(n_hat, half_angle_deg=10.0, rings=3)` | Return (M, 3) directions and equal-area weights sampling the cone. |
 | `earth_angular_radius_deg(r_eci)` | Return the angular radius of the Earth disk from the spacecraft. |
 | `fov_axes(n_hat, up_hint=(0.0, 0.0, 1.0))` | Return (x_hat, y_hat) across the boresight; y_hat toward up_hint. |
+| `fov_field_integral(r_eci, n_hat, time, coeffs, lmax=13, q_per_m=0.0, half_angle_deg=10.0, rings=3)` | Return FOV-mean |A|^2 in T^2 m^2, per-ray |A|; ray 0 = boresight. |
 | `in_umbra(r_eci, sun_hats)` | Return a bool per row: spacecraft inside the cylindrical shadow. |
 | `limb_angle(r_eci, n_hats)` | Return degrees from boresight(s) to the limb; negative = at Earth. |
 | `limb_directions(r_eci, n_points=180)` | Return (n_points, 3) unit vectors along the limb ring. |
@@ -143,7 +144,7 @@ The per-sample record every run produces.
 
 | Call | Returns |
 |---|---|
-| `state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0)` | Return a dict of arrays, one entry per sample, for a pointing law. |
+| `state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0, half_angle_deg=10.0)` | Return a dict of arrays, one entry per sample, for a pointing law. |
 | `to_csv(table, path)` | Write a state table to CSV with a header row. |
 
 ## Links

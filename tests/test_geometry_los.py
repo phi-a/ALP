@@ -60,6 +60,20 @@ class TestLosIntegral(unittest.TestCase):
         self.assertAlmostEqual(res["amplitude_tm"][1]
                                / res["amplitude_tm"][0], 2.0, delta=0.05)
 
+    def test_fov_hairline_cone_is_the_boresight(self):
+        res = geometry.fov_field_integral(self.r, self.up, self.t, self.c,
+                                          lmax=1, half_angle_deg=1e-3)
+        boresight = self.amplitude(self.up)["amplitude_tm"][0]
+        self.assertAlmostEqual(res["weights"].sum(), 1.0)
+        self.assertAlmostEqual(res["amplitude_tm"][0], boresight)
+        self.assertAlmostEqual(res["k_t2m2"] / boresight**2, 1.0, places=6)
+
+    def test_fov_cone_differs_from_boresight(self):
+        res = geometry.fov_field_integral(self.r, self.north, self.t,
+                                          self.c, lmax=1, half_angle_deg=10.0)
+        boresight = res["amplitude_tm"][0] ** 2
+        self.assertGreater(abs(res["k_t2m2"] / boresight - 1.0), 1e-3)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -17,6 +17,9 @@ class TestStateTable(unittest.TestCase):
         self.assertTrue(np.all(table["alt_km"] > 400))
         self.assertTrue(np.all(np.abs(table["lat_deg"]) <= 52))
         self.assertTrue(np.all(table["amp_tm"] >= 0))
+        self.assertTrue(np.all(table["k_fov_t2m2"] > 0))
+        np.testing.assert_array_less(-1e-12, table["fov_occ_frac"])
+        np.testing.assert_array_less(table["fov_occ_frac"], 1 + 1e-12)
         occulted = table["occulted"]
         self.assertTrue(np.all(table["limb_deg"][occulted] < 0))
         with TemporaryDirectory() as tmp:
