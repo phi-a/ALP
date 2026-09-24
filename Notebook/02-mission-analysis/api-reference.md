@@ -160,7 +160,12 @@ Where the ALPs come from: the dark-matter halo column.
 | Call | Returns |
 |---|---|
 | `column_density(l_deg, b_deg, r_max_kpc=200.0, **nfw)` | Return D = int rho ds in GeV cm^-2 toward Galactic (l, b), per row. |
+| `continuum_intensity(e_kev, m_kev, share, tau_gyr, cosmo=FlatLambdaCDM(name='Planck18', H0=<Quantity 67.66 km / (Mpc s)>, Om0=0.30966, Tcmb0=<Quantity 2.7255 K>, Neff=3.046, m_nu=<Quantity [0.  , 0.  , 0.06] eV>, Ob0=0.04897))` | Return the redshifted chi -> aa intensity, cm^-2 s^-1 sr^-1 keV^-1. |
+| `dm_density_kev_cm3(cosmo=FlatLambdaCDM(name='Planck18', H0=<Quantity 67.66 km / (Mpc s)>, Om0=0.30966, Tcmb0=<Quantity 2.7255 K>, Neff=3.046, m_nu=<Quantity [0.  , 0.  , 0.06] eV>, Ob0=0.04897))` | Return today's mean dark-matter density in keV cm^-3. |
+| `line_intensity(d_gevcm2, m_kev, share, tau_gyr)` | Return the Milky Way chi -> aa line intensity, cm^-2 s^-1 sr^-1. |
+| `line_sigma_kev(m_kev, sigma_v_kms=165.0)` | Return the halo Doppler width (one sigma) of the line at m/2, keV. |
 | `nfw_density(r_kpc, rho_s=0.31979205000000005, r_s_kpc=20.0, r_core_kpc=0.1)` | Return the NFW density in GeV cm^-3 at Galactocentric radius r_kpc. |
+| `sky_column(step_deg=2.0, **nfw)` | Return the full-sky integral of D in GeV cm^-2 sr on an (l, b) grid. |
 
 ## Links
 
