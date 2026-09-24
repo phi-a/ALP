@@ -215,8 +215,7 @@ def orbit_geometry(r_eci, sun_hat, target, alt_km=420.0, d_draw=6.0,
     return fig
 
 
-def field_geometry(coeffs, alt_km=420.0, inc_deg=51.6, lmax=13,
-                   extent_re=3.0):
+def field_geometry(coeffs, lmax=13, extent_re=3.0):
     """Return a figure: the field in the meridian plane of the dipole."""
     north = field.dipole_axis(coeffs)
     north = north * np.sign(north[2])           # northern end, ECEF
@@ -264,13 +263,6 @@ def field_geometry(coeffs, alt_km=420.0, inc_deg=51.6, lmax=13,
     ax.text(*(0.8 * d + [0.08, 0]), f"dipole axis, {tilt:.1f}° off",
             color="crimson", fontsize=9, zorder=5)
 
-    rad = (R_EQUATOR_KM + alt_km) / R_EARTH_KM
-    arc = np.radians(np.linspace(-inc_deg, inc_deg, 60))
-    for side in (1, -1):
-        ax.plot(side * rad * np.cos(arc), rad * np.sin(arc), color=SCIENCE,
-                lw=3, zorder=6, label=None if side < 0 else
-                f"orbit: {alt_km:.0f} km, latitudes ±{inc_deg:.1f}°")
-
     ax.set_aspect("equal")
     ax.set_xlim(-extent_re, extent_re)
     ax.set_ylim(-extent_re, extent_re)
@@ -278,7 +270,6 @@ def field_geometry(coeffs, alt_km=420.0, inc_deg=51.6, lmax=13,
     ax.set_ylabel("along the spin axis  [Earth radii]")
     ax.set_title("The geomagnetic field in the meridian plane of the dipole"
                  " (IGRF)", fontsize=11)
-    ax.legend(loc="lower left", fontsize=9)
     fig.colorbar(cs, ax=ax, shrink=0.8, label="|B|  [µT]", format="%g",
                  ticks=[0.5, 1, 2, 5, 10, 20, 50])
     fig.tight_layout()
@@ -514,7 +505,7 @@ def main():
     r_orbit, _ = orbit.propagate(r0, v0, t_orbit)
     orbit_geometry(r_orbit, frames.sun_vector(time[:1])[0], n[0],
                    a.alt).savefig(out / "orbit_geometry.png", dpi=150)
-    field_geometry(coeffs, a.alt, a.inc, a.lmax).savefig(
+    field_geometry(coeffs, a.lmax).savefig(
         out / "field_geometry.png", dpi=150)
     ray_fan(r[k], n[k], time[k], coeffs, a.lmax).savefig(
         out / "ray_fan.png", dpi=150)
