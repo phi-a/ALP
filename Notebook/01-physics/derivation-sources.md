@@ -72,8 +72,7 @@ Sign conventions for $\varphi$ drop out of $P$. The vector components
 $B_x, B_y$ are integrated separately; a scalar $\lvert\mathbf B_\perp\rvert$
 integral is wrong when the transverse field rotates along the ray.
 `geometry.los_integral` does this correctly;
-[[../02-mission-analysis/geomagnetic-integral]] still writes the scalar
-form and should be corrected.
+[[../02-mission-analysis/geomagnetic-integral]] now says so too.
 
 **Units.** 1 T = 195.35 eV², 1 m = 5.068×10⁶ eV⁻¹, so
 1 T m = 9.90×10⁸ eV. With $g = 10^{-10}$ GeV⁻¹ $= 10^{-19}$ eV⁻¹ and
