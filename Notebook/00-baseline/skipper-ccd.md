@@ -96,12 +96,12 @@ is $A_{\rm geo}\int\mathcal V\,d\Omega$, not $A_{\rm geo}\,\Omega_{\rm edge}$.
 | Entrance window | 50 nm Al; >98 % X-ray transmission down to 1 keV | `DN-V` | ASR p. 4796 |
 | Si thickness, prototype | 725 µm, fully depleted | `DN-V` | ASR p. 4796 |
 | Si thickness, **flight** | **500 µm** (thinned to cut particle tracks) | `DN-D` | §2, Table 1 |
-| Absorption at 10 keV | 99.6 % (725 µm), 97.6 % (500 µm) | `DERIV` | Si attenuation length ≈ 134 µm at 10 keV |
+| Absorption at 10 keV | 99.7 % (725 µm), 98.1 % (500 µm) | `DERIV` | NIST µ/ρ = 33.89 cm² g⁻¹, attenuation length 127 µm; `detector.silicon_absorption` |
 | Active mass | 2.0 g (725 µm) → 1.4 g (500 µm) | `DERIV` | ASR quotes ≈ 2 g, p. 4794 |
 | Front-side dead layer | not published | `DN-TBC` | sets QE below ~2 keV |
 
 The register still says 725 µm; the flight value is 500 µm. For the
-ALP band the change is small (≤ 2.5 % at 10 keV) but it cuts the
+ALP band the change is small (1.6 % at 10 keV) but it cuts the
 particle background per pixel, which matters more.
 
 ## Energy response

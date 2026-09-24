@@ -34,6 +34,20 @@ Celestial and particle background models.
 | `source_vectors()` | Return (names, (N, 3) unit vectors, mCrab array). |
 | `sources_in_cone(n_hat, half_angle_deg=10.0)` | Return [(name, separation_deg, mCrab)] inside the cone. |
 
+## `detector`
+
+The skipper-CCD response: efficiency, resolution, counts.
+
+| Call | Returns |
+|---|---|
+| `expected_counts(e_kev, intensity, e_edges_kev, prob, dt_s, qe=None, area_cm2=12.0, half_angle_deg=10.0, live=0.5, select=1.0, fwhm_kev=None)` | Return counts (samples, bins) for an ALP intensity per keV per sr. |
+| `grasp_cm2sr(area_cm2=12.0, half_angle_deg=10.0)` | Return geometric area times the cone solid angle. |
+| `quantum_efficiency(e_kev, al_nm=50.0, thickness_um=500.0, dead_um=0.0)` | Return window transmission times silicon absorption. |
+| `redistribution(e_kev, e_edges_kev, fwhm_kev=None)` | Return R[E, j]: the fraction of events at E measured in bin j. |
+| `resolution_fwhm_kev(e_kev, noise_fwhm_kev=0.119, fano=0.118, w_ev=3.72)` | Return FWHM in keV: Fano broadening and readout noise in quadrature. |
+| `silicon_absorption(e_kev, thickness_um=500.0, dead_um=0.0)` | Return the fraction absorbed in the active silicon. |
+| `window_transmission(e_kev, al_nm=50.0)` | Return the fraction passing an aluminium entrance window. |
+
 ## `dynamics`
 
 Accelerations and torques. Models only, no integration.

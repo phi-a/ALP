@@ -65,6 +65,7 @@ line. See [[decisions]] D1.
 - [[01-physics/derivation-sources|Derivation sources]] — origin equations, notation map, DarkNESS inputs and checks per block
 - [[01-physics/block-a-conversion|Block A: conversion]] — the amplitude from the mixing equations, validity, ray geometry, units, six checks
 - [[01-physics/block-b-source|Block B: source]] — line and continuum from one count, today's share, DMR and Yamamoto checks
+- [[01-physics/block-c-counts|Block C: counts]] — the count integral with every detector factor separate; grasp and conservation checks; reference-day worked example
 - [[references|References]] — the one keyed bibliography
 - [[01-physics/detection-channel-derivation-contract|Derivation contract]] — equations, assumptions, tests, and review gate
 - [[01-physics/coherence-and-mass-reach|Coherence and mass reach]] — why the mass axis is not a design variable
