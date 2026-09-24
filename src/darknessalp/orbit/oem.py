@@ -73,4 +73,14 @@ def read_oem(path):
         times.append(Time(seg["epochs"], scale=seg["TIME_SYSTEM"].lower()))
         r.append(back(state[:, :3]))
         v.append(back(state[:, 3:]))
-    return np.concatenate(times), np.vstack(r), np.vstack(v)
+    return _concat_utc(times), np.vstack(r), np.vstack(v)
+
+
+def _concat_utc(times):
+    """Join Time arrays of any scale into one UTC Time, exactly."""
+    utc = [t.utc for t in times]
+    out = Time(np.concatenate([t.jd1 for t in utc]),
+               np.concatenate([t.jd2 for t in utc]), format="jd",
+               scale="utc")
+    out.format = "isot"
+    return out
