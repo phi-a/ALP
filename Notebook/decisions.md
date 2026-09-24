@@ -550,6 +550,27 @@ sequence, not as a fourth notebook.
 
 ---
 
+## D30 - Umbra-only is a trade, not a requirement
+
+**2026-09-24.** DarkNESS science is not restricted to umbra by its
+objectives. Umbra-only is one option in a trade against sunlit
+observing with the Sun kept out of the aperture. The ALP study carries
+both schedules and reports what each costs and buys; it does not assume
+either. The hard constraint is Sun keep-out. Supersedes the "baseline"
+framing of D5; the selectable rule (ALP-MA-14) stays.
+
+**Why:** the umbra rule came from the decaying-DM ConOps (solar
+background, thermal stability). The PI states it is a choice, and the
+ALP channel may or may not need it. Duty cycle roughly doubles without
+it, but sunlit frames bring solar X-ray, optical loading through the
+50 nm Al window, and a warmer MCM.
+
+**Reversed if:** the team fixes umbra-only for all science, or a
+sunlit-frame study shows the background or thermal penalty outweighs
+the extra exposure.
+
+---
+
 ## Links
 
 - part of [[ALP]]

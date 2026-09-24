@@ -31,7 +31,7 @@ determine which result is the headline.
 
 | # | Question | Note |
 |---|---|---|
-| Q5 | Is umbra-only science actually required for the ALP analysis? | Inherited from thermal/solar-background needs of the primary science. If relaxable, duty cycle roughly doubles — and it is the difference between viable and not under dawn/dusk SSO. See [[decisions]] |
+| Q5 | Does the ALP analysis gain from sunlit observing (Sun kept out of the aperture), or does it also go umbra-only? | Not required by the mission (PI, 2026-09-24; D30); a trade. Costs of sunlit frames: solar X-ray, optical loading, warmer MCM. If relaxable, duty cycle roughly doubles — and it is the difference between viable and not under dawn/dusk SSO. See [[decisions]] |
 | Q6 | Slew rate, settle time, momentum management limits | Bounds how aggressive a scan law can be; an on/off pairing strategy needs slews within an orbit |
 | Q7 | Does NXB correlate with $(B_\perp L)^2$, and how strongly? | **The central systematic.** Both track geomagnetic position. Quantify before quoting a limit — [[03-sensitivity/method]] |
 | Q8 | Can the within-FOV brightness gradient be used as a discriminant? | Suzaku could not do this; DarkNESS's 20° cone might. Needs a statistics study |

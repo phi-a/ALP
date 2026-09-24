@@ -162,7 +162,8 @@ nuisance design matrix, not as fixed constants.
 
 | Quantity | Value | Tag | Source |
 |---|---|---|---|
-| GC observation | 15 min, umbra only, splittable into shorter frames | `DN-V` | ASR p. 4795 |
+| GC observation | 15 min, splittable into shorter frames | `DN-V` | ASR p. 4795 |
+| Umbra-only | ASR baseline for decaying DM; **a trade for ALP**, not a requirement; Sun keep-out is the hard limit | `DN-V` | PI 2026-09-24; [[../decisions]] D30 |
 | Planned GC observations | 600 (≈ 150 h ≈ 0.5 Ms) | `DN-V` | ASR Table 2, p. 4803 |
 | Exposure target | 1 Ms | `DN-D` | §1, §5.2 |
 | Downlinked product | one histogram per observation (2.5 kB); raw frames (32 MB) for 10 % | `DN-V` | ASR p. 4801, Table 3 |
