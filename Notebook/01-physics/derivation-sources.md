@@ -110,6 +110,13 @@ the detector along those rays.
    (`[Yam20]` §3.1; already in [[../02-mission-analysis/yamamoto-validation-101002010]]).
 6. Step-count convergence on a limb-grazing LEO ray (`test_geometry`).
 
+**For the comparison.** A Block A derivation is complete when it has
+the mixing equations from the Lagrangian; the first-order amplitude
+with the phase inside the integral; each assumption above with the
+number behind it; the ray orientation and both endpoints; the
+T m → eV conversion; and the six checks with their numbers. Compare
+check by check before comparing derivations.
+
 ## Block B — source
 
 **Origin.** Counting, `[DMR21]` eq 5–7. Decays at cosmic time $t$
