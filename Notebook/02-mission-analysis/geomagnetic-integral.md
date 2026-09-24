@@ -21,16 +21,19 @@ along the way; the photon continues to the detector. So the integral runs **outw
 along the viewing direction $\hat n$:
 
 $$
-\mathcal{A}(\hat n, t) = \int_{0}^{L_{\max}} B_\perp(\mathbf{r}(s), \hat n)\;
+\boldsymbol{\mathcal{A}}(\hat n, t) = \int_{0}^{L_{\max}} \mathbf{B}_\perp(\mathbf{r}(s), \hat n)\;
 e^{\,i q s}\, ds, \qquad
 \mathbf{r}(s) = \mathbf{r}_{\rm sc}(t) + s\,\hat n
 $$
 
 $$
-B_\perp = \left| \mathbf{B} - (\mathbf{B}\cdot\hat n)\,\hat n \right|
+\mathbf{B}_\perp = \mathbf{B} - (\mathbf{B}\cdot\hat n)\,\hat n
 $$
 
-with $P_{a\to\gamma} = (g_{a\gamma\gamma}/2)^2 |\mathcal{A}|^2$. In the coherent limit the phase drops out
+with $P_{a\to\gamma} = (g_{a\gamma\gamma}/2)^2 |\boldsymbol{\mathcal{A}}|^2$. The
+integral is over the transverse **vector**; the modulus is taken after
+integrating, so a transverse field that rotates along the ray partly
+cancels (2026-09-24, [[../01-physics/derivation-sources]]). In the coherent limit the phase drops out
 and $|\mathcal{A}| \to B_\perp L$, recovering the familiar form.
 
 Two things to get right:

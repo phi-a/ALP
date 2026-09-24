@@ -62,6 +62,8 @@ line. See [[decisions]] D1.
 ## Physics
 
 - [[01-physics/alp-signal-chain|Signal chain]] — linked source components, conversion probability, and counts model
+- [[01-physics/derivation-sources|Derivation sources]] — origin equations, notation map, DarkNESS inputs and checks per block
+- [[references|References]] — the one keyed bibliography
 - [[01-physics/detection-channel-derivation-contract|Derivation contract]] — equations, assumptions, tests, and review gate
 - [[01-physics/coherence-and-mass-reach|Coherence and mass reach]] — why the mass axis is not a design variable
 - [[01-physics/sensitivity-scaling|Sensitivity scaling]] — grasp, exposure, geometry, and covariance
