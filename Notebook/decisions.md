@@ -575,8 +575,8 @@ the extra exposure.
 is answered by the independent chain (Blocks A-D): no dark-matter
 benchmark allowed by the globular-cluster bound on $g$ and the Planck
 2018 bound on decaying dark matter produces a detectable DarkNESS
-signal. The 90 % limit on $\Theta = g^2 f/	au$ sits $4	imes10^5$ to
-$2	imes10^6$ above the allowed ceiling over 187 days, statistical,
+signal. The 90 % limit on $\Theta = g^2 f/\tau$ sits $4\times10^5$ to
+$2\times10^6$ above the allowed ceiling over 187 days, statistical,
 before systematics; the gap does not close with exposure. The
 disposition is **Revise**: the study continues as a method result, not
 a search that can reach the allowed region.
@@ -589,7 +589,7 @@ The narrow Milky Way line carries the sensitivity; the continuum alone
 is 37 times weaker. Both are design rules for any future Earth-field
 search and are publishable without a detection claim.
 
-**Reversed if:** a source model outside the $\chi	o aa$ hypothesis, or
+**Reversed if:** a source model outside the $\chi\to aa$ hypothesis, or
 a revision of the decay or coupling bounds, raises the allowed ceiling
 by more than $10^5$ in $\Theta$.
 
