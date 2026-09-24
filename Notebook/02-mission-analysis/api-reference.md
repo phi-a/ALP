@@ -87,6 +87,7 @@ Lines of sight, the Earth disk, and the field of view.
 | Call | Returns |
 |---|---|
 | `cone_directions(n_hat, half_angle_deg=10.0, rings=3)` | Return (M, 3) directions and equal-area weights sampling the cone. |
+| `conversion_probability(amplitude_tm, g_gev)` | Return P(a -> gamma) = (g |A| / 2)^2 for |A| in T m, g in GeV^-1. |
 | `earth_angular_radius_deg(r_eci)` | Return the angular radius of the Earth disk from the spacecraft. |
 | `fov_axes(n_hat, up_hint=(0.0, 0.0, 1.0))` | Return (x_hat, y_hat) across the boresight; y_hat toward up_hint. |
 | `fov_field_integral(r_eci, n_hat, time, coeffs, lmax=13, q_per_m=0.0, half_angle_deg=10.0, rings=3)` | Return FOV-mean |A|^2 in T^2 m^2, per-ray |A|; ray 0 = boresight. |
@@ -97,6 +98,7 @@ Lines of sight, the Earth disk, and the field of view.
 | `offset_direction(x_deg, y_deg, n_hat, x_hat, y_hat)` | Return unit vectors at angular offsets (x, y) from the boresight. |
 | `path_end_km(r_eci, n_hats, l_max_re=10.0)` | Return (s_end, occulted) per ray: Earth surface or the outer sphere. |
 | `project(v, n_hat, x_hat, y_hat)` | Return (x_deg, y_deg) offsets; radius is the true angle from centre. |
+| `transverse_amplitude(b, n_hats, s_m, q_per_m=0.0)` | Return running |int B_perp e^{iqs} ds| in T m, shape (R, S). |
 
 ## `kinematics`
 

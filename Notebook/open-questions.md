@@ -46,6 +46,7 @@ determine which result is the headline.
 | Q20 | What source broadening is resolvable after the flight-like skipper-CCD redistribution? | Whether the Milky Way feature supplies meaningful spectral discrimination |
 | Q21 | Do science frames continue through Earth occultation, and can the night-Earth frame serve as the $K$-off / NXB control? | Whether the free on/off pair in [[02-mission-analysis/conops-physics-map]] exists; a requirement to hand the team (D20) |
 | Q22 | What is the Earth-limb / atmospheric X-ray background as a function of limb angle, day and night? | The maximum-$K$ directions are limb-grazing, so this covariate is correlated with signal by construction ([[02-mission-analysis/pointing-optimization]]) |
+| Q23 | Where should an occulted ray end: the Earth surface (now) or the ~150 km altitude below which the atmosphere absorbs keV X-rays? | The $K$-off control frames (Q21); a nadir ray at 420 km loses ~36 % of $B_\perp L$ and ~60 % of $K$ if it ends at 150 km — [[01-physics/block-a-conversion]] |
 
 ## Answered
 
