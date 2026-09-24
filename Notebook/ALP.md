@@ -56,6 +56,7 @@ line. See [[decisions]] D1.
 ## Baseline
 
 - [[00-baseline/darkness-parameters|Parameters]] — instrument, platform, environment, with provenance tags
+- [[00-baseline/skipper-ccd|Skipper-CCD sheet]] — area, FOV, QE, resolution, selection, and where each enters the count model
 - [[00-baseline/darkness-conops|ConOps as constraints]] — umbra-only science, two-axis attitude, the eclipse trade
 
 ## Physics

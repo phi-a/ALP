@@ -3,8 +3,8 @@
 Papers, slides, drafts, and anything downloaded. Git ignores everything
 here except this file.
 
-- `papers/` — PDFs and DOCX
+- `*.pdf`, `*.docx` — papers, at the top level
 - `paper-draft/` — LaTeX draft of the ALP paper
-- `student-research/` — student guide slides and templates
+- `powerpoint/` — study deck, template, build scripts, figures
 
 Notes and decisions go in `Notebook/`, not here.
