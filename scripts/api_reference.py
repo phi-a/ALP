@@ -17,6 +17,7 @@ BLURB = {
     "field": "The geomagnetic field and magnetic coordinates.",
     "geometry": "Lines of sight, the Earth disk, and the field of view.",
     "background": "Celestial and particle background models.",
+    "detector": "The skipper-CCD response: efficiency, resolution, counts.",
     "sim": "The per-sample record every run produces.",
     "source": "Where the ALPs come from: the dark-matter halo column.",
 }
