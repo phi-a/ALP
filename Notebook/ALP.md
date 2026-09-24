@@ -66,6 +66,7 @@ line. See [[decisions]] D1.
 - [[01-physics/block-a-conversion|Block A: conversion]] — the amplitude from the mixing equations, validity, ray geometry, units, six checks
 - [[01-physics/block-b-source|Block B: source]] — line and continuum from one count, today's share, DMR and Yamamoto checks
 - [[01-physics/block-c-counts|Block C: counts]] — the count integral with every detector factor separate; grasp and conservation checks; reference-day worked example
+- [[03-sensitivity/result|The channel result]] — the paper's core claim: gate answered, what the analysis establishes, claim boundary
 - [[01-physics/block-d-claim|Block D: likelihood and claim]] — the linear count model, profiled information, the result hierarchy, and the viability gate with numbers
 - [[references|References]] — the one keyed bibliography
 - [[01-physics/detection-channel-derivation-contract|Derivation contract]] — equations, assumptions, tests, and review gate

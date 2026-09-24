@@ -55,6 +55,8 @@ calculated geomagnetic time dependence.
 
 ## Publication gates
 
+Status 2026-09-24: gate 1 met by [[../03-sensitivity/result]]; the viability screen returned Revise (D31).
+
 1. The source-to-count derivation reproduces a published benchmark and the
    viability screen includes current constraints.
 2. The Suzaku geometry and spectral normalization reproduce the declared
