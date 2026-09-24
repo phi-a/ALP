@@ -89,6 +89,7 @@ Time and reference frames. astropy does the work.
 | `gcrf_to_eme2000(v)` | Return (N, 3) vectors on EME2000 axes for (N, 3) GCRF vectors. |
 | `radec_vector(ra_deg, dec_deg)` | Return unit vectors toward J2000 (ra, dec) in degrees. |
 | `spherical(r_ecef)` | Return geocentric (lat_deg, lon_deg, r_km) arrays of ECEF points. |
+| `sun_position(time)` | Return (N, 3) geocentric Sun positions in km at Time(s). |
 | `sun_vector(time)` | Return (N, 3) unit vectors toward the Sun at Time(s). |
 | `times(epoch, t_s)` | Return Time for seconds after an ISO, Julian-date or Time epoch. |
 | `to_galactic(v)` | Return Galactic (l_deg, b_deg) of (N, 3) ICRS unit vectors. |
@@ -105,13 +106,13 @@ Lines of sight, the Earth disk, and the field of view.
 | `earth_angular_radius_deg(r_eci)` | Return the angular radius of the Earth disk from the spacecraft. |
 | `fov_axes(n_hat, up_hint=(0.0, 0.0, 1.0))` | Return (x_hat, y_hat) across the boresight; y_hat toward up_hint. |
 | `fov_field_integral(r_eci, n_hat, time, coeffs, lmax=13, q_per_m=0.0, half_angle_deg=10.0, rings=3)` | Return FOV-mean |A|^2 in T^2 m^2, per-ray |A|; ray 0 = boresight. |
-| `in_umbra(r_eci, sun_hats)` | Return a bool per row: spacecraft inside the cylindrical shadow. |
 | `limb_angle(r_eci, n_hats)` | Return degrees from boresight(s) to the limb; negative = at Earth. |
 | `limb_directions(r_eci, n_points=180)` | Return (n_points, 3) unit vectors along the limb ring. |
 | `los_field_integral(r_eci, n_hats, time, coeffs, lmax=13, q_per_m=0.0, l_max_re=10.0, n_steps=200, end_alt_km=150.0)` | Return |A| in T m per ray, with running totals and occultation. |
 | `offset_direction(x_deg, y_deg, n_hat, x_hat, y_hat)` | Return unit vectors at angular offsets (x, y) from the boresight. |
 | `path_end_km(r_eci, n_hats, l_max_re=10.0, end_alt_km=150.0)` | Return (s_end, occulted): the opaque-air shell or the outer sphere. |
 | `project(v, n_hat, x_hat, y_hat)` | Return (x_deg, y_deg) offsets; radius is the true angle from centre. |
+| `shadow(r_eci, sun_km)` | Return {lit_fraction, sunlit, penumbra, umbra} arrays per row. |
 | `transverse_amplitude(b, n_hats, s_m, q_per_m=0.0)` | Return running |int B_perp e^{iqs} ds| in T m, shape (R, S). |
 
 ## `kinematics`
@@ -161,7 +162,7 @@ What to look at, and when.
 | `GALACTIC` | constant: {apex, gc} |
 | `attitudes(modes, mode_index, time, r_eci, v_eci, b_eci=None)` | Return Rotation(s) following mode_index (N,) into a list of modes. |
 | `body_direction(name, time, r_eci)` | Return (N, 3) directions to a solar-system body from the spacecraft. |
-| `conditions(time, r_eci, extra=None)` | Return {name: bool (N,)} with umbra, sunlit, always, plus extra. |
+| `conditions(time, r_eci, extra=None)` | Return {name: bool (N,)}: sunlit, penumbra, umbra, always, extra. |
 | `desired_attitude(m, time, r_eci, v_eci, b_eci=None)` | Return body->ECI Rotation(s) realising a mode at each sample. |
 | `feasible(r_eci, n_hats, sun_hat, sun_min=90.0, limb_min=0.0)` | Return a bool per boresight: outside the Sun and limb keep-outs. |
 | `mode(primary, roll='anti_earth')` | Return a mode dict; roll: anti_earth, anti_sun, or a target spec. |

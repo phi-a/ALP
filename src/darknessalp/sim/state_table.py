@@ -6,11 +6,11 @@ from darknessalp.field.magnetic_coords import (
     cutoff_rigidity, magnetic_latitude)
 from darknessalp.frames.eci_ecef import eci_to_ecef, spherical
 from darknessalp.frames.sky import to_galactic
-from darknessalp.frames.sun import sun_vector
+from darknessalp.frames.sun import sun_position
 from darknessalp.frames.time import decimal_year, times
 from darknessalp.geometry.limb import limb_angle
 from darknessalp.geometry.los_integral import fov_field_integral
-from darknessalp.geometry.umbra import in_umbra
+from darknessalp.geometry.shadow import shadow
 from darknessalp.kinematics.slew import angle_between
 from darknessalp.source.halo import column_density
 
@@ -24,7 +24,9 @@ def state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0,
     r_ecef = eci_to_ecef(r_eci, time)
     lat, lon, rad = spherical(r_ecef)
     mlat = magnetic_latitude(r_ecef, coeffs)
-    sun = sun_vector(time)
+    sun_km = sun_position(time)
+    sun = sun_km / np.linalg.norm(sun_km, axis=1, keepdims=True)
+    lit = shadow(r_eci, sun_km)
     l_gal, b_gal = to_galactic(boresights)
 
     amp, k_fov, occ_frac, d_bore, d_fov, dk_fov = (
@@ -49,7 +51,8 @@ def state_table(epoch, t_s, r_eci, boresights, lmax=13, q_per_m=0.0,
         "limb_deg": np.array([limb_angle(r_eci[k], boresights[k])[0]
                               for k in range(len(t))]),
         "sun_deg": angle_between(boresights, sun),
-        "umbra": in_umbra(r_eci, sun), "occulted": occ,
+        "umbra": lit["umbra"], "penumbra": lit["penumbra"],
+        "lit_fraction": lit["lit_fraction"], "occulted": occ,
         "l_deg": l_gal, "b_deg": b_gal,
         "amp_tm": amp, "k_t2m2": amp**2,
         "k_fov_t2m2": k_fov, "fov_occ_frac": occ_frac,
