@@ -69,24 +69,18 @@ boresight points, not the FOV size.
 
 | Quantity | Value | Tag | Source |
 |---|---|---|---|
-| Stated FOV | "20°" per pixel | `DN-V` | ASR p. 4797 |
-| Obstruction model | "MCM with a 40° FOV"; 40° keep-out for off-axis response and edge pixels | `DN-V` | ASR p. 4801–4802, Fig. 10 |
-| Quoted grasp | **4.6 cm² sr** | `DN-D` | §5.2 |
-| Repo convention | half-angle 10°, Ω = 0.0955 sr, grasp 1.15 cm² sr | `DERIV` | [[darkness-parameters]] |
+| FOV per pixel | **20° full cone** → half-angle 10°, Ω = 0.0955 sr | `DN-V` | ASR p. 4797; confirmed by the team 2026-09-24 |
+| Grasp | $A_{\rm geo}\Omega$ = 12 × 0.0955 = **1.15 cm² sr** | `DERIV` | matches ASR "22 × EPIC-MOS" (27×) |
+| Keep-out cone | 40°, the union of the 20° pixel cones across the array plus margin; for Earth/Moon obstruction, not acceptance | `DN-V` | ASR p. 4801–4802, Fig. 10 |
 | Pointing error | 4.5° absolute, 1.5° knowledge (3σ) | `DN-V` | ASR p. 4801 |
 
-**The two sources disagree by 4×.** Check:
+The sensors draft quotes **4.6 cm² sr** (§5.2). That is 12 cm² over a
+20° *half*-angle cone (0.379 sr), so it double-counts the FOV. The value
+consistent with a 20° FOV is 1.15 cm² sr; the draft should be corrected.
 
-| Half-angle | Ω [sr] | $A_{\rm geo}\Omega$ [cm² sr] | × XMM MOS grasp |
-|---|---|---|---|
-| 10° | 0.0955 | 1.15 | 27 |
-| 20° | 0.379 | 4.55 | 109 |
-
-The draft's 4.6 cm² sr matches a **20° half-angle (40° full cone)**, as
-does the 40° obstruction cone. The ASR "22 × EPIC-MOS" statement matches
-10°. Two of three published signals now favour 20°. This reopens
-[[../open-questions]] Q1; the code default `half_angle_deg=10.0`
-(ALP-MD-07) stays until the team confirms from the aperture drawing.
+Each pixel sees its own 20° cone, offset by its position behind the
+apertures, so the array as a whole sees further than any one pixel. That
+is why obstruction checks use 40° while the per-pixel acceptance is 20°.
 
 Also unknown: the angular response $\mathcal V(\theta)$. A flat top out
 to the edge is an upper bound. Circular apertures over a 2 × 2 array
