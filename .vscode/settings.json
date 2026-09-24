@@ -1,5 +1,12 @@
 {
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "[latex]": {
+    "editor.wordWrap": "on",
+    "editor.rulers": []
+  },
+  "[bibtex]": {
+    "editor.wordWrap": "on"
+  },
   "python.terminal.activateEnvironment": true,
   "jupyter.notebookFileRoot": "${workspaceFolder}/jupyter"
 }
