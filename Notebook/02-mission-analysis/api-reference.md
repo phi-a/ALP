@@ -127,6 +127,18 @@ Body attitude, slews, and rate-limited steering.
 | `slew_time_s(angle_deg, rate_deg_s=1.5, settle_s=60.0)` | Return time to slew at a fixed rate plus settle (ASSUME 1.5 deg/s). |
 | `steer(desired, t_s, rate_deg_s=1.5, settle_deg=0.1, start=None, mode_index=None)` | Return (commanded Rotations, error_deg, slewing) at a fixed rate. |
 
+## `likelihood`
+
+Fisher information and fits for the linear count model.
+
+| Call | Returns |
+|---|---|
+| `fisher(templates, mu)` | Return I_ab = sum over cells of t_a t_b / mu. |
+| `fit_amplitudes(counts, templates, mu)` | Return least-squares amplitudes with weights 1/mu. |
+| `information_fraction(signal, nuisance, mu)` | Return the share of the signal's information that survives profiling. |
+| `profiled_sigma(signal, nuisance, mu)` | Return the error on the signal amplitude after profiling nuisance. |
+| `upper_limit(sigma, cl=0.9)` | Return the one-sided Gaussian upper limit on a null amplitude. |
+
 ## `orbit`
 
 Where the spacecraft is.
