@@ -13,7 +13,7 @@ from matplotlib.colors import LogNorm, TwoSlopeNorm
 
 from darknessalp import (field, frames, geometry, kinematics, orbit,
                          pointing, sim, source)
-from darknessalp.constants import R_EARTH_KM, R_EQUATOR_KM
+from darknessalp.constants import R_EARTH_KM, R_EQUATOR_KM, R_SUN_KM
 
 SHADE = "#eeeae0"           # science window
 UMBRA = "#3b3b6d"
@@ -121,85 +121,97 @@ def meridian_plane(r_eci, n_hat, time, coeffs, lmax=13, extent_re=2.6):
     return fig
 
 
-def _sphere(ax, radius, color, alpha, axis=None, length=0.0):
-    """Draw a sphere, or a cylinder of that radius along axis."""
-    u = np.linspace(0, 2 * np.pi, 40)
-    if axis is None:
-        w = np.linspace(0, np.pi, 20)
-        x = np.outer(np.cos(u), np.sin(w))
-        y = np.outer(np.sin(u), np.sin(w))
-        z = np.outer(np.ones_like(u), np.cos(w))
-        xyz = radius * np.stack([x, y, z], -1)
-    else:
-        a, b = geometry.fov_axes(axis)
-        ring = radius * (np.cos(u)[:, None] * a + np.sin(u)[:, None] * b)
-        ell = np.linspace(0, length, 2)
-        xyz = ring[:, None, :] + ell[None, :, None] * axis
-    ax.plot_surface(*np.moveaxis(xyz, -1, 0), color=color, alpha=alpha,
-                    linewidth=0, shade=False)
-
-
-def orbit_geometry(r_eci, n_hats, sun_hat, target, sci, umbra,
-                   radiator=None, n_orbit=93, every=4, view=None):
-    """Return a figure: one orbit in 3D, Sun, shadow, target, boresights."""
-    w = slice(0, n_orbit)
-    p = np.asarray(r_eci, float)[w] / R_EARTH_KM
-    n = np.asarray(n_hats, float)[w]
-    sci, umbra = np.asarray(sci)[w], np.asarray(umbra)[w]
+def orbit_geometry(r_eci, sun_hat, target, alt_km=420.0, d_draw=6.0,
+                   r_draw=3.0):
+    """Return a figure: one orbit through the Sun's two tangent cones."""
     s = np.asarray(sun_hat, float)
+    p = np.asarray(r_eci, float) / R_EARTH_KM
+    h = np.cross(p[0], p[1])
+    view = h - (h @ s) * s                  # orbit as face-on as the
+    view /= np.linalg.norm(view)            # Sun line allows
+    x_hat, y_hat = -s, np.cross(view, -s)
+    x, y, z = p @ x_hat, p @ y_hat, p @ view
+    rho = np.hypot(y, z)                    # distance from the shadow axis
 
-    fig = plt.figure(figsize=(10, 8))
-    ax = fig.add_subplot(projection="3d", computed_zorder=False)
-    ax.set_position((0.0, 0.0, 1.0, 0.95))
-    _sphere(ax, 1.0, "steelblue", 0.35)
-    _sphere(ax, 1.0, "0.3", 0.12, axis=-s, length=2.4)
-    ax.plot(*p.T, color="0.4", lw=0.8)
+    a_u = np.arcsin((r_draw - 1) / d_draw)  # drawn cone half-angles
+    a_p = np.arcsin((r_draw + 1) / d_draw)
+    x_u = d_draw / (r_draw - 1)             # umbra apex, behind the Earth
+    x_p = -d_draw / (r_draw + 1)            # penumbra apex, toward the Sun
+    behind = x > 0
+    umbra = behind & (rho < (x_u - x) * np.tan(a_u))
+    penumbra = behind & ~umbra & (rho < (x - x_p) * np.tan(a_p))
+    cls = np.where(umbra, 2, np.where(penumbra, 1, 0))
 
-    cls = np.where(sci, 2, np.where(umbra, 1, 0))
-    colors = [SUNLIT, UMBRA, SCIENCE]
-    labels = ["sunlit: boresight anti-Sun",
-              "umbra, target behind Earth: looking into it",
-              "umbra, target in view: science"]
-    pick = np.zeros(len(p), bool)
-    pick[::every] = True
-    for c, (col, lab) in enumerate(zip(colors, labels)):
-        m = (cls == c) & pick
-        ax.scatter(*p[cls == c].T, s=8, color=col, depthshade=False)
-        ax.quiver(*p[m].T, *n[m].T, length=0.7, color=col,
-                  arrow_length_ratio=0.25, lw=1.4, label=lab)
-    if radiator is not None:
-        q = np.asarray(radiator, float)[w]
-        m = pick & (cls == 2)
-        ax.quiver(*p[m].T, *q[m].T, length=0.35, color="crimson",
-                  arrow_length_ratio=0.3, lw=1.0,
-                  label="radiator normal (roll: away from Earth)")
+    fig, ax = plt.subplots(figsize=(12, 7.6))
+    left, right, top = -3.6, 3.6, 2.3
+    pen = np.array([[-np.sin(a_p), np.cos(a_p)],
+                    [right, (right - x_p) * np.tan(a_p)],
+                    [right, -(right - x_p) * np.tan(a_p)],
+                    [-np.sin(a_p), -np.cos(a_p)]])
+    umb = np.array([[np.sin(a_u), np.cos(a_u)], [x_u, 0.0],
+                    [np.sin(a_u), -np.cos(a_u)]])
+    ax.add_patch(plt.Polygon(pen, color="0.3", alpha=0.12, lw=0))
+    ax.add_patch(plt.Polygon(umb, color="0.3", alpha=0.35, lw=0))
+    xx = np.array([left, right])
+    for sign in (1, -1):
+        ax.plot(xx, sign * (xx - x_p) * np.tan(a_p), color="0.4", lw=0.8,
+                ls="--")
+        ax.plot(xx, sign * (x_u - xx) * np.tan(a_u), color="0.25", lw=0.8)
+    ax.add_patch(plt.Circle((0, 0), 1.0, color="steelblue", zorder=4))
+    ax.text(0, 0, "Earth", ha="center", va="center", color="white",
+            zorder=5)
+    ax.plot(x_u, 0, "k.", ms=6, zorder=6)
+    ax.annotate("", (left + 0.15, 0), (left + 1.1, 0), zorder=6,
+                arrowprops=dict(arrowstyle="-|>", color=SUN, lw=2))
+    ax.text(left + 0.62, 0.12, "to the Sun", color=SUN, ha="center",
+            fontsize=10)
 
-    for vec, col, text in [(s, SUN, "to the Sun"),
-                           (target, "k", "to the target (fixed on the sky)")]:
-        ax.quiver(0, 0, 0, *vec, length=2.6, color=col,
-                  arrow_length_ratio=0.08, lw=2)
-        ax.text(*(2.75 * vec), text, color=col, fontsize=9)
-    ax.text(*(-2.5 * s), "shadow", color="0.3", fontsize=9, ha="center")
+    colors = np.array([SUNLIT, SCIENCE, UMBRA])
+    seg = np.stack([np.c_[x, y][:-1], np.c_[x, y][1:]], 1)
+    ax.add_collection(LineCollection(seg, colors=colors[cls[:-1]], lw=4,
+                                     zorder=7))
+    for c, name in enumerate(["sunlit", "penumbra", "umbra"]):
+        ax.plot([], [], color=colors[c], lw=4, label=name)
+    k = len(x) // 8                          # direction of motion
+    ax.annotate("", (x[k + 1], y[k + 1]), (x[k], y[k]), zorder=8,
+                arrowprops=dict(arrowstyle="-|>", color="k", lw=1.5,
+                                mutation_scale=18))
+    tx, ty = target @ x_hat, target @ y_hat
+    ax.annotate("", (1.9 * tx, 1.9 * ty), (0, 0), zorder=6,
+                arrowprops=dict(arrowstyle="-|>", color="k", lw=1.5))
+    ax.text(2.05 * tx, 2.05 * ty, "to the target", fontsize=9,
+            ha="center", va="center")
 
-    lim = 1.7
-    ax.set_xlim(-lim, lim)
-    ax.set_ylim(-lim, lim)
-    ax.set_zlim(-lim, lim)
-    ax.set_box_aspect((1, 1, 1))
-    ax.set_axis_off()
-    if view is None:                  # camera on the Sun x target normal
-        h = np.cross(p[0], p[1])
-        h /= np.linalg.norm(h)
-        cam = np.cross(s, target)
-        cam *= np.sign(cam @ h) / np.linalg.norm(cam)
-        cam = cam + 0.6 * h
-        view = (np.degrees(np.arcsin(cam[2] / np.linalg.norm(cam))),
-                np.degrees(np.arctan2(cam[1], cam[0])))
-    ax.view_init(elev=view[0], azim=view[1])
-    ax.legend(loc="lower left", fontsize=9, frameon=False,
-              bbox_to_anchor=(0.0, 0.0))
-    ax.set_title("One orbit: what the schedule sees  [Earth radii, ECI]",
-                 y=0.98)
+    ax.text(x_u * 0.5, 0.1, "umbra", ha="center", fontsize=10, zorder=6)
+    ax.text(2.4, 1.5, "penumbra", ha="center", fontsize=10)
+    ax.text(-2.9, 1.95, "sunlit", ha="center", fontsize=10)
+    d_sun = 1.495978707e8
+    half_u = np.degrees(np.arcsin((R_SUN_KM - R_EARTH_KM) / d_sun))
+    half_p = np.degrees(np.arcsin((R_SUN_KM + R_EARTH_KM) / d_sun))
+    apex = R_EARTH_KM / np.tan(np.radians(half_u))
+    across = 2 * np.arcsin(R_SUN_KM / d_sun) * (R_EARTH_KM + alt_km)
+    ax.text(right - 0.15, -top + 0.15,
+            f"Cones drawn for a Sun {d_draw:.0f} Earth radii away and "
+            f"{r_draw:.0f} in radius (true: {d_sun / R_EARTH_KM:,.0f} and "
+            f"{R_SUN_KM / R_EARTH_KM:.0f}).\nTrue angles: the umbra "
+            f"closes at {half_u:.2f}°, apex {apex / 1e6:.1f} million km "
+            f"behind the Earth; the penumbra opens at {half_p:.2f}°.\n"
+            f"At {alt_km:.0f} km the penumbra is {across:.0f} km thick: "
+            f"about 8 s of the orbit each way.", ha="right", va="bottom",
+            fontsize=8, color="0.3")
+    ax.set_aspect("equal")
+    ax.set_xlim(left, right)
+    ax.set_ylim(-top, top)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    for side in ax.spines.values():
+        side.set_visible(False)
+    ax.legend(loc="upper left", fontsize=9, frameon=False,
+              title=f"one orbit at {alt_km:.0f} km, to scale",
+              title_fontsize=9)
+    ax.set_title("One orbit through the Earth's shadow, in the plane of "
+                 "the Sun line", fontsize=12)
+    fig.tight_layout()
     return fig
 
 
@@ -498,12 +510,10 @@ def main():
     table = sim.state_table(a.epoch, t, r, n, lmax=a.lmax)
     sci = science_mask(table)
     k = int(np.flatnonzero(sci)[0])
-    sun = frames.sun_vector(time[:1])[0]
-    per_orbit = int(orbit.period_s(R_EQUATOR_KM + a.alt) / a.cadence)
-
-    orbit_geometry(r, n, sun, n[0], sci, table["umbra"], n_orbit=per_orbit,
-                   every=max(1, per_orbit // 24)).savefig(
-        out / "orbit_geometry.png", dpi=150)
+    t_orbit = np.arange(0.0, orbit.period_s(R_EQUATOR_KM + a.alt), 10.0)
+    r_orbit, _ = orbit.propagate(r0, v0, t_orbit)
+    orbit_geometry(r_orbit, frames.sun_vector(time[:1])[0], n[0],
+                   a.alt).savefig(out / "orbit_geometry.png", dpi=150)
     field_geometry(coeffs, a.alt, a.inc, a.lmax).savefig(
         out / "field_geometry.png", dpi=150)
     ray_fan(r[k], n[k], time[k], coeffs, a.lmax).savefig(
