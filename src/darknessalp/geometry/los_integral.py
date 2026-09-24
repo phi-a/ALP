@@ -2,7 +2,8 @@
 import numpy as np
 from scipy.integrate import cumulative_trapezoid
 
-from darknessalp.constants import R_EARTH_KM
+from darknessalp.constants import (
+    EV2_PER_TESLA, INV_EV_PER_M, R_EARTH_KM)
 from darknessalp.field.igrf import igrf_field_eci
 from darknessalp.geometry.fov import cone_directions
 
@@ -29,17 +30,29 @@ def los_field_integral(r_eci, n_hats, time, coeffs, lmax=13, q_per_m=0.0,
     points = r_eci + s_km[:, :, None] * n[:, None, :]          # (R, S, 3)
 
     b = igrf_field_eci(points.reshape(-1, 3), time, coeffs, lmax)
-    b = b.reshape(points.shape)
-    b_along = np.sum(b * n[:, None, :], axis=2, keepdims=True)
-    transverse = b - b_along * n[:, None, :]
-    phase = np.exp(1j * q_per_m * s_km * 1e3)[:, :, None]
-
-    s_m = np.broadcast_to(s_km[:, :, None] * 1e3, transverse.shape)
-    running = cumulative_trapezoid(transverse * phase, s_m, axis=1,
-                                   initial=0.0)
-    running_tm = np.linalg.norm(running, axis=2)
+    running_tm = transverse_amplitude(b.reshape(points.shape), n,
+                                      s_km * 1e3, q_per_m)
     return {"amplitude_tm": running_tm[:, -1], "running_tm": running_tm,
             "s_km": s_km, "occulted": occulted}
+
+
+def transverse_amplitude(b, n_hats, s_m, q_per_m=0.0):
+    """Return running |int B_perp e^{iqs} ds| in T m, shape (R, S)."""
+    n = np.atleast_2d(n_hats)
+    b_along = np.sum(b * n[:, None, :], axis=2, keepdims=True)
+    transverse = b - b_along * n[:, None, :]
+    phase = np.exp(1j * q_per_m * s_m)[:, :, None]
+
+    s = np.broadcast_to(s_m[:, :, None], transverse.shape)
+    running = cumulative_trapezoid(transverse * phase, s, axis=1,
+                                   initial=0.0)
+    return np.linalg.norm(running, axis=2)
+
+
+def conversion_probability(amplitude_tm, g_gev):
+    """Return P(a -> gamma) = (g |A| / 2)^2 for |A| in T m, g in GeV^-1."""
+    amp_ev = np.asarray(amplitude_tm) * EV2_PER_TESLA * INV_EV_PER_M
+    return (g_gev * 1e-9 * amp_ev / 2) ** 2
 
 
 def fov_field_integral(r_eci, n_hat, time, coeffs, lmax=13, q_per_m=0.0,

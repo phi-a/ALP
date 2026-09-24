@@ -33,6 +33,12 @@ class TestPublishedNumbers(unittest.TestCase):
         self.assertLess(np.median(k2), 1e5)
         self.assertGreater(np.mean((k2 > 1e4) & (k2 < 1e5)), 0.4)
 
+    def test_conversion_probability_matches_yamamoto(self):
+        """Yamamoto+ 2020 eq. 2.13: 2.45e-21 (g/1e-10)^2 (BL/T m)^2."""
+        self.assertAlmostEqual(
+            geometry.conversion_probability(100.0, 1e-10) / 2.45e-17, 1.0,
+            delta=0.003)
+
     def test_hand_calculation_of_the_surface_integral(self):
         """B_0 R_E / 2 ~ 100 T m, the Stage 3 paper estimate."""
         coeffs = field.load_igrf(2027.0)
