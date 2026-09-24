@@ -3,6 +3,8 @@ import unittest
 import numpy as np
 
 from darknessalp import geometry, kinematics
+from darknessalp.constants import (
+    MU_EARTH_KM3_S2, R_EQUATOR_KM, R_SUN_KM)
 
 
 class TestGeometryView(unittest.TestCase):
@@ -15,11 +17,27 @@ class TestGeometryView(unittest.TestCase):
         sep = kinematics.angle_between(ring, np.tile([-1.0, 0, 0], (12, 1)))
         np.testing.assert_allclose(sep, 69.74, atol=0.01)
 
-    def test_umbra(self):
-        r = np.array([[-7000.0, 0, 0], [7000.0, 0, 0], [-7000.0, 6500.0, 0]])
-        sun = np.tile([1.0, 0, 0], (3, 1))
-        np.testing.assert_array_equal(geometry.in_umbra(r, sun),
-                                      [True, False, False])
+    def test_conical_shadow(self):
+        d, au = 6800.0, 1.495978707e8
+        edge = np.pi - np.arcsin(R_EQUATOR_KM / d)  # Sun centre on the limb
+        r = np.array([[-d, 0, 0], [d, 0, 0], [-d, 6500.0, 0],
+                      [d * np.cos(edge), d * np.sin(edge), 0]])
+        s = geometry.shadow(r, np.tile([au, 0, 0], (4, 1)))
+        np.testing.assert_array_equal(s["umbra"], [1, 0, 0, 0])
+        np.testing.assert_array_equal(s["sunlit"], [0, 1, 1, 0])
+        np.testing.assert_array_equal(s["penumbra"], [0, 0, 0, 1])
+        self.assertAlmostEqual(s["lit_fraction"][3], 0.5, delta=0.02)
+
+    def test_penumbra_lasts_seconds_in_leo(self):
+        d = 6800.0
+        phi = np.radians(np.linspace(105, 115, 20001))
+        r = d * np.stack([np.cos(phi), np.sin(phi), 0 * phi], 1)
+        s = geometry.shadow(r, np.array([1.495978707e8, 0, 0]))
+        period = 2 * np.pi * np.sqrt(d**3 / MU_EARTH_KM3_S2)
+        width = s["penumbra"].sum() * (phi[1] - phi[0]) / (2 * np.pi)
+        sun_disk = 2 * np.arcsin(R_SUN_KM / 1.495978707e8)
+        self.assertAlmostEqual(width * period,
+                               sun_disk / (2 * np.pi) * period, delta=0.05)
 
     def test_projection_preserves_angle(self):
         n = np.array([1.0, 0, 0])

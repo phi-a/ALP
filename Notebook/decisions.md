@@ -636,3 +636,31 @@ end and a slant-column end; then the density profile must be added.
 
 - part of [[ALP]]
 - unresolved: [[open-questions]]
+
+---
+
+## D33 - The Earth's shadow is a cone, with a penumbra
+
+**2026-09-24.** `geometry.shadow(r_eci, sun_km)` replaces the
+cylindrical `in_umbra`. From the spacecraft it compares the apparent
+radius of the Sun ($R_\odot = 695\,700$ km, IAU 2015) with that of the
+Earth ($R_E = 6378.137$ km, equatorial) and their separation, and
+returns the visible fraction of the solar disk from the overlap of the
+two disks: 1 sunlit, 0 umbra, between them penumbra. The schedule
+conditions gain `penumbra`, and `sunlit` now means fully lit; the state
+table gains `penumbra` and `lit_fraction`. `frames.sun_position` gives
+the Sun in km, which the cone needs.
+
+**Why:** the cylinder has no penumbra and puts the shadow edge in the
+wrong place by a few seconds. The cone is the standard geometric model
+and costs nothing. In LEO a penumbra crossing takes 8 s or more, so
+the effect on duty cycle is small: the scenario-regression pins did not
+move. A science rule on `umbra` now excludes the penumbra, which is the
+safe side for stray sunlight.
+
+**What it is not:** the atmosphere. Refraction and absorption blur the
+edge by a further few seconds; no model here covers them.
+
+**Reversed if:** a thermal or power study needs the penumbra's
+brightness curve through the atmosphere; then the atmosphere enters as
+a correction to `lit_fraction`.

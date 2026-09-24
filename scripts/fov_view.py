@@ -90,13 +90,13 @@ def main():
     r_ecef = frames.eci_to_ecef(r, time)
     lat, lon, rad = frames.spherical(r_ecef)
     mlat = field.magnetic_latitude(r_ecef, coeffs)[0]
-    sun = frames.sun_vector(time)
+    lit = geometry.shadow(r, frames.sun_position(time))["lit_fraction"]
     ax.set_title(
         f"{a.target}  {a.epoch[:10]} +{a.t:.0f} s  lat {lat[0]:.0f} "
         f"lon {lon[0]:.0f}  maglat {mlat:.0f}  "
         f"Rc {field.cutoff_rigidity(mlat, rad[0]):.1f} GV  "
         f"limb {geometry.limb_angle(r[0], n)[0]:.0f} deg  "
-        f"umbra {bool(geometry.in_umbra(r, sun)[0])}", fontsize=9)
+        f"sunlit {lit[0]:.0%}", fontsize=9)
     if a.out:
         ax.figure.savefig(a.out, dpi=130, bbox_inches="tight")
     else:

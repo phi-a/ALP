@@ -1,14 +1,15 @@
 """Condition-based schedule: which mode applies at each sample."""
 import numpy as np
 
-from darknessalp.frames.sun import sun_vector
-from darknessalp.geometry.umbra import in_umbra
+from darknessalp.frames.sun import sun_position
+from darknessalp.geometry.shadow import shadow
 
 
 def conditions(time, r_eci, extra=None):
-    """Return {name: bool (N,)} with umbra, sunlit, always, plus extra."""
-    umbra = in_umbra(r_eci, sun_vector(time))
-    out = {"umbra": umbra, "sunlit": ~umbra, "always": np.ones_like(umbra)}
+    """Return {name: bool (N,)}: sunlit, penumbra, umbra, always, extra."""
+    s = shadow(r_eci, sun_position(time))
+    out = {k: s[k] for k in ("sunlit", "penumbra", "umbra")}
+    out["always"] = np.ones_like(s["umbra"])
     out.update(extra or {})
     return out
 

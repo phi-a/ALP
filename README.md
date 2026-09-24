@@ -66,7 +66,7 @@ python scripts/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --ou
   - `field/` IGRF-14 (`load_igrf`, `igrf_field`, `igrf_field_eci`), dipole,
     `magnetic_latitude`, `cutoff_rigidity`
   - `geometry/` `los_field_integral` (vectorised over rays), `limb_angle`,
-    `in_umbra`, FOV projection and cone quadrature
+    `shadow`, FOV projection and cone quadrature
   - `background/` CXB, GRXE, NXB proxy, bright sources
   - `source/` NFW halo `nfw_density`, `column_density`
   - `sim/` `state_table`, `to_csv`
@@ -76,10 +76,12 @@ python scripts/fov_view.py --target gc --epoch 2027-05-01T00:00:00 --t 4140 --ou
   living document (one day of an ISS-like orbit under a mode schedule:
   state table, orbit strip, boresight view, OEM file). Variants are
   copies named `main_sequence_vN.ipynb`.
-  `conops.ipynb` is the picture book: six figures for intuition and
-  ConOps graphics (conversion path, aperture view, one orbit, ground
-  track, sky maps, count ceiling), drawn from the same simulated
-  mission by `scripts/conops_figures.py`; `Yamamoto2020_Fig7.ipynb`
+  `conops.ipynb` is the picture book: three geometry pictures (the
+  orbit in space, the magnetic field, the fan of rays from
+  one spot) and six figures for intuition and ConOps graphics (conversion
+  path, aperture view, one orbit, ground track, sky maps, count
+  ceiling), drawn from the same simulated mission by
+  `scripts/conops_figures.py`; `Yamamoto2020_Fig7.ipynb`
   regenerates the axion-limit figure from the
   [AxionLimits](https://github.com/cajohare/AxionLimits) archive
   (`fetch_axion_limit(name, coupling)` downloads once into
