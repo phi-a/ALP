@@ -54,7 +54,9 @@ Teaching codebase. The student audience is the primary constraint on every decis
   and ConOps graphics, drawn from the same simulated mission; the
   figure code lives in `scripts/conops_figures.py`. Other `jupyter/`
   notebooks are analyses that run on the same library.
-  `Notebook/` notes (.md, tracked). `docs/` references (untracked).
+  `Notebook/` notes (.md, tracked). `paper/` the manuscript (LaTeX,
+  tracked, written from `Notebook/03-sensitivity/result.md`). `docs/`
+  references (untracked).
   `data/` inputs. `outputs/` generated (untracked).
 - New decisions and results summaries go in `Notebook/`, dated.
 
