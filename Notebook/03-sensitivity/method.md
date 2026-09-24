@@ -104,6 +104,7 @@ provides the target curve, digitised and validated.
 ## Links
 
 - part of [[../ALP]]
+- the result: [[result]] (gates 1-3 met 2026-09-24; gate 2 at a factor 2.3)
 - source models: [[../01-physics/alp-signal-chain]]
 - derivation contract: [[../01-physics/detection-channel-derivation-contract]]
 - scaling: [[../01-physics/sensitivity-scaling]]
