@@ -138,8 +138,9 @@ that scaling gives $6.4\times10^{-14}$ photons cm⁻² s⁻¹ sr⁻¹ per
 T² m² for the D28 benchmark; the derived spectrum gives
 $3.1\times10^{-14}$. D28's continuum count of $1.2\times10^{-3}$ is
 therefore $2.1\times$ too high, its line count stands, and the
-conclusion (two orders below one count) is unchanged. Figure 6 should
-use `source.continuum_intensity`.
+conclusion (two orders below one count) is unchanged. Figure 6 uses
+`source.continuum_intensity` since 2026-09-24: continuum
+$5.9\times10^{-4}$ counts ([[../2026-09-24-ceiling-refresh]]).
 
 ## Close
 

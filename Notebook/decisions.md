@@ -518,6 +518,12 @@ assumed 90 ks), with $\langle K\rangle = 1.5\times10^4$ T² m² and
 $\langle D\rangle = 1.3\times10^{23}$ GeV cm⁻². Still two orders below
 one count. Coherence halves at $m_a \approx 1.7\times10^{-5}$ eV.
 
+**Addendum 2026-09-24.** Figure 6 now integrates Block B's derived
+continuum (`source.continuum_intensity`) over 2–6 keV in place of the
+`[Yam20]` flux-limit scaling: continuum $5.9\times10^{-4}$ counts
+($0.48\times$ the value above); line and conclusion unchanged
+([[2026-09-24-ceiling-refresh]]).
+
 **Why:** one pipeline is one thing to keep correct, and a screen that
 runs on the simulated mission cannot drift from it.
 
