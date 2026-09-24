@@ -50,7 +50,10 @@ Teaching codebase. The student audience is the primary constraint on every decis
   document kept current. A variant that tests something different is a
   copy named `main_sequence_vN.ipynb` (N = 1, 2, …) whose first cell says
   what it tests; its result goes in a dated `Notebook/` note.
-- Other `jupyter/` notebooks are analyses that run on the same library.
+- `jupyter/conops.ipynb` is the picture book: figures for intuition
+  and ConOps graphics, drawn from the same simulated mission; the
+  figure code lives in `scripts/conops_figures.py`. Other `jupyter/`
+  notebooks are analyses that run on the same library.
   `Notebook/` notes (.md, tracked). `docs/` references (untracked).
   `data/` inputs. `outputs/` generated (untracked).
 - New decisions and results summaries go in `Notebook/`, dated.

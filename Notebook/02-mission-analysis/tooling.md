@@ -31,6 +31,7 @@ src/darknessalp/
   sim/         state_table -> dict of arrays, CSV
 jupyter/main_sequence.ipynb      the simulation pipeline
 scripts/fov_view.py              thin CLI + the reusable fov_view() axes
+scripts/conops_figures.py        the ConOps figures; jupyter/conops.ipynb
 scripts/api_reference.py         regenerates the API reference note
 ```
 

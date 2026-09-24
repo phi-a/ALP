@@ -90,8 +90,8 @@ docstring, and regenerating the note reproduces it byte for byte.
 
 ## What this does not cover
 
-- **The notebooks.** `jupyter/main_sequence.ipynb`, the ceiling
-  screen and `Yamamoto2020_Fig7.ipynb` are run by hand. The scenario regression
+- **The notebooks.** `jupyter/main_sequence.ipynb`, `conops.ipynb`
+  and `Yamamoto2020_Fig7.ipynb` are run by hand. The scenario regression
   covers the same sequence at coarse cadence, so a broken notebook is
   usually a broken cell, not broken physics.
 - **The FOV figure.** Rendering is checked by looking at it.
