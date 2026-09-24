@@ -241,6 +241,9 @@ derivation without this declared target.
 
 ## Primary sources
 
+Starting equations per block: [[derivation-sources]]. Full bibliography:
+[[../references]].
+
 - Yamamoto et al. 2020: https://arxiv.org/abs/1906.04429
 - Dror, Murayama, and Rodd 2021, corrected version:
   https://arxiv.org/abs/2101.09287

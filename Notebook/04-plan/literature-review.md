@@ -193,6 +193,8 @@ This package tests the paper's central premise with minimal dependence on uncert
 
 ## Core sources
 
+Canonical keyed list: [[../references]].
+
 - [Alpine et al. 2025, DarkNESS mission](https://doi.org/10.1016/j.asr.2025.07.070)
 - [Alpine et al. 2026, skipper-CCD X-ray response after proton irradiation](https://arxiv.org/abs/2602.02461)
 - [Yamamoto et al. 2020, geomagnetic ALP conversion with Suzaku](https://doi.org/10.1088/1475-7516/2020/02/011)
