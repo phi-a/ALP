@@ -8,6 +8,9 @@ a paragraph in those notes. Change the note first, then the paper.
 Prose follows the Closed Form discipline: state the obligation, do the
 work, close without new scope.
 
+Project vocabulary and mission framing are recorded in
+`Notebook/paper-writing.md`. Check that note before revising manuscript prose.
+
 ## Build
 
 ```powershell
