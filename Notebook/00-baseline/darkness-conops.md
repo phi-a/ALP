@@ -43,7 +43,7 @@ joint optimisation over sky position *and* field geometry.
 
 | Constraint | Source | Status in the model |
 |---|---|---|
-| Umbra-only science | `DN-V` p. 4799 | **Baseline.** Flagged as a candidate to relax — see [[../decisions]] |
+| Umbra-only science | `DN-V` p. 4799 | **A trade, not a requirement** (PI, 2026-09-24). Carried as one option against sunlit observing with Sun keep-out — [[../decisions]] D30 |
 | Radiator secondary-axis constraint | `DN-V` p. 4800 | Radiator panels and direct-Sun avoidance to be modelled; thermal margin deferred (D20, 2026-09-17) |
 | Earth-facing boresight | PI, 2026-09-17 | **Not forbidden.** Occultation frames are usable as the $K$-off control — see [[../02-mission-analysis/conops-physics-map]]; frames-through-occultation is Q21 |
 | Earth limb avoidance | `ASSUME` | Angle TBD; the maximum-$K$ directions are limb-grazing, so this trades directly against signal (Q22) |

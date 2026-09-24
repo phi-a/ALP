@@ -31,7 +31,7 @@ curve inherits the weakest tag in its chain.
 | Sensors | 4 × skipper-CCD, 1.35 Mpix each | `DN-V` | p. 4797, Fig. 3 |
 | Pixel pitch | 15 × 15 µm | `DN-V` | p. 4798 |
 | Total collecting area | **12 cm²** | `DN-V` | p. 4797 |
-| Depletion thickness | 725 µm, fully depleted | `DN-V` | p. 4796 |
+| Depletion thickness | 725 µm prototype; **500 µm flight** | `DN-V` / `DN-D` | p. 4796; [[skipper-ccd]] |
 | Entrance window | 50 nm Al, >98 % transmission down to 1 keV | `DN-V` | p. 4796 |
 | Science band | 1–10 keV | `DN-V` | p. 4794, 4796 |
 | Energy resolution | σ_E ≈ 50 eV at 6 keV (Fano limit in Si) | `DN-V` | p. 4798 |
@@ -40,7 +40,7 @@ curve inherits the weakest tag in its chain.
 | Operating temperature | 170 ± 5 K | `DN-V` | p. 4796, 4800 |
 | Optics | **None** (volume-constrained) | `DN-V` | p. 4797 |
 | Field of view | 20°, set by four circular apertures | `DN-V` | p. 4797 |
-| FOV convention | 20° = **full cone** → half-angle 10°, Ω ≈ 0.0955 sr | `DERIV` | see below |
+| FOV convention | 20° = **full cone** → half-angle 10°, Ω ≈ 0.0955 sr | `DN-V` | confirmed by the team 2026-09-24; see below |
 | Masking live fraction | ~50 % (high-energy hit masking) | `DN-V` | p. 4795, 4798 |
 | Aperture body axis | unknown — Fig. 8 labels the window but the axis is ambiguous | `DN-TBC` | p. 4800 |
 
@@ -65,7 +65,7 @@ so 22 × MOS ≈ 0.92 cm² sr. With A = 12 cm² that implies Ω ≈ 0.077 sr, i.
 A 10° half-angle (Ω = 0.0955 sr) gives 27 × MOS — consistent within the slop of which energy and QE are
 assumed. A 20° **half**-angle would give 108 ×, which is not what the paper claims.
 
-**So: half-angle 10°, Ω ≈ 0.0955 sr.** Tagged `DERIV` and not `DN-V` because §2.2 separately refers to a
+**So: half-angle 10°, Ω ≈ 0.0955 sr.** Confirmed by the team 2026-09-24; the 40° in ASR Fig. 10 is the obstruction keep-out across pixel positions. Originally `DERIV` because §2.2 separately refers to a
 "20° radius" region for the Galactic Centre *background model* — that is a sky region for background
 estimation, not the FOV, but the collision of terms is exactly the kind of thing that needs confirming.
 
