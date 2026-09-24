@@ -35,3 +35,13 @@ def column_density(l_deg, b_deg, r_max_kpc=R_MAX_KPC, **nfw):
         out.flat[i] = quad(rho_along, 0.0, r_max_kpc, points=breaks,
                            limit=200)[0]
     return out * KPC_CM
+
+
+def sky_column(step_deg=2.0, **nfw):
+    """Return the full-sky integral of D in GeV cm^-2 sr on an (l, b) grid."""
+    half = step_deg / 2
+    l, b = np.meshgrid(np.arange(-180 + half, 180, step_deg),
+                       np.arange(-90 + half, 90, step_deg))
+    d = column_density(l.ravel(), b.ravel(), **nfw).reshape(l.shape)
+    weight = np.radians(step_deg) ** 2 * np.cos(np.radians(b))
+    return float(np.sum(d * weight))
