@@ -8,23 +8,25 @@ from darknessalp.field.igrf import igrf_field_eci
 from darknessalp.geometry.fov import cone_directions
 
 
-def path_end_km(r_eci, n_hats, l_max_re=10.0):
-    """Return (s_end, occulted) per ray: Earth surface or the outer sphere."""
+def path_end_km(r_eci, n_hats, l_max_re=10.0, end_alt_km=150.0):
+    """Return (s_end, occulted): the opaque-air shell or the outer sphere."""
     n = np.atleast_2d(n_hats)
     along = n @ r_eci
     r2 = r_eci @ r_eci
     disc = along**2 - r2 + R_EARTH_KM**2
-    occulted = (along < 0) & (disc >= 0)
-    s_earth = -along - np.sqrt(np.where(occulted, disc, 0.0))
+    occulted = (along < 0) & (disc >= 0)          # hits the ground
+    shell = along**2 - r2 + (R_EARTH_KM + end_alt_km) ** 2
+    blocked = (along < 0) & (shell >= 0)          # enters opaque air
+    s_shell = -along - np.sqrt(np.where(blocked, shell, 0.0))
     s_outer = -along + np.sqrt(along**2 - r2 + (l_max_re * R_EARTH_KM) ** 2)
-    return np.where(occulted, s_earth, s_outer), occulted
+    return np.where(blocked, s_shell, s_outer), occulted
 
 
 def los_field_integral(r_eci, n_hats, time, coeffs, lmax=13, q_per_m=0.0,
-                       l_max_re=10.0, n_steps=200):
+                       l_max_re=10.0, n_steps=200, end_alt_km=150.0):
     """Return |A| in T m per ray, with running totals and occultation."""
     n = np.atleast_2d(n_hats)
-    s_end, occulted = path_end_km(r_eci, n, l_max_re)
+    s_end, occulted = path_end_km(r_eci, n, l_max_re, end_alt_km)
     frac = np.linspace(0.0, 1.0, n_steps + 1)
     s_km = s_end[:, None] * frac[None, :]                      # (R, S)
     points = r_eci + s_km[:, :, None] * n[:, None, :]          # (R, S, 3)

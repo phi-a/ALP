@@ -56,9 +56,8 @@ field as a vector so that a rotating field partly cancels. Uniform
 field gives $2(1-\cos qL)/(qL)^2$; $g = 10^{-10}$ GeV⁻¹ and
 $B_\perp L = 100$ T m give $P = 2.45\times10^{-17}$ (`[Yam20]` eq
 2.13). Plasma, QED and Faraday terms are each below $10^{-4}$ of the
-phase for DarkNESS. A ray ends at 10 $R_E$ or at the Earth; the
-transparent boundary near 150 km, not the surface, is the correct
-inner end for occulted rays (Q23).
+phase for DarkNESS. A ray ends at 10 $R_E$ or where it enters air
+opaque to keV X-rays, taken as a 150 km shell (D32).
 
 **Source.** One count of decays gives both components with one $f$
 and one $\tau$. The full-sky halo column from the NFW model matches
@@ -143,8 +142,9 @@ by template error, as `[Yam20]`'s was.
 ## 6. What would change it
 
 The placeholder ridge model and the assumed particle level move the
-limit by 4× and no conclusion. The occulted-ray endpoint (Q23) changes
-the kernel-off control frames by 2.7×. The live fraction and
+limit by 4× and no conclusion. The occulted-ray end is now the 150 km
+shell (D32); its residual angle and energy dependence (Q23) moves the
+kernel-off control frames by less than the 2.7× that change removed. The live fraction and
 selection efficiency, constants here, become time-dependent nuisance
 terms in a real fit. None of these reaches the $10^{5}$ in $\Theta$
 the gate would need; only a source outside the $\chi\to aa$

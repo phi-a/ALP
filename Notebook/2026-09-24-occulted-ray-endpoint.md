@@ -49,10 +49,12 @@ frames carries a template error of that size.
 ## Close
 
 The endpoint is an altitude that depends on nadir angle and energy and
-lies above 150 km; the surface is wrong for every occulted frame. The
-choice is open as Q23. Until it is made, occulted-frame $K$ in the
-state table is an overestimate of order 2.7, and no number that uses
-the $K$-off control should be quoted from it.
+lies above 150 km; the surface is wrong for every occulted frame.
+**Applied 2026-09-24 (D32):** `path_end_km` ends every ray at the
+150 km shell by default (`end_alt_km`); a ray grazing below 150 km is
+truncated there without being flagged occulted. The angle and energy
+dependence of the true boundary remains Q23, tagged `ASSUME`, and
+moves the control frames by less than the 2.7 just removed.
 
 ## Links
 

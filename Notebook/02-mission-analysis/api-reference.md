@@ -108,9 +108,9 @@ Lines of sight, the Earth disk, and the field of view.
 | `in_umbra(r_eci, sun_hats)` | Return a bool per row: spacecraft inside the cylindrical shadow. |
 | `limb_angle(r_eci, n_hats)` | Return degrees from boresight(s) to the limb; negative = at Earth. |
 | `limb_directions(r_eci, n_points=180)` | Return (n_points, 3) unit vectors along the limb ring. |
-| `los_field_integral(r_eci, n_hats, time, coeffs, lmax=13, q_per_m=0.0, l_max_re=10.0, n_steps=200)` | Return |A| in T m per ray, with running totals and occultation. |
+| `los_field_integral(r_eci, n_hats, time, coeffs, lmax=13, q_per_m=0.0, l_max_re=10.0, n_steps=200, end_alt_km=150.0)` | Return |A| in T m per ray, with running totals and occultation. |
 | `offset_direction(x_deg, y_deg, n_hat, x_hat, y_hat)` | Return unit vectors at angular offsets (x, y) from the boresight. |
-| `path_end_km(r_eci, n_hats, l_max_re=10.0)` | Return (s_end, occulted) per ray: Earth surface or the outer sphere. |
+| `path_end_km(r_eci, n_hats, l_max_re=10.0, end_alt_km=150.0)` | Return (s_end, occulted): the opaque-air shell or the outer sphere. |
 | `project(v, n_hat, x_hat, y_hat)` | Return (x_deg, y_deg) offsets; radius is the true angle from centre. |
 | `transverse_amplitude(b, n_hats, s_m, q_per_m=0.0)` | Return running |int B_perp e^{iqs} ds| in T m, shape (R, S). |
 

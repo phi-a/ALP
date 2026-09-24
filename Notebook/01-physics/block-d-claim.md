@@ -138,8 +138,8 @@ and grasp, closing the gap would need $10^{11}$ times more of either;
 no schedule, aperture or lifetime choice does that. The contract's
 dispositions: **Continue** fails; **Revise** holds if the spectral
 identifiability result, the line-as-carrier finding and the confounder
-ranking are the publishable method; **Redirect** otherwise. That
-choice is the mentor's and is not made here.
+ranking are the publishable method; **Redirect** otherwise. The
+mentor chose Revise ([[../decisions]] D31).
 
 ## Close
 
@@ -153,7 +153,7 @@ confounders cost 5 % with the spectrum and 94 % without it. Left
 explicit: the NXB level and the GRXE model are placeholders that move
 $\Theta_{\rm UL}$ by 4×, $f_{\rm live}$ and $\epsilon_{\rm sel}$ are
 not yet time-dependent nuisance terms, and the occulted-frame kernel
-carries Q23.
+ends at a constant 150 km shell (D32, Q23).
 
 ## Links
 
