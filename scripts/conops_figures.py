@@ -55,9 +55,8 @@ def meridian_plane(r_eci, n_hat, time, coeffs, lmax=13, extent_re=2.6):
 
     fig, (ax, ax2) = plt.subplots(
         1, 2, figsize=(12, 5.4), gridspec_kw={"width_ratios": [1.25, 1]})
-    ax.streamplot(g / R_EARTH_KM, g / R_EARTH_KM, (b @ up).T,
-                  (b @ side).T, color="0.75", density=1.3, linewidth=0.8,
-                  arrowsize=0.8)
+    ax.streamplot(g / R_EARTH_KM, g / R_EARTH_KM, b @ up, b @ side,
+                  color="0.75", density=1.3, linewidth=0.8, arrowsize=0.8)
     ax.add_patch(plt.Circle((0, 0), 1.0, color="steelblue", zorder=3))
     ax.text(0, 0, "Earth", ha="center", va="center", color="white",
             zorder=4)
