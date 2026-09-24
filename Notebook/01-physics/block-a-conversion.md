@@ -29,7 +29,8 @@ q = \frac{m_a^2 - \omega_{\rm pl}^2}{2E},
 $$
 
 with $\mathbf B_\perp = \mathbf B - (\mathbf B\cdot\hat n)\hat n$ a
-vector and $L$ the Earth for occulted rays, 10 $R_E$ otherwise. In SI
+vector and $L$ the entry into the 150 km opaque-air shell, or 10 $R_E$
+if the ray never enters it. In SI
 at the interface,
 
 $$
@@ -128,7 +129,7 @@ overstates $|\mathcal A|$.
 | Weak mixing (first order in $g$) | $P \le 10^{-16}$ | exact for our purposes |
 | Relativistic ($\omega \gg m_a$) | keV against $\le 10^{-5}$ eV | exact |
 | Slowly varying envelope | field scale $\sim R_E$ against $\lambda \sim 10^{-10}$ m | exact |
-| No absorption along the ray | keV X-rays free above ~150 km (`[DH06]` §2) | holds for sky rays; occulted rays §4 |
+| No absorption along the ray | keV X-rays free above ~150 km (`[DH06]` §2) | rays end at the 150 km shell, §4 (D32) |
 | Plasma term | $n_e \le 10^6$ cm⁻³ → $\omega_{\rm pl} \le 3.7\times10^{-8}$ eV; $\omega_{\rm pl}^2 L/2E \le 2\times10^{-4}$ at 1 keV, 10 $R_E$ | drop; $q = m_a^2/2E$ |
 | QED birefringence | $\Delta_{\rm QED}/\omega = \tfrac{7\alpha}{90\pi}(B/B_{\rm crit})^2 = 8\times10^{-33}$ at 30 µT | drop |
 | Faraday rotation | $\propto 1/\omega$; negligible at keV (`[Mar22]` fn 2) | drop |
@@ -147,14 +148,15 @@ overstates $|\mathcal A|$.
   $\mathcal A$ by a phase and leaves $P$ unchanged.
 - **Outer end.** 10 $R_E$, where the dipole is $10^{-3}$ of its
   surface value; truncation costs ~1 % (Q18).
-- **Inner end, occulted rays.** The Earth stops photons and ALPs
-  converted beyond it never arrive, so the integral ends at the Earth
-  (`geometry.path_end_km`, at the surface). The transparent boundary is
-  an altitude near or above 150 km, not the surface. For the reference
-  day, ending at 150 km lowers $K$ of occulted frames to a median 0.37
-  (range 0.17–0.43) of the surface-end value, and a nadir ray at 420 km
-  to 0.39 ([[../2026-09-24-occulted-ray-endpoint]], Q23). Sky rays are
-  unaffected.
+- **Inner end.** A photon converted below the altitude where air is
+  opaque to keV X-rays never arrives, and ALPs converted beyond the
+  Earth do not either, so a ray ends at its first entry into the
+  150 km shell (`geometry.path_end_km`, D32). Against a ground end
+  that lowers $K$ of occulted frames to a median 0.37 (range
+  0.17–0.43) on the reference day, and a nadir ray at 420 km to 0.39
+  ([[../2026-09-24-occulted-ray-endpoint]]). The shell altitude is a
+  constant where the truth rises with nadir angle and falls with
+  energy (Q23). Sky rays are unaffected.
 - **Aperture.** $K$ averaged over the 20° cone with the 19-ray
   quadrature, ray 0 the boresight
   ([[../2026-09-23-fov-field-integral]]).
@@ -210,9 +212,9 @@ In `tests/test_geometry_los.py`, `test_validation_gates.py`,
 The conversion probability for a sky ray is derived, checked, and
 agrees with `[Yam20]` wherever the transverse field keeps its
 direction; where it rotates, the vector integral is the correct and
-smaller one. Block A is closed for sky rays. The one open dependency
-is the occulted-ray endpoint (Q23), which changes only the night-Earth
-control frames.
+smaller one. Block A is closed. The one declared approximation is the
+constant 150 km end of a ray (D32, Q23), which touches only the
+night-Earth control frames.
 
 ## Links
 

@@ -46,7 +46,7 @@ determine which result is the headline.
 | Q20 | What source broadening is resolvable after the flight-like skipper-CCD redistribution? | Whether the Milky Way feature supplies meaningful spectral discrimination |
 | Q21 | Do science frames continue through Earth occultation, and can the night-Earth frame serve as the $K$-off / NXB control? | Whether the free on/off pair in [[02-mission-analysis/conops-physics-map]] exists; a requirement to hand the team (D20) |
 | Q22 | What is the Earth-limb / atmospheric X-ray background as a function of limb angle, day and night? | The maximum-$K$ directions are limb-grazing, so this covariate is correlated with signal by construction ([[02-mission-analysis/pointing-optimization]]) |
-| Q23 | Where should an occulted ray end: the Earth surface (now) or the altitude, near 150 km, below which the atmosphere absorbs keV X-rays? | The $K$-off control frames (Q21). Ending at 150 km lowers occulted-frame $K$ to a median 0.37 of the surface value on the reference day, so the state table overstates it ~2.7x — [[2026-09-24-occulted-ray-endpoint]] |
+| Q23 | How does the opaque-air altitude that ends a ray depend on nadir angle and energy? | Only the $K$-off control frames. A constant 150 km shell is applied (D32, 2026-09-24), removing a 2.7x overestimate; the residual angle and energy dependence needs an atmospheric density profile above 100 km — [[2026-09-24-occulted-ray-endpoint]] |
 
 ## Answered
 

@@ -26,14 +26,28 @@ class TestLosIntegral(unittest.TestCase):
                                            lmax=1, **kw)
 
     def test_zenith_and_nadir_closed_forms(self):
+        # dipole on its equator: int B ds = b0 R_E/2 (R_E^2/r^2) between ends
         res = self.amplitude(np.stack([self.up, -self.up]), l_max_re=20.0,
-                             n_steps=400)
+                             n_steps=400, end_alt_km=0.0)
         zenith = self.b0 * R_EARTH_KM * 1e3 / 2 * (R_EARTH_KM / R0) ** 2
         nadir = self.b0 * R_EARTH_KM * 1e3 / 2 * (1 - (R_EARTH_KM / R0) ** 2)
         np.testing.assert_allclose(res["amplitude_tm"], [zenith, nadir],
                                    rtol=0.01)
         np.testing.assert_array_equal(res["occulted"], [False, True])
         self.assertAlmostEqual(res["s_km"][1, -1], 420.0, places=6)
+
+    def test_nadir_ray_ends_at_the_opaque_shell(self):
+        # Q23: keV X-rays converted below ~150 km are absorbed
+        res = self.amplitude(-self.up, n_steps=400)
+        r_end = R_EARTH_KM + 150.0
+        nadir = (self.b0 * R_EARTH_KM * 1e3 / 2
+                 * ((R_EARTH_KM / r_end) ** 2 - (R_EARTH_KM / R0) ** 2))
+        self.assertAlmostEqual(res["amplitude_tm"][0] / nadir, 1.0, places=2)
+        self.assertAlmostEqual(res["s_km"][0, -1], 270.0, places=6)
+        self.assertTrue(res["occulted"][0])
+        ground = self.amplitude(-self.up, n_steps=400, end_alt_km=0.0)
+        self.assertAlmostEqual(res["amplitude_tm"][0]
+                               / ground["amplitude_tm"][0], 0.62, places=2)
 
     def test_outer_radius_converges(self):
         near = self.amplitude(self.up)["amplitude_tm"][0]

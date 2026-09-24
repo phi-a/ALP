@@ -599,6 +599,37 @@ search and are publishable without a detection claim.
 a revision of the decay or coupling bounds, raises the allowed ceiling
 by more than $10^5$ in $\Theta$.
 
+## D32 - A line of sight ends where the air turns opaque, at 150 km
+
+**2026-09-24.** `geometry.path_end_km` ends every ray at its first
+entry into the shell of radius $R_E + 150$ km (`end_alt_km`, default
+150), or at 10 $R_E$ if it never enters. The `occulted` flag keeps its
+meaning, a ray that hits the ground. A limb ray passing between 0 and
+150 km altitude is truncated at the shell without being flagged.
+
+**Why:** the converted photon must reach the detector through air. At
+sea level the absorption length of a 4 keV photon is about 10 cm and
+it scales inversely with pressure; above 150 km the pressure is below
+$10^{-10}$ atm and the length exceeds $10^6$ km (`[DH06]` §2). Field
+integrated below that altitude produces photons that are absorbed, so
+counting it overstates the kernel; on the reference day the ground end
+overstated occulted-frame $K$ by a median factor 2.7
+([[2026-09-24-occulted-ray-endpoint]]). The ALP itself is unaffected
+by the Earth, so nothing beyond the shell on the far side contributes
+either. Sky rays never enter the shell and are unchanged; the
+scenario-regression pins did not move.
+
+**What 150 km is not:** the boundary. The opaque altitude rises for
+rays far from nadir, whose slant path through each layer is longer,
+and for softer photons (photoabsorption roughly $E^{-3}$). Modelling
+that needs an atmospheric density profile above 100 km, which none of
+the four packages provides; the constant is tagged `ASSUME` and Q23
+stays open for the angle and energy dependence.
+
+**Reversed if:** the kernel-off control frames enter a fit with a
+template error budget below the difference between the constant-shell
+end and a slant-column end; then the density profile must be added.
+
 ---
 
 ## Links
