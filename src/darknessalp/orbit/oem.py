@@ -5,7 +5,8 @@ from astropy.time import Time
 from darknessalp.frames.eme2000 import eme2000_to_gcrf, gcrf_to_eme2000
 
 TO_FRAME = {"GCRF": np.atleast_2d, "EME2000": gcrf_to_eme2000}
-FROM_FRAME = {"GCRF": np.atleast_2d, "EME2000": eme2000_to_gcrf}
+FROM_FRAME = {"GCRF": np.atleast_2d, "ICRF": np.atleast_2d,
+              "EME2000": eme2000_to_gcrf}  # ICRF about Earth = GCRF
 
 
 def write_oem(path, time, r, v, ref_frame="GCRF", object_name="DARKNESS"):
@@ -30,22 +31,46 @@ def write_oem(path, time, r, v, ref_frame="GCRF", object_name="DARKNESS"):
         f.write("\n".join(head + rows) + "\n")
 
 
-def read_oem(path):
-    """Return (Time, r (N, 3) km, v (N, 3) km/s) on GCRF axes from an OEM."""
-    meta, epochs, rows = {}, [], []
+def _epoch(text):
+    """Return a CCSDS epoch in a form astropy reads."""
+    day, _, clock = text.partition("T")
+    if len(day) == 8:
+        return day.replace("-", ":") + ":" + clock  # YYYY-DDD day of year
+    return text
+
+
+def _segments(path):
+    """Return one dict per OEM segment: metadata, epochs, state rows."""
+    segments, in_cov = [], False
     with open(path, encoding="utf-8") as f:
         for line in f:
-            parts = line.split()
-            if not parts or parts[0] == "COMMENT":
+            parts = line.split() or ["COMMENT"]
+            if parts[0] in ("COVARIANCE_START", "COVARIANCE_STOP"):
+                in_cov = parts[0] == "COVARIANCE_START"
+            if parts[0] == "META_START":
+                segments.append({"epochs": [], "rows": []})
+            if parts[0] == "COMMENT" or in_cov or not segments:
                 continue
+
+            seg = segments[-1]
             if "=" in line:
                 key, _, value = line.partition("=")
-                meta.setdefault(key.strip(), value.strip())
+                seg[key.strip()] = value.strip()
             elif len(parts) >= 7:
-                epochs.append(parts[0])
-                rows.append(parts[1:7])
+                seg["epochs"].append(_epoch(parts[0]))
+                seg["rows"].append(parts[1:7])
+    return segments
 
-    state = np.array(rows, float)
-    back = FROM_FRAME[meta["REF_FRAME"]]
-    time = Time(epochs, scale=meta["TIME_SYSTEM"].lower())
-    return time, back(state[:, :3]), back(state[:, 3:])
+
+def read_oem(path):
+    """Return (Time, r (N, 3) km, v (N, 3) km/s) on GCRF axes from an OEM."""
+    times, r, v = [], [], []
+    for seg in _segments(path):
+        if seg["CENTER_NAME"] != "EARTH":
+            raise ValueError(seg["CENTER_NAME"])
+        state = np.array(seg["rows"], float)
+        back = FROM_FRAME[seg["REF_FRAME"]]
+        times.append(Time(seg["epochs"], scale=seg["TIME_SYSTEM"].lower()))
+        r.append(back(state[:, :3]))
+        v.append(back(state[:, 3:]))
+    return np.concatenate(times), np.vstack(r), np.vstack(v)

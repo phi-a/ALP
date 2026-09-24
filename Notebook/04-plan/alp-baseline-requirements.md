@@ -111,7 +111,8 @@ the bar the extragalactic continuum must clear at the viability gate.
 | ALP-OR-14 | The ephemeris writer shall offer EME2000 as a selectable reference frame. | T | **Met** — `test_eme2000_round_trip` |
 | ALP-OR-15 | The EME2000 conversion shall reproduce the IERS frame bias of 23.147 mas to 0.01 mas. | T | **Met** — `test_eme2000_is_the_iers_frame_bias` |
 | ALP-OR-16 | The ephemeris reader shall recover a written state to 1 mm. | T | **Met** — `test_gcrf_round_trip` |
-| ALP-OR-17 | The ephemeris reader shall recover the state from an OEM written by an external tool. | T | **Open** — no FreeFlyer or GMAT OEM on file |
+| ALP-OR-17 | The ephemeris reader shall recover the state from an OEM in the full CCSDS 502.0-B layout. | T | **Met** — `test_external_layout` (segments on different frames, day-of-year epochs, acceleration columns, covariance) |
+| ALP-OR-18 | The ephemeris reader shall reject an OEM centred on a body other than Earth. | T | **Met** — `test_rejects_other_centre` |
 
 ## MA — Mission analysis
 
@@ -171,10 +172,10 @@ the bar the extragalactic continuum must clear at the viability gate.
 |---|---:|---:|---:|---:|
 | CH | 9 | 7 | 1 | 5 |
 | MD | 1 | 7 | 0 | 0 |
-| OR | 16 | 1 | 0 | 0 |
+| OR | 18 | 0 | 0 | 0 |
 | MA | 9 | 14 | 0 | 0 |
 | PR | 5 | 2 | 1 | 0 |
-| **Total** | **40** | **31** | **2** | **5** |
+| **Total** | **42** | **30** | **2** | **5** |
 
 ## Links
 

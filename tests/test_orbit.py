@@ -9,6 +9,55 @@ from darknessalp.constants import J2, MU_EARTH_KM3_S2, R_EQUATOR_KM
 
 A_ISS = R_EQUATOR_KM + 420.0
 
+# external-style OEM: header comments, two segments on different frames,
+# day-of-year epochs, acceleration columns, a covariance block
+EXTERNAL_OEM = """CCSDS_OEM_VERS = 2.0
+COMMENT written by hand in the GMAT / CCSDS 502.0-B-3 layout
+CREATION_DATE = 2027-120T12:00:00
+ORIGINATOR = TEST
+
+META_START
+COMMENT first segment
+OBJECT_NAME = ISS
+OBJECT_ID = 1998-067A
+CENTER_NAME = EARTH
+REF_FRAME = EME2000
+TIME_SYSTEM = UTC
+START_TIME = 2027-121T00:00:00.000
+USEABLE_START_TIME = 2027-121T00:00:00.000
+USEABLE_STOP_TIME = 2027-121T00:01:00.000
+STOP_TIME = 2027-121T00:01:00.000
+INTERPOLATION = HERMITE
+INTERPOLATION_DEGREE = 7
+META_STOP
+
+COMMENT state vectors with accelerations
+2027-121T00:00:00.000 6798.137 0.000 0.000 0.000 4.747 5.994 -0.009 0 0
+2027-121T00:01:00.000 6790.595 284.586 359.340 -0.251 4.740 5.985 -0.009 0 0
+
+COVARIANCE_START
+EPOCH = 2027-121T00:00:00.000
+COV_REF_FRAME = RTN
+1.0e-3
+1.0e-6 1.0e-3
+1.0e-6 1.0e-6 1.0e-3
+1.0e-9 1.0e-9 1.0e-9 1.0e-6
+1.0e-9 1.0e-9 1.0e-9 1.0e-9 1.0e-6
+1.0e-9 1.0e-9 1.0e-9 1.0e-9 1.0e-9 1.0e-6
+COVARIANCE_STOP
+
+META_START
+OBJECT_NAME = ISS
+OBJECT_ID = 1998-067A
+CENTER_NAME = EARTH
+REF_FRAME = ICRF
+TIME_SYSTEM = UTC
+START_TIME = 2027-05-01T00:02:00.000
+STOP_TIME = 2027-05-01T00:02:00.000
+META_STOP
+2027-05-01T00:02:00.000 6768.020 568.198 717.483 -0.502 4.719 5.958
+"""
+
 
 def node_deg(r, v):
     h = np.cross(r, v)
@@ -127,6 +176,25 @@ class TestOem(unittest.TestCase):
         _, r, v = orbit.read_oem(self.path)
         np.testing.assert_allclose(r, self.r, atol=1e-6)
         np.testing.assert_allclose(v, self.v, atol=1e-9)
+
+    def test_external_layout(self):
+        self.path.write_text(EXTERNAL_OEM)
+        time, r, v = orbit.read_oem(self.path)
+        self.assertEqual(r.shape, (3, 3))
+        self.assertEqual(v.shape, (3, 3))
+        np.testing.assert_allclose((time - self.time[0]).sec,
+                                   [0.0, 60.0, 120.0], atol=1e-6)
+        eme = np.array([[6798.137, 0.0, 0.0], [6790.595, 284.586, 359.340]])
+        np.testing.assert_allclose(r[:2], frames.eme2000_to_gcrf(eme),
+                                   atol=1e-9)
+        np.testing.assert_allclose(r[2], [6768.020, 568.198, 717.483])
+        np.testing.assert_allclose(v[2], [-0.502, 4.719, 5.958])
+
+    def test_rejects_other_centre(self):
+        self.path.write_text(EXTERNAL_OEM.replace(
+            "CENTER_NAME = EARTH", "CENTER_NAME = MARS BARYCENTER", 1))
+        with self.assertRaises(ValueError):
+            orbit.read_oem(self.path)
 
 
 if __name__ == "__main__":
