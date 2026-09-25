@@ -7,7 +7,8 @@ import unittest
 
 import numpy as np
 
-from darknessalp import background, field, frames, geometry, orbit
+from darknessalp import (
+    background, detector, field, frames, geometry, orbit, source)
 from darknessalp.constants import R_EARTH_KM, R_EQUATOR_KM
 
 
@@ -82,6 +83,23 @@ class TestPublishedNumbers(unittest.TestCase):
         node = np.degrees(np.unwrap(np.arctan2(h[:, 0], -h[:, 1])))
         rate = np.polyfit(t / 86400.0, node, 1)[0]
         self.assertAlmostEqual(rate, 0.9856, delta=0.01)
+
+    def test_viability_gate_by_hand(self):
+        """Notebook/2026-09-25-viability-by-hand: bounds to counts to gap."""
+        g_max, f_over_tau = 0.47e-10, 4.0e-3  # DHV22, NTH21, GeV^-1, Gyr^-1
+        d_gc, k_mean, t_day = 1.27e23, 8.3e3, 23400.0  # Block C
+        i_line = source.line_intensity(d_gc, 7.0, 1.0, 1 / f_over_tau)
+        prob = geometry.conversion_probability(k_mean**0.5, g_max)
+        grasp = detector.grasp_cm2sr() * 0.5
+        signal = i_line * prob * grasp * t_day
+        self.assertAlmostEqual(signal / 2.2e-5, 1.0, delta=0.05)
+
+        window = 2 * detector.resolution_fwhm_kev(3.5) / 2.355
+        cxb = background.cxb_intensity(3.5) * window * grasp * t_day
+        b_day = 2 * cxb  # flat particle proxy at the CXB level
+        ratio = 1.28 * (187 * b_day) ** 0.5 / (187 * signal)
+        self.assertAlmostEqual(ratio / 3.8e5, 1.0, delta=0.15)  # Block D
+        self.assertGreater(ratio**2 * 5.0e6, 1e17)  # cm^2 sr s to close
 
 
 if __name__ == "__main__":

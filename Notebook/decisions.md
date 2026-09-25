@@ -599,6 +599,11 @@ search and are publishable without a detection claim.
 a revision of the decay or coupling bounds, raises the allowed ceiling
 by more than $10^5$ in $\Theta$.
 
+**Addendum 2026-09-25.** The gate re-derived by hand from the bounds,
+the halo column, the kernel envelope and the CXB gives
+$3.5\times10^5$, 10 % from the pipeline; every open item stacked at
+its best buys $10^2$–$10^3$ ([[2026-09-25-viability-by-hand]]).
+
 ## D32 - A line of sight ends where the air turns opaque, at 150 km
 
 **2026-09-24.** `geometry.path_end_km` ends every ray at its first
